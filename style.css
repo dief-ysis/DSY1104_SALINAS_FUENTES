@@ -7,6 +7,23 @@
     --color-brown: #8B4513;     /* Marrón/tierra - Contraste con blanco: 7.5:1 */
     --color-dark: #333333;      /* Texto oscuro - Contraste con fondo claro: 13.5:1 */
     --color-gray: #666666;      /* Texto secundario - Contraste con fondo claro: 7:1 */
+    
+    /* HH-003: Breakpoints y espaciado responsive */
+    --bp-mobile: 480px;
+    --bp-tablet: 768px;
+    --bp-desktop: 769px;
+
+    /* Espaciado base responsive */
+    --space-unit: 1rem;
+    --space-xs: calc(var(--space-unit) * 0.25);
+    --space-sm: calc(var(--space-unit) * 0.5);
+    --space-md: var(--space-unit);
+    --space-lg: calc(var(--space-unit) * 1.5);
+    --space-xl: calc(var(--space-unit) * 2);
+
+    /* Grid y contenedor */
+    --container-padding: var(--space-md);
+    --grid-gap: var(--space-md);
 
     /* HH-002: Sistema tipográfico con fallbacks optimizados */
     --font-primary: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -109,3 +126,118 @@ small {
 .font-bold { font-weight: 700; }
 .font-medium { font-weight: 500; }
 .font-normal { font-weight: 400; }
+
+/* HH-003: Estilos de accesibilidad y responsive */
+
+/* Estilos de foco accesibles */
+:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Asegura que el foco sea visible incluso en elementos con fondo oscuro */
+:focus-visible {
+    outline-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-dark);
+}
+
+/* Skip link para navegación por teclado */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Esconder elementos visualmente pero mantenerlos accesibles */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Mensajes de error accesibles */
+.error-message {
+    color: #d32f2f;
+    font-weight: 500;
+    margin-top: 0.25rem;
+    padding-left: 0.5rem;
+    border-left: 3px solid currentColor;
+}
+
+/* Breakpoints responsive */
+@media (max-width: 480px) {
+    /* Ajustes para móvil */
+    :root {
+        --font-size-base: 14px;
+    }
+
+    h1 { font-size: var(--scale-3xl); }
+    h2 { font-size: var(--scale-2xl); }
+    h3 { font-size: var(--scale-xl); }
+    
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Ajustes para tablet */
+    .container {
+        padding: 0 2rem;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (min-width: 769px) {
+    /* Ajustes para desktop */
+    .container {
+        padding: 0 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* Mejoras de interacción */
+@media (hover: hover) {
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+}
+
+/* Preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
