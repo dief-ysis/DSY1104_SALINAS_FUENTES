@@ -7,13 +7,67 @@
     --color-brown: #8B4513;     /* Marrón/tierra */
     --color-dark: #333333;      /* Texto oscuro principal */
     --color-gray: #666666;      /* Texto secundario/gris */
+
+    /* HH-002: Variables tipográficas */
+    --font-primary: 'Montserrat', sans-serif;
+    --font-display: 'Playfair Display', serif;
+    --font-size-base: 16px;
+    --line-height-base: 1.5;
 }
 
 /* Estilos base usando los tokens de color */
 body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
     background-color: var(--color-light);
     color: var(--color-dark);
 }
+
+/* HH-002: Jerarquía tipográfica */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-dark);
+}
+
+h1 { 
+    font-size: 2.5rem; 
+    margin-bottom: 1.5rem;
+}
+h2 { 
+    font-size: 2rem;
+    margin-bottom: 1.25rem; 
+}
+h3 { 
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+h4 { 
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+h5 { 
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+h6 { 
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Clases utilitarias para tipografía */
+.font-primary { font-family: var(--font-primary); }
+.font-display { font-family: var(--font-display); }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.font-bold { font-weight: 700; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
 
 /* Clases utilitarias para colores */
 .bg-light { background-color: var(--color-light); }
