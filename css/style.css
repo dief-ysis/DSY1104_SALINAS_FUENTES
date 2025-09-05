@@ -1,0 +1,112 @@
+/* HH-001: Tokens de color para Huerto Hogar */
+:root {
+    /* Definición de la paleta de colores base */
+    --color-light: #F7F7F7;    /* Fondo claro/blanco */
+    --color-primary: #2E8B57;   /* Verde principal */
+    --color-accent: #FFD700;    /* Amarillo/dorado para acentos */
+    --color-brown: #8B4513;     /* Marrón/tierra */
+    --color-dark: #333333;      /* Texto oscuro principal */
+    --color-gray: #666666;      /* Texto secundario/gris */
+}
+
+/* Estilos base usando los tokens de color */
+body {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+/* Clases utilitarias para colores */
+.bg-light { background-color: var(--color-light); }
+.bg-primary { background-color: var(--color-primary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-brown { background-color: var(--color-brown); }
+.bg-dark { background-color: var(--color-dark); }
+.bg-gray { background-color: var(--color-gray); }
+
+.text-light { color: var(--color-light); }
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-brown { color: var(--color-brown); }
+.text-dark { color: var(--color-dark); }
+.text-gray { color: var(--color-gray); }
+
+.auth-form {
+  padding: var(--spacing-xl) 0;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  background: white;
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--accent-emerald);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-emerald);
+}
+
+.form-group input.error {
+  border-color: #dc2626;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: var(--spacing-xs);
+  display: none;
+}
+
+.btn-full {
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+}
+
+.form-footer {
+  text-align: center;
+}
+
+.form-footer p {
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-secondary);
+}
+
+.form-footer a {
+  color: var(--accent-emerald);
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
