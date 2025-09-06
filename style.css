@@ -13,7 +13,7 @@
     --bp-tablet: 768px;
     --bp-desktop: 769px;
 
-    /* Espaciado base responsive */
+    /* Media queries para responsividad HH-011 */
     --space-unit: 1rem;
     --space-xs: calc(var(--space-unit) * 0.25);
     --space-sm: calc(var(--space-unit) * 0.5);
