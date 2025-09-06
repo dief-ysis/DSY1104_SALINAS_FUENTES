@@ -48,6 +48,112 @@
 }
 
 /* Estilos base usando los tokens de color y tipografía */
+
+/* Hero Section HH-011 */
+.hero { /* HH-011 */
+    position: relative; /* HH-011 */
+    height: calc(100vh - var(--navbar-height)); /* HH-011 */
+    min-height: 500px; /* HH-011 */
+    width: 100%; /* HH-011 */
+    background-image: url('img/TEMAS_lacteos_interna_horiz_840x410.jpg'); /* HH-011 */
+    background-size: cover; /* HH-011 */
+    background-position: center; /* HH-011 */
+    background-repeat: no-repeat; /* HH-011 */
+}
+
+.hero::before { /* HH-011 */
+    content: ''; /* HH-011 */
+    position: absolute; /* HH-011 */
+    top: 0; /* HH-011 */
+    left: 0; /* HH-011 */
+    right: 0; /* HH-011 */
+    bottom: 0; /* HH-011 */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)); /* HH-011 */
+}
+
+.hero-container { /* HH-011 */
+    position: relative; /* HH-011 */
+    height: 100%; /* HH-011 */
+    max-width: 1200px; /* HH-011 */
+    margin: 0 auto; /* HH-011 */
+    padding: var(--space-xl); /* HH-011 */
+    display: flex; /* HH-011 */
+    align-items: center; /* HH-011 */
+}
+
+.hero-content { /* HH-011 */
+    color: var(--color-light); /* HH-011 */
+    max-width: 600px; /* HH-011 */
+    z-index: 1; /* HH-011 */
+}
+
+.hero-title { /* HH-011 */
+    font-family: var(--font-display); /* HH-011 */
+    font-size: var(--scale-4xl); /* HH-011 */
+    font-weight: 700; /* HH-011 */
+    margin-bottom: var(--space-md); /* HH-011 */
+    line-height: 1.2; /* HH-011 */
+}
+
+.hero-subtitle { /* HH-011 */
+    font-family: var(--font-primary); /* HH-011 */
+    font-size: var(--scale-xl); /* HH-011 */
+    margin-bottom: var(--space-xl); /* HH-011 */
+    line-height: 1.5; /* HH-011 */
+}
+
+.cta-button { /* HH-011 */
+    display: inline-block; /* HH-011 */
+    background-color: var(--color-accent); /* HH-011 */
+    color: var(--color-dark); /* HH-011 */
+    padding: var(--space-md) var(--space-xl); /* HH-011 */
+    border-radius: 4px; /* HH-011 */
+    font-family: var(--font-primary); /* HH-011 */
+    font-weight: 500; /* HH-011 */
+    font-size: var(--scale-lg); /* HH-011 */
+    text-decoration: none; /* HH-011 */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* HH-011 */
+}
+
+.cta-button:hover { /* HH-011 */
+    background-color: #ffdb1a; /* HH-011 */
+    transform: translateY(-2px); /* HH-011 */
+}
+
+/* Media queries para responsividad HH-011 */
+@media (max-width: var(--bp-tablet)) { /* HH-011 */
+    .hero { /* HH-011 */
+        height: calc(100vh - var(--navbar-height-mobile)); /* HH-011 */
+        min-height: 400px; /* HH-011 */
+    }
+
+    .hero-container { /* HH-011 */
+        padding: var(--space-lg); /* HH-011 */
+    }
+
+    .hero-title { /* HH-011 */
+        font-size: var(--scale-3xl); /* HH-011 */
+    }
+
+    .hero-subtitle { /* HH-011 */
+        font-size: var(--scale-lg); /* HH-011 */
+    }
+}
+
+@media (max-width: var(--bp-mobile)) { /* HH-011 */
+    .hero-title { /* HH-011 */
+        font-size: var(--scale-2xl); /* HH-011 */
+    }
+
+    .hero-subtitle { /* HH-011 */
+        font-size: var(--scale-base); /* HH-011 */
+    }
+
+    .cta-button { /* HH-011 */
+        padding: var(--space-sm) var(--space-lg); /* HH-011 */
+        font-size: var(--scale-base); /* HH-011 */
+    }
+}
 body {
     font-family: var(--font-primary);
     font-size: var(--font-size-base);
