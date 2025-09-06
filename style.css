@@ -1,4 +1,4 @@
-/* HH-001: Tokens de color para Huerto Hogar */
+@media (max-width: var(--bp-mobile)) { /* HH-012 */
 :root {
     /* Definición de la paleta de colores base con documentación de contraste */
     --color-light: #F7F7F7;    /* Fondo claro - Contraste con texto oscuro: 13.5:1 */

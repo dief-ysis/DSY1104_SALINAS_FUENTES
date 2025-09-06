@@ -68,8 +68,47 @@
         </div>
     </section>
 
+    <!-- Productos destacados HH-013 -->
+    <section class="featured-products"> <!-- HH-013 -->
+        <h2 class="featured-title">Productos destacados</h2> <!-- HH-013 -->
+        <div class="products-grid" id="featured-products-grid"> <!-- HH-013 -->
+            <!-- Cards de productos destacados se renderizan aquí --> <!-- HH-013 -->
+        </div>
+    </section>
+
     <script src="productos_huerto.js"></script>
     <script src="categorias_huerto.js"></script>
+    <script>
+    // Renderizar productos destacados HH-013
+    import { PRODUCTS_HH } from './productos_huerto.js'; // HH-013
+
+    function formatCLP(value) { // HH-013
+        return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
+    }
+
+    function renderFeaturedProducts() { // HH-013
+        const grid = document.getElementById('featured-products-grid');
+        if (!grid) return;
+        // Selecciona los primeros 6 productos válidos
+        const destacados = PRODUCTS_HH.slice(0, 6);
+        grid.innerHTML = destacados.map(producto => `
+            <div class="product-card" tabindex="0"> <!-- HH-013 -->
+                <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="${producto.nombre}" class="product-image" /> <!-- HH-013 -->
+                <div class="product-name">${producto.nombre}</div> <!-- HH-013 -->
+                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-013 -->
+                <div class="product-actions"> <!-- HH-013 -->
+                    <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button> <!-- HH-013 -->
+                    <a href="detalle.html?code=${producto.code}" class="details-btn" aria-label="Ver detalle de ${producto.nombre}">Detalle</a> <!-- HH-013 -->
+                </div>
+            </div>
+        `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // ...existing code...
+        renderFeaturedProducts(); // HH-013
+    });
+    </script>
     <script>
         // Función para actualizar el contador del carrito
         function actualizarContadorCarrito() {
