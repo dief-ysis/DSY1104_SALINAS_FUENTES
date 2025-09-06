@@ -11,6 +11,66 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <img src="img/logo.png" alt="Huerto Hogar Logo"> <!-- Asegúrate de tener el logo en esta ubicación -->
+            </a>
+            <button class="navbar-toggle" aria-label="Menú">
+                <span class="hamburger"></span>
+            </button>
+            <div class="navbar-menu">
+                <a href="index.html" class="nav-link active">HOME</a>
+                <a href="productos.html" class="nav-link">Productos</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
+                <div class="cart-container">
+                    <button class="cart-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- El contenido del sitio irá aquí -->
+    <script src="productos_huerto.js"></script>
+    <script src="categorias_huerto.js"></script>
+    <script>
+        // Función para actualizar el contador del carrito
+        function actualizarContadorCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
+            document.querySelector('.cart-badge').textContent = contador;
+        }
+
+        // Manejar el toggle del menú móvil
+        document.querySelector('.navbar-toggle').addEventListener('click', function() {
+            document.querySelector('.navbar-menu').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Marcar el enlace activo
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath.split('/').pop()) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Actualizar contador del carrito al cargar la página
+            actualizarContadorCarrito();
+        });
+    </script>
 </body>
 </html>
