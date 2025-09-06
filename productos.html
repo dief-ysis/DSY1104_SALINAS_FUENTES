@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Barra de filtros por categoría HH-021 -->
+    <section class="filter-bar"> <!-- HH-021 -->
+        <div class="filter-tabs"> <!-- HH-021 -->
+            <button class="filter-tab" data-cat="FR">Frutas</button> <!-- HH-021 -->
+            <button class="filter-tab" data-cat="VR">Verduras</button> <!-- HH-021 -->
+            <button class="filter-tab" data-cat="PO">Orgánicos</button> <!-- HH-021 -->
+            <button class="filter-tab" data-cat="PL">Lácteos</button> <!-- HH-021 -->
+        </div>
+        <button class="clear-filters-btn">Quitar filtros</button> <!-- HH-021 -->
+    </section>
+
+    <!-- Listado de productos -->
+    <section class="products-list"> <!-- HH-021 -->
+        <div id="products-grid"></div> <!-- HH-021 -->
+    </section>
+
+    <script type="module">
+    import { PRODUCTS_VALIDOS } from './productos_huerto.js'; // HH-021
+
+    // Utilidad para formatear CLP HH-021
+    function formatCLP(value) {
+        return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
+    }
+
+    // Renderizar productos filtrados HH-021
+    function renderProducts(productos) {
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = productos.map(producto => `
+            <div class="product-card"> <!-- HH-021 -->
+                <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="${producto.nombre}" class="product-image" /> <!-- HH-021 -->
+                <div class="product-name">${producto.nombre}</div> <!-- HH-021 -->
+                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-021 -->
+                <div class="product-actions"> <!-- HH-021 -->
+                    <button class="add-to-cart-btn">Añadir</button> <!-- HH-021 -->
+                    <a href="detalle.html?code=${producto.code}" class="details-btn">Detalle</a> <!-- HH-021 -->
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Estado de filtro HH-021
+    let filtroCategoria = null;
+
+    // Lógica de filtro HH-021
+    function aplicarFiltro() {
+        let productosFiltrados = filtroCategoria ? PRODUCTS_VALIDOS.filter(p => p.categoriaId === filtroCategoria) : PRODUCTS_VALIDOS;
+        renderProducts(productosFiltrados);
+    }
+
+    // Eventos UI HH-021
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            filtroCategoria = this.dataset.cat;
+            aplicarFiltro();
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    document.querySelector('.clear-filters-btn').addEventListener('click', function() {
+        filtroCategoria = null;
+        aplicarFiltro();
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    });
+
+    // Inicializar listado HH-021
+    aplicarFiltro();
+    </script>
+</body>
+</html>

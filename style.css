@@ -291,7 +291,7 @@ small {
 }
 
 /* Breakpoints responsive */
-@media (max-width: 480px) {
+/* Productos destacados HH-013 */
     /* Ajustes para móvil */
     :root {
         --font-size-base: 14px;
