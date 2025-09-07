@@ -62,13 +62,16 @@
         const fin = paginaActual * productosPorPagina;
         const productosPagina = productos.slice(0, fin);
         grid.innerHTML = productosPagina.map((producto, idx) => `
-            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}"> <!-- HH-021 HH-023 -->
-                <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="${producto.nombre}" class="product-image" /> <!-- HH-021 -->
-                <div class="product-name">${producto.nombre}</div> <!-- HH-021 -->
-                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-021 -->
-                <div class="product-actions"> <!-- HH-021 -->
-                    <button class="add-to-cart-btn">Añadir</button> <!-- HH-021 -->
-                    <a href="detalle.html?code=${producto.code}" class="details-btn">Detalle</a> <!-- HH-021 -->
+            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}"> <!-- HH-021 HH-023 HH-024 -->
+                <div class="card-image-container"> <!-- HH-024 -->
+                    <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" /> <!-- HH-024 -->
+                    <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span> <!-- HH-024 -->
+                </div>
+                <div class="product-name">${producto.nombre}</div> <!-- HH-024 -->
+                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-024 -->
+                <div class="product-actions"> <!-- HH-024 -->
+                    <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button> <!-- HH-024 -->
+                    <a href="detalle.html?code=${producto.code}" class="details-btn">Detalle</a> <!-- HH-024 -->
                 </div>
             </div>
         `).join('');
@@ -78,6 +81,54 @@
         } else {
             verMasBtn.style.display = 'none';
         }
+        // Evento añadir al carrito y feedback HH-024
+        grid.querySelectorAll('.add-to-cart-btn').forEach((btn, i) => {
+            btn.addEventListener('click', function() {
+                const prod = productosPagina[i];
+                let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                const idx = carrito.findIndex(item => item.code === prod.code);
+                if (idx >= 0) {
+                    carrito[idx].cantidad += 1;
+                } else {
+                    carrito.push({ code: prod.code, cantidad: 1 });
+                }
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+                mostrarFeedback(btn, 'Añadido');
+                actualizarContadorCarrito();
+            });
+        });
+    }
+
+    // Helper para nombre de categoría HH-024
+    function categoriaNombre(catId) {
+        switch(catId) {
+            case 'FR': return 'Frutas';
+            case 'VR': return 'Verduras';
+            case 'PO': return 'Orgánicos';
+            case 'PL': return 'Lácteos';
+            default: return 'Otro';
+        }
+    }
+
+    // Feedback visual HH-024
+    function mostrarFeedback(btn, texto) {
+        btn.disabled = true;
+        const original = btn.textContent;
+        btn.textContent = texto;
+        btn.classList.add('added');
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('added');
+            btn.disabled = false;
+        }, 900);
+    }
+
+    // Actualizar contador carrito HH-024
+    function actualizarContadorCarrito() {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
+        const badge = document.querySelector('.cart-badge');
+        if (badge) badge.textContent = contador;
     }
 
     // Lógica de filtro, búsqueda, orden y paginación HH-023

@@ -254,6 +254,7 @@ small {
 }
 
 /* Skip link para navegación por teclado */
+/* Barra de filtros por categoría HH-021 */
 .skip-link {
     position: absolute;
     top: -40px;
