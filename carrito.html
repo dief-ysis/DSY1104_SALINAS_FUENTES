@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="carrito-resumen"> <!-- HH-041 -->
+        <section id="carrito-container"> <!-- HH-041 -->
+            <!-- Render dinámico aquí -->
+        </section>
+    </main>
+    <script type="module">
+    import { getCart, updateItem, removeItem, clearCart } from './carrito.js'; // HH-041
+
+    function formatCLP(value) { // HH-041
+        return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
+    }
+
+    function renderCarrito() { // HH-041
+        const container = document.getElementById('carrito-container');
+        const cart = getCart();
+        if (!cart.length) {
+            container.innerHTML = '<p>El carrito está vacío.</p>';
+            return;
+        }
+        let total = cart.reduce((sum, item) => sum + item.subtotal, 0);
+        container.innerHTML = `
+        <table class="carrito-table"> <!-- HH-041 -->
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${cart.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${formatCLP(item.price)}</td>
+                    <td><input type="number" min="1" value="${item.qty}" data-code="${item.code}" class="qty-input" /></td>
+                    <td>${formatCLP(item.subtotal)}</td>
+                    <td>
+                        <button class="remove-btn" data-code="${item.code}">Eliminar</button>
+                    </td>
+                </tr>
+                `).join('')}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align:right;font-weight:bold;">Total:</td>
+                    <td colspan="2" style="font-weight:bold;">${formatCLP(total)}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="carrito-cta"> <!-- HH-041 -->
+            <button id="continuar-btn">Continuar compra</button>
+            <button id="vaciar-btn">Vaciar carrito</button>
+        </div>
+        `;
+        // Eventos cantidad HH-041
+        container.querySelectorAll('.qty-input').forEach(input => {
+            input.addEventListener('input', function() {
+                let val = parseInt(this.value, 10);
+                if (isNaN(val) || val < 1) val = 1;
+                updateItem(this.dataset.code, val);
+                renderCarrito();
+            });
+        });
+        // Evento eliminar HH-041
+        container.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                removeItem(this.dataset.code);
+                renderCarrito();
+            });
+        });
+        // Evento vaciar HH-041
+        container.querySelector('#vaciar-btn').addEventListener('click', function() {
+            clearCart();
+            renderCarrito();
+        });
+        // Evento continuar compra (mock) HH-041
+        container.querySelector('#continuar-btn').addEventListener('click', function() {
+            alert('Función de compra simulada.');
+        });
+    }
+
+    renderCarrito(); // HH-041
+    </script>
+</body>
+</html>

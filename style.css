@@ -569,3 +569,72 @@ body {
     font-size: var(--scale-base); /* HH-031 */
     text-align: center; /* HH-031 */
 }
+
+/* Tabla carrito y resumen HH-041 */
+.carrito-table { /* HH-041 */
+    width: 100%; /* HH-041 */
+    border-collapse: collapse; /* HH-041 */
+    margin: 2rem auto; /* HH-041 */
+    max-width: 700px; /* HH-041 */
+    background: var(--color-light); /* HH-041 */
+    border-radius: 12px; /* HH-041 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10); /* HH-041 */
+    overflow: hidden; /* HH-041 */
+}
+.carrito-table th, .carrito-table td { /* HH-041 */
+    padding: 0.75rem 1rem; /* HH-041 */
+    border-bottom: 1px solid #eee; /* HH-041 */
+    text-align: left; /* HH-041 */
+}
+.carrito-table th { /* HH-041 */
+    background: var(--color-primary); /* HH-041 */
+    color: #fff; /* HH-041 */
+    font-weight: 600; /* HH-041 */
+}
+.carrito-table tfoot td { /* HH-041 */
+    background: #ffd700; /* HH-041 */
+    color: #333; /* HH-041 */
+    font-size: var(--scale-lg); /* HH-041 */
+}
+.qty-input { /* HH-041 */
+    width: 60px; /* HH-041 */
+    padding: 4px 8px; /* HH-041 */
+    font-size: var(--scale-base); /* HH-041 */
+    border-radius: 6px; /* HH-041 */
+    border: 1px solid var(--color-gray); /* HH-041 */
+}
+.remove-btn { /* HH-041 */
+    background: #d32f2f; /* HH-041 */
+    color: #fff; /* HH-041 */
+    border: none; /* HH-041 */
+    border-radius: 6px; /* HH-041 */
+    padding: 6px 12px; /* HH-041 */
+    cursor: pointer; /* HH-041 */
+    font-size: var(--scale-base); /* HH-041 */
+}
+.carrito-cta { /* HH-041 */
+    display: flex; /* HH-041 */
+    gap: 1rem; /* HH-041 */
+    justify-content: center; /* HH-041 */
+    margin: 2rem 0; /* HH-041 */
+}
+#continuar-btn { /* HH-041 */
+    background: var(--color-primary); /* HH-041 */
+    color: #fff; /* HH-041 */
+    border: none; /* HH-041 */
+    border-radius: 6px; /* HH-041 */
+    padding: 10px 24px; /* HH-041 */
+    font-size: var(--scale-lg); /* HH-041 */
+    cursor: pointer; /* HH-041 */
+    font-weight: 600; /* HH-041 */
+}
+#vaciar-btn { /* HH-041 */
+    background: #ffd700; /* HH-041 */
+    color: #333; /* HH-041 */
+    border: none; /* HH-041 */
+    border-radius: 6px; /* HH-041 */
+    padding: 10px 24px; /* HH-041 */
+    font-size: var(--scale-lg); /* HH-041 */
+    cursor: pointer; /* HH-041 */
+    font-weight: 600; /* HH-041 */
+}
