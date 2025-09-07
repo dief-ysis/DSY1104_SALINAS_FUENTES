@@ -107,7 +107,7 @@
     background-color: var(--color-accent); /* HH-011 */
     color: var(--color-dark); /* HH-011 */
     padding: var(--space-md) var(--space-xl); /* HH-011 */
-    border-radius: 4px; /* HH-011 */
+    /* Card y badges catálogo HH-024 */
     font-family: var(--font-primary); /* HH-011 */
     font-weight: 500; /* HH-011 */
     font-size: var(--scale-lg); /* HH-011 */
