@@ -544,8 +544,28 @@ body {
         padding-top: var(--navbar-height-mobile);
     }
 }
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+
+/* Selector de cantidad y error HH-031 */
+.cantidad-selector { /* HH-031 */
+    display: flex; /* HH-031 */
+    align-items: center; /* HH-031 */
+    gap: 0.5rem; /* HH-031 */
+    margin-bottom: 0.5rem; /* HH-031 */
+}
+.cantidad-selector input[type="number"] { /* HH-031 */
+    width: 60px; /* HH-031 */
+    padding: 4px 8px; /* HH-031 */
+    font-size: var(--scale-base); /* HH-031 */
+    border-radius: 6px; /* HH-031 */
+    border: 1px solid var(--color-gray); /* HH-031 */
+}
+.error-cantidad { /* HH-031 */
+    color: #d32f2f; /* HH-031 */
+    background: #fff3f3; /* HH-031 */
+    border: 1px solid #d32f2f; /* HH-031 */
+    border-radius: 6px; /* HH-031 */
+    padding: 6px 12px; /* HH-031 */
+    margin-bottom: 0.5rem; /* HH-031 */
+    font-size: var(--scale-base); /* HH-031 */
+    text-align: center; /* HH-031 */
 }
