@@ -110,3 +110,34 @@ body {
 .form-footer a:hover {
   text-decoration: underline;
 }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group select {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  background: white;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent-emerald);
+}
+
+.form-group select:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
