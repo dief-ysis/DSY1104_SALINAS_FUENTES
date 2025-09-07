@@ -30,6 +30,7 @@
     <!-- Listado de productos -->
     <section class="products-list"> <!-- HH-021 -->
         <div id="products-grid"></div> <!-- HH-021 -->
+        <button id="ver-mas-btn" style="display:none;" aria-label="Ver más productos">Ver más</button> <!-- HH-023 -->
     </section>
 
     <script type="module">
@@ -45,16 +46,23 @@
         return text.normalize('NFD').replace(/[00-6f]/g, '').toLowerCase();
     }
 
-    // Estado de filtro y búsqueda HH-022
+    // Estado de filtro, búsqueda y paginación HH-023
     let filtroCategoria = null;
     let searchTerm = '';
     let sortOrder = null; // 'asc' | 'desc'
+    let paginaActual = 1; // HH-023
+    const productosPorPagina = 12; // HH-023
 
-    // Renderizar productos filtrados y ordenados HH-022
+    // Renderizar productos filtrados, ordenados y paginados HH-023
     function renderProducts(productos) {
         const grid = document.getElementById('products-grid');
-        grid.innerHTML = productos.map(producto => `
-            <div class="product-card"> <!-- HH-021 -->
+        const verMasBtn = document.getElementById('ver-mas-btn');
+        // Paginación HH-023
+        const inicio = 0;
+        const fin = paginaActual * productosPorPagina;
+        const productosPagina = productos.slice(0, fin);
+        grid.innerHTML = productosPagina.map((producto, idx) => `
+            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}"> <!-- HH-021 HH-023 -->
                 <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="${producto.nombre}" class="product-image" /> <!-- HH-021 -->
                 <div class="product-name">${producto.nombre}</div> <!-- HH-021 -->
                 <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-021 -->
@@ -64,9 +72,15 @@
                 </div>
             </div>
         `).join('');
+        // Mostrar/ocultar botón HH-023
+        if (productos.length > productosPagina.length) {
+            verMasBtn.style.display = '';
+        } else {
+            verMasBtn.style.display = 'none';
+        }
     }
 
-    // Lógica de filtro, búsqueda y orden HH-022
+    // Lógica de filtro, búsqueda, orden y paginación HH-023
     function aplicarFiltroBusquedaOrden() {
         let productosFiltrados = filtroCategoria ? PRODUCTS_VALIDOS.filter(p => p.categoriaId === filtroCategoria) : PRODUCTS_VALIDOS;
         if (searchTerm) {
@@ -84,10 +98,23 @@
         renderProducts(productosFiltrados);
     }
 
+    // Botón Ver más HH-023
+    document.getElementById('ver-mas-btn').addEventListener('click', function() {
+        paginaActual++;
+        aplicarFiltroBusquedaOrden();
+        // Focus en el primer producto del nuevo bloque HH-023
+        setTimeout(() => {
+            const grid = document.getElementById('products-grid');
+            const primerNuevo = grid.querySelector(`#prod-${paginaActual}-${(paginaActual-1)*productosPorPagina}`);
+            if (primerNuevo) primerNuevo.focus();
+        }, 100);
+    });
+
     // Eventos UI HH-021 y HH-022
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.addEventListener('click', function() {
             filtroCategoria = this.dataset.cat;
+            paginaActual = 1; // HH-023
             aplicarFiltroBusquedaOrden();
             document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
@@ -95,6 +122,7 @@
     });
     document.querySelector('.clear-filters-btn').addEventListener('click', function() {
         filtroCategoria = null;
+        paginaActual = 1; // HH-023
         aplicarFiltroBusquedaOrden();
         document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
     });
@@ -106,6 +134,7 @@
         const value = this.value;
         debounceTimeout = setTimeout(() => {
             searchTerm = value;
+            paginaActual = 1; // HH-023
             aplicarFiltroBusquedaOrden();
         }, 250);
     });
@@ -113,14 +142,16 @@
     // Ordenamiento HH-022
     document.getElementById('sort-asc').addEventListener('click', function() {
         sortOrder = 'asc';
+        paginaActual = 1; // HH-023
         aplicarFiltroBusquedaOrden();
     });
     document.getElementById('sort-desc').addEventListener('click', function() {
         sortOrder = 'desc';
+        paginaActual = 1; // HH-023
         aplicarFiltroBusquedaOrden();
     });
 
-    // Inicializar listado HH-021/HH-022
+    // Inicializar listado HH-021/HH-022/HH-023
     aplicarFiltroBusquedaOrden();
     </script>
 </body>
