@@ -18,6 +18,15 @@
         <button class="clear-filters-btn">Quitar filtros</button> <!-- HH-021 -->
     </section>
 
+    <!-- Búsqueda y ordenamiento HH-022 -->
+    <section class="search-sort-bar"> <!-- HH-022 -->
+        <input type="text" id="search-input" placeholder="Buscar por nombre o código..." autocomplete="off" /> <!-- HH-022 -->
+        <div class="sort-buttons"> <!-- HH-022 -->
+            <button id="sort-asc" aria-label="Ordenar por precio ascendente">Precio ↑</button> <!-- HH-022 -->
+            <button id="sort-desc" aria-label="Ordenar por precio descendente">Precio ↓</button> <!-- HH-022 -->
+        </div>
+    </section>
+
     <!-- Listado de productos -->
     <section class="products-list"> <!-- HH-021 -->
         <div id="products-grid"></div> <!-- HH-021 -->
@@ -31,7 +40,17 @@
         return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
     }
 
-    // Renderizar productos filtrados HH-021
+    // Normalizar texto (acentos y mayúsculas) HH-022
+    function normalizeText(text) { // HH-022
+        return text.normalize('NFD').replace(/[00-6f]/g, '').toLowerCase();
+    }
+
+    // Estado de filtro y búsqueda HH-022
+    let filtroCategoria = null;
+    let searchTerm = '';
+    let sortOrder = null; // 'asc' | 'desc'
+
+    // Renderizar productos filtrados y ordenados HH-022
     function renderProducts(productos) {
         const grid = document.getElementById('products-grid');
         grid.innerHTML = productos.map(producto => `
@@ -47,32 +66,62 @@
         `).join('');
     }
 
-    // Estado de filtro HH-021
-    let filtroCategoria = null;
-
-    // Lógica de filtro HH-021
-    function aplicarFiltro() {
+    // Lógica de filtro, búsqueda y orden HH-022
+    function aplicarFiltroBusquedaOrden() {
         let productosFiltrados = filtroCategoria ? PRODUCTS_VALIDOS.filter(p => p.categoriaId === filtroCategoria) : PRODUCTS_VALIDOS;
+        if (searchTerm) {
+            const term = normalizeText(searchTerm);
+            productosFiltrados = productosFiltrados.filter(p =>
+                normalizeText(p.nombre).includes(term) || normalizeText(p.code).includes(term)
+            );
+        }
+        if (sortOrder) {
+            productosFiltrados = [...productosFiltrados].sort((a, b) => {
+                if (sortOrder === 'asc') return a.precioCLP - b.precioCLP;
+                else return b.precioCLP - a.precioCLP;
+            });
+        }
         renderProducts(productosFiltrados);
     }
 
-    // Eventos UI HH-021
+    // Eventos UI HH-021 y HH-022
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.addEventListener('click', function() {
             filtroCategoria = this.dataset.cat;
-            aplicarFiltro();
+            aplicarFiltroBusquedaOrden();
             document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
         });
     });
     document.querySelector('.clear-filters-btn').addEventListener('click', function() {
         filtroCategoria = null;
-        aplicarFiltro();
+        aplicarFiltroBusquedaOrden();
         document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
     });
 
-    // Inicializar listado HH-021
-    aplicarFiltro();
+    // Debounce búsqueda HH-022
+    let debounceTimeout;
+    document.getElementById('search-input').addEventListener('input', function() {
+        clearTimeout(debounceTimeout);
+        const value = this.value;
+        debounceTimeout = setTimeout(() => {
+            searchTerm = value;
+            aplicarFiltroBusquedaOrden();
+        }, 250);
+    });
+
+    // Ordenamiento HH-022
+    document.getElementById('sort-asc').addEventListener('click', function() {
+        sortOrder = 'asc';
+        aplicarFiltroBusquedaOrden();
+    });
+    document.getElementById('sort-desc').addEventListener('click', function() {
+        sortOrder = 'desc';
+        aplicarFiltroBusquedaOrden();
+    });
+
+    // Inicializar listado HH-021/HH-022
+    aplicarFiltroBusquedaOrden();
     </script>
 </body>
 </html>
