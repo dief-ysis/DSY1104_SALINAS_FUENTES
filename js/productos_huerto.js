@@ -1,4 +1,19 @@
 // productos_huerto.js
+// Validación de productos HH-020
+export function validarProducto(producto) { // HH-020
+  if (!producto.code || typeof producto.code !== 'string') return false;
+  if (!producto.nombre || typeof producto.nombre !== 'string') return false;
+  if (!producto.categoriaId || typeof producto.categoriaId !== 'string') return false;
+  if (typeof producto.precioCLP !== 'number' || producto.precioCLP < 0) return false;
+  if (!Number.isInteger(producto.stock) || producto.stock < 0) return false;
+  if (!producto.origen || typeof producto.origen !== 'string') return false;
+  if (!producto.descripcion || typeof producto.descripcion !== 'string') return false;
+  if (!Array.isArray(producto.practicas)) return false;
+  if (!Array.isArray(producto.recetas)) return false;
+  if (!producto.imagen || typeof producto.imagen !== 'string') return false;
+  return true;
+}
+
 export const PRODUCTS_HH = [
   {
     code: "FR001", nombre: "Manzanas Fuji", categoriaId: "FR",
@@ -73,3 +88,6 @@ export const PRODUCTS_HH = [
     imagen: "assets/products/pl001.jpg"
   }
 ];
+
+// Validar todos los productos al cargar HH-020
+export const PRODUCTS_VALIDOS = PRODUCTS_HH.filter(validarProducto); // HH-020
