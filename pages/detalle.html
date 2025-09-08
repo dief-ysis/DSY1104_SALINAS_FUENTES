@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Producto</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main class="detalle-producto"> <!-- HH-030 -->
+        <section id="detalle-container"> <!-- HH-030 -->
+            <!-- Render dinámico aquí -->
+        </section>
+    </main>
+    <script type="module">
+    import { PRODUCTS_VALIDOS } from './productos_huerto.js'; // HH-030
+
+    // Helper CLP HH-030
+    function formatCLP(value) {
+        return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
+    }
+
+    // Obtener código de producto de la URL HH-030
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const producto = PRODUCTS_VALIDOS.find(p => p.code === code);
+    const stockCritico = 10; // HH-030
+    const container = document.getElementById('detalle-container');
+
+    if (!producto) {
+        container.innerHTML = '<p>Producto no encontrado.</p>';
+    } else {
+        container.innerHTML = `
+        <article class="card-detalle"> <!-- HH-030 -->
+            <header>
+                <h1>${producto.nombre}</h1> <!-- HH-030 -->
+                <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span> <!-- HH-030 -->
+            </header>
+            <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" /> <!-- HH-030 -->
+            <dl>
+                <dt>Código:</dt><dd>${producto.code}</dd>
+                <dt>Precio:</dt><dd>${formatCLP(producto.precioCLP)} / ${producto.unidad}</dd>
+                <dt>Stock:</dt><dd>${producto.stock}</dd>
+                <dt>Origen:</dt><dd>${producto.origen}</dd>
+            </dl>
+            <section>
+                <h2>Descripción</h2>
+                <p>${producto.descripcion}</p>
+            </section>
+            <section>
+                <h2>Prácticas sostenibles</h2>
+                <ul>
+                    ${producto.practicas.map(pr => `<li>${pr}</li>`).join('')}
+                </ul>
+            </section>
+            <section>
+                <h2>Recetas</h2>
+                <ul>
+                    ${producto.recetas.map(rec => `<li><a href="${rec}" target="_blank" rel="noopener">${rec}</a></li>`).join('')}
+                </ul>
+            </section>
+            ${producto.stock === 0 ? '<div class="alert-stock">Sin stock disponible</div>' : producto.stock < stockCritico ? '<div class="alert-stock">¡Stock bajo!</div>' : ''}
+            <div class="cantidad-selector"> <!-- HH-031 -->
+                <label for="cantidad-input">Cantidad:</label>
+                <input type="number" id="cantidad-input" min="1" max="${producto.stock}" value="1" '+(producto.stock === 0 ? 'disabled' : '')+' /> <!-- HH-031 -->
+            </div>
+            <div id="error-cantidad" class="error-cantidad" style="display:none;"></div> <!-- HH-031 -->
+            <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito" '+(producto.stock === 0 ? 'disabled' : '')+'>Añadir</button>
+        </article>
+        `;
+        // Selector de cantidad y validaciones HH-031
+        const btn = container.querySelector('.add-to-cart-btn');
+        const inputCantidad = container.querySelector('#cantidad-input');
+        const errorDiv = container.querySelector('#error-cantidad');
+        if (inputCantidad) {
+            inputCantidad.addEventListener('input', function() {
+                let val = parseInt(this.value, 10);
+                if (isNaN(val) || val < 1) {
+                    this.value = 1;
+                    val = 1;
+                }
+                if (val > producto.stock) {
+                    this.value = producto.stock;
+                    val = producto.stock;
+                }
+                errorDiv.style.display = 'none';
+            });
+        }
+        if (btn && producto.stock > 0) {
+            btn.addEventListener('click', function() {
+                const cantidad = inputCantidad ? parseInt(inputCantidad.value, 10) : 1;
+                if (isNaN(cantidad) || cantidad < 1) {
+                    errorDiv.textContent = 'La cantidad debe ser al menos 1.';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                if (cantidad > producto.stock) {
+                    errorDiv.textContent = 'No puedes añadir más que el stock disponible.';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                const idx = carrito.findIndex(item => item.code === producto.code);
+                if (idx >= 0) {
+                    if (carrito[idx].cantidad + cantidad > producto.stock) {
+                        errorDiv.textContent = 'No puedes añadir más que el stock disponible.';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+                    carrito[idx].cantidad += cantidad;
+                } else {
+                    carrito.push({ code: producto.code, cantidad });
+                }
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+                errorDiv.style.display = 'none';
+                mostrarFeedback(btn, 'Añadido');
+                actualizarContadorCarrito();
+            });
+        }
+    }
+
+    // Helper para nombre de categoría HH-030
+    function categoriaNombre(catId) {
+        switch(catId) {
+            case 'FR': return 'Frutas';
+            case 'VR': return 'Verduras';
+            case 'PO': return 'Orgánicos';
+            case 'PL': return 'Lácteos';
+            default: return 'Otro';
+        }
+    }
+
+    // Feedback visual HH-030
+    function mostrarFeedback(btn, texto) {
+        btn.disabled = true;
+        const original = btn.textContent;
+        btn.textContent = texto;
+        btn.classList.add('added');
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('added');
+            btn.disabled = false;
+        }, 900);
+    }
+
+    // Actualizar contador carrito HH-030
+    function actualizarContadorCarrito() {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
+        const badge = document.querySelector('.cart-badge');
+        if (badge) badge.textContent = contador;
+    }
+    </script>
+</body>
+</html>
