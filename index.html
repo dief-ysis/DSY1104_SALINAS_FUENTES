@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huerto Hogar</title>
+    <title>Huerto Hogar - Productos orgánicos directo a tu hogar</title>
+    
+    <!-- HH-003: Meta tags para SEO -->
+    <meta name="description" content="Tienda online de productos orgánicos, frutas frescas, verduras y lácteos. Entrega directa a tu hogar con la mejor calidad y frescura.">
+    <meta name="keywords" content="productos orgánicos, frutas frescas, verduras orgánicas, lácteos, alimentos naturales, huerto hogar">
+    <meta name="author" content="Huerto Hogar">
+    
+    <!-- HH-003: Open Graph tags para redes sociales -->
+    <meta property="og:title" content="Huerto Hogar - Productos orgánicos frescos">
+    <meta property="og:description" content="Descubre nuestra selección de productos orgánicos, frutas y verduras frescas con entrega a domicilio.">
+    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:url" content="https://huertohogar.com">
+    
     <!-- HH-002: Importar fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,19 +23,22 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar">
+    <!-- HH-004: Skip link para accesibilidad -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
         <div class="navbar-container">
             <a href="index.html" class="navbar-logo">
-                <img src="assets/images/logo.png" alt="Huerto Hogar Logo"> <!-- Asegúrate de tener el logo en esta ubicación -->
+                <img src="assets/images/logo.png" alt="Huerto Hogar Logo">
             </a>
             <button class="navbar-toggle" aria-label="Menú">
                 <span class="hamburger"></span>
             </button>
             <div class="navbar-menu">
-                <a href="index.html" class="nav-link active">HOME</a>
-                <a href="productos.html" class="nav-link">Productos</a>
-                <a href="blog.html" class="nav-link">Blog</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/productos.html" class="nav-link">Productos</a>
+                <a href="pages/blogs.html" class="nav-link">Blog</a>
+                <a href="pages/contacto.html" class="nav-link">Contacto</a>
                 <div class="cart-container">
                     <button class="cart-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -39,12 +54,13 @@
     </nav>
 
     <!-- Hero Section HH-011 -->
-    <section class="hero"> <!-- HH-011 -->
+    <main id="main-content">
+    <section class="hero" aria-label="Sección principal"> <!-- HH-011 -->
         <div class="hero-container"> <!-- HH-011 -->
             <div class="hero-content"> <!-- HH-011 -->
                 <h1 class="hero-title">Frescura y naturalidad</h1> <!-- HH-011 -->
                 <p class="hero-subtitle">Productos orgánicos directo a tu hogar</p> <!-- HH-011 -->
-                <a href="productos.html" class="cta-button" role="button">Ver catálogo</a> <!-- HH-011 -->
+                <a href="pages/productos.html" class="cta-button" role="button">Ver catálogo</a> <!-- HH-011 -->
             </div>
         </div>
     </section>
@@ -53,16 +69,16 @@
     <section class="categories-grid"> <!-- HH-012 -->
         <h2 class="categories-title">Categorías destacadas</h2> <!-- HH-012 -->
         <div class="categories-tiles"> <!-- HH-012 -->
-            <a href="productos.html?cat=frutas" class="category-tile" tabindex="0" aria-label="Frutas Frescas" style="background-image:url('/assets/images/manzana.jpg')"> <!-- HH-012 -->
+            <a href="pages/productos.html?cat=frutas" class="category-tile" tabindex="0" aria-label="Frutas Frescas" style="background-image:url('assets/images/FrutasFrescas.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Frutas Frescas</span> <!-- HH-012 -->
             </a>
-            <a href="productos.html?cat=verduras" class="category-tile" tabindex="0" aria-label="Verduras Orgánicas" style="background-image:url('/assets/images/zanahoria.jpg')"> <!-- HH-012 -->
+            <a href="pages/productos.html?cat=verduras" class="category-tile" tabindex="0" aria-label="Verduras Orgánicas" style="background-image:url('assets/images/VerdurasOrganicas.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Verduras Orgánicas</span> <!-- HH-012 -->
             </a>
-            <a href="productos.html?cat=organicos" class="category-tile" tabindex="0" aria-label="Productos Orgánicos" style="background-image:url('/assets/images/miel.jpg')"> <!-- HH-012 -->
+            <a href="pages/productos.html?cat=organicos" class="category-tile" tabindex="0" aria-label="Productos Orgánicos" style="background-image:url('assets/images/ProductosOrganicos.webp')"> <!-- HH-012 -->
                 <span class="category-label">Productos Orgánicos</span> <!-- HH-012 -->
             </a>
-            <a href="productos.html?cat=lacteos" class="category-tile" tabindex="0" aria-label="Lácteos" style="background-image:url('/assets/images/TEMAS_lacteos_interna_horiz_840x410.jpg')"> <!-- HH-012 -->
+            <a href="pages/productos.html?cat=lacteos" class="category-tile" tabindex="0" aria-label="Lácteos" style="background-image:url('assets/images/Lacteos.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Lácteos</span> <!-- HH-012 -->
             </a>
         </div>
@@ -75,6 +91,7 @@
             <!-- Cards de productos destacados se renderizan aquí --> <!-- HH-013 -->
         </div>
     </section>
+    </main>
 
     <script type="module" src="./js/productos_huerto.js"></script>
     <script type="module" src="./js/categorias_huerto.js"></script>
@@ -93,7 +110,7 @@
         const destacados = PRODUCTS_HH.slice(0, 6);
         grid.innerHTML = destacados.map(producto => `
             <div class="product-card" tabindex="0"> <!-- HH-013 -->
-                <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="${producto.nombre}" class="product-image" /> <!-- HH-013 -->
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" /> <!-- HH-013 -->
                 <div class="product-name">${producto.nombre}</div> <!-- HH-013 -->
                 <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-013 -->
                 <div class="product-actions"> <!-- HH-013 -->
