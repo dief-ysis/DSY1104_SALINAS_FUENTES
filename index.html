@@ -8,13 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="navbar-logo">
-                <img src="/assets/images/logo.png" alt="Huerto Hogar Logo"> <!-- Asegúrate de tener el logo en esta ubicación -->
+                <img src="assets/images/logo.png" alt="Huerto Hogar Logo"> <!-- Asegúrate de tener el logo en esta ubicación -->
             </a>
             <button class="navbar-toggle" aria-label="Menú">
                 <span class="hamburger"></span>
@@ -53,16 +53,16 @@
     <section class="categories-grid"> <!-- HH-012 -->
         <h2 class="categories-title">Categorías destacadas</h2> <!-- HH-012 -->
         <div class="categories-tiles"> <!-- HH-012 -->
-            <a href="productos.html?cat=frutas" class="category-tile" tabindex="0" aria-label="Frutas Frescas" style="background-image:url('img/manzana.jpg')"> <!-- HH-012 -->
+            <a href="productos.html?cat=frutas" class="category-tile" tabindex="0" aria-label="Frutas Frescas" style="background-image:url('/assets/images/manzana.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Frutas Frescas</span> <!-- HH-012 -->
             </a>
-            <a href="productos.html?cat=verduras" class="category-tile" tabindex="0" aria-label="Verduras Orgánicas" style="background-image:url('img/zanahoria.jpg')"> <!-- HH-012 -->
+            <a href="productos.html?cat=verduras" class="category-tile" tabindex="0" aria-label="Verduras Orgánicas" style="background-image:url('/assets/images/zanahoria.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Verduras Orgánicas</span> <!-- HH-012 -->
             </a>
-            <a href="productos.html?cat=organicos" class="category-tile" tabindex="0" aria-label="Productos Orgánicos" style="background-image:url('img/miel.jpg')"> <!-- HH-012 -->
+            <a href="productos.html?cat=organicos" class="category-tile" tabindex="0" aria-label="Productos Orgánicos" style="background-image:url('/assets/images/miel.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Productos Orgánicos</span> <!-- HH-012 -->
             </a>
-            <a href="productos.html?cat=lacteos" class="category-tile" tabindex="0" aria-label="Lácteos" style="background-image:url('img/TEMAS_lacteos_interna_horiz_840x410.jpg')"> <!-- HH-012 -->
+            <a href="productos.html?cat=lacteos" class="category-tile" tabindex="0" aria-label="Lácteos" style="background-image:url('/assets/images/TEMAS_lacteos_interna_horiz_840x410.jpg')"> <!-- HH-012 -->
                 <span class="category-label">Lácteos</span> <!-- HH-012 -->
             </a>
         </div>
@@ -76,11 +76,11 @@
         </div>
     </section>
 
-    <script src="productos_huerto.js"></script>
-    <script src="categorias_huerto.js"></script>
-    <script>
+    <script type="module" src="./js/productos_huerto.js"></script>
+    <script type="module" src="./js/categorias_huerto.js"></script>
+    <script type="module">
     // Renderizar productos destacados HH-013
-    import { PRODUCTS_HH } from './productos_huerto.js'; // HH-013
+    import { PRODUCTS_HH } from './js/productos_huerto.js'; // HH-013
 
     function formatCLP(value) { // HH-013
         return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
