@@ -7,31 +7,34 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Barra de filtros por categoría HH-021 -->
-    <section class="filter-bar"> <!-- HH-021 -->
-        <div class="filter-tabs"> <!-- HH-021 -->
-            <button class="filter-tab" data-cat="FR">Frutas</button> <!-- HH-021 -->
-            <button class="filter-tab" data-cat="VR">Verduras</button> <!-- HH-021 -->
-            <button class="filter-tab" data-cat="PO">Orgánicos</button> <!-- HH-021 -->
-            <button class="filter-tab" data-cat="PL">Lácteos</button> <!-- HH-021 -->
-        </div>
-        <button class="clear-filters-btn">Quitar filtros</button> <!-- HH-021 -->
-    </section>
+        <!-- CATÁLOGO MODERNO DE PRODUCTOS -->
+        <main class="catalogo-container" style="max-width:1200px;margin:2.5rem auto 2rem auto;padding:0 1.5rem;">
+            <!-- Barra de filtros por categoría -->
+            <section class="filter-bar" style="background:#f8fafb;border-radius:16px;padding:1.1rem 1.5rem 0.7rem 1.5rem;box-shadow:0 2px 8px rgba(46,139,87,0.08);margin-bottom:1.2rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+                <div class="filter-tabs" style="display:flex;gap:0.7rem;">
+                    <button class="filter-tab" data-cat="FR" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Frutas</button>
+                    <button class="filter-tab" data-cat="VR" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Verduras</button>
+                    <button class="filter-tab" data-cat="PO" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Orgánicos</button>
+                    <button class="filter-tab" data-cat="PL" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Lácteos</button>
+                </div>
+                <button class="clear-filters-btn" style="background:#ffd700;color:#1e6a45;border:none;border-radius:8px;padding:0.5em 1.2em;font-weight:600;box-shadow:0 2px 8px rgba(46,139,87,0.08);transition:background 0.2s,color 0.2s;">Quitar filtros</button>
+            </section>
 
-    <!-- Búsqueda y ordenamiento HH-022 -->
-    <section class="search-sort-bar"> <!-- HH-022 -->
-        <input type="text" id="search-input" placeholder="Buscar por nombre o código..." autocomplete="off" /> <!-- HH-022 -->
-        <div class="sort-buttons"> <!-- HH-022 -->
-            <button id="sort-asc" aria-label="Ordenar por precio ascendente">Precio ↑</button> <!-- HH-022 -->
-            <button id="sort-desc" aria-label="Ordenar por precio descendente">Precio ↓</button> <!-- HH-022 -->
-        </div>
-    </section>
+            <!-- Búsqueda y ordenamiento -->
+            <section class="search-sort-bar" style="display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2.5rem;margin-bottom:1.5rem;justify-content:space-between;">
+                <input type="text" id="search-input" placeholder="Buscar por nombre o código..." autocomplete="off" style="flex:1 1 260px;max-width:340px;padding:0.7em 1.1em;border-radius:8px;border:1.5px solid #e0e7ef;font-size:1.05rem;box-shadow:0 1px 4px rgba(46,139,87,0.06);" />
+                <div class="sort-buttons" style="display:flex;gap:0.7rem;">
+                    <button id="sort-asc" aria-label="Ordenar por precio ascendente" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:8px;padding:0.5em 1.2em;font-weight:600;transition:background 0.2s,color 0.2s;">Precio ↑</button>
+                    <button id="sort-desc" aria-label="Ordenar por precio descendente" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:8px;padding:0.5em 1.2em;font-weight:600;transition:background 0.2s,color 0.2s;">Precio ↓</button>
+                </div>
+            </section>
 
-    <!-- Listado de productos -->
-    <section class="products-list"> <!-- HH-021 -->
-        <div id="products-grid"></div> <!-- HH-021 -->
-        <button id="ver-mas-btn" style="display:none;" aria-label="Ver más productos">Ver más</button> <!-- HH-023 -->
-    </section>
+            <!-- Listado de productos -->
+            <section class="products-list" style="background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 1.2rem 1.5rem 1.2rem;">
+                <div id="products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2rem 1.5rem;"></div>
+                <button id="ver-mas-btn" style="display:none;margin:2rem auto 0 auto;min-width:180px;background:#2E8B57;color:#fff;border:none;border-radius:8px;padding:0.7em 1.5em;font-weight:600;box-shadow:0 2px 8px rgba(46,139,87,0.10);transition:background 0.2s;" aria-label="Ver más productos">Ver más</button>
+            </section>
+        </main>
 
     <script type="module">
     import { PRODUCTS_VALIDOS } from '../js/productos_huerto.js'; // HH-021
@@ -73,7 +76,8 @@
                     <img src="../${producto.imagen}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" /> 
                     <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span> 
                 </div>
-                <div class="product-name">${producto.nombre}</div> 
+                <div class="product-name">${producto.nombre}</div>
+                <div class="product-desc" style="color:#4b5563;font-size:0.98rem;margin-bottom:0.3rem;min-height:2.2em;">${producto.descripcion}</div>
                 <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> 
                 <div class="product-actions"> 
                     <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button>

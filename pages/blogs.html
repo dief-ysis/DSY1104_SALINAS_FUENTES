@@ -7,106 +7,134 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <!-- Header replicado según solicitud -->
+  <!-- HEADER MODIFICADO Y COMENTADO -->
   <header>
-    <div class="container topbar" role="navigation" aria-label="Principal">
-      <a class="brand" href="../index.html" aria-label="Ir al inicio Huerto Hogar">
-        <img src="../img/logo.jpg" alt="Logo Huerto Hogar" class="logo-img">
-        <span class="title">Huerto Hogar</span>
+    <!-- Barra superior con color de fondo, bordes redondeados y sombra -->
+    <div class="container topbar" role="navigation" aria-label="Principal" style="background:#2E8B57; border-radius:0 0 18px 18px; margin-bottom:2.5rem; box-shadow:0 2px 8px rgba(46,139,87,0.10); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+      <!-- Logo y nombre de la marca -->
+      <a class="brand" href="../index.html" aria-label="Ir al inicio Huerto Hogar" style="color:#fff; display:flex; align-items:center; gap:0.7rem; text-decoration:none;">
+        <img src="../img/logo.jpg" alt="Logo Huerto Hogar" class="logo-img" style="border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.13); width:48px; height:48px; object-fit:cover;">
+        <span class="title" style="color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.2); font-size:1.5rem; font-weight:700;">Huerto Hogar</span>
       </a>
-      <label for="nav-toggle" class="burger" aria-label="Abrir menú">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      <!-- Menú hamburguesa para móviles -->
+      <label for="nav-toggle" class="burger" aria-label="Abrir menú" style="margin-left:auto; cursor:pointer;">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="32" height="32"><path d="M3 6h18M3 12h18M3 18h18" stroke="#fff" stroke-width="2" stroke-linecap="round"></path></svg>
       </label>
-      <input type="checkbox" id="nav-toggle" aria-hidden="true">
-      <nav>
-        <ul>
-          <li><a href="../index.html#home" aria-current="page">Inicio</a></li>
-          <li><a href="../index.html#productos">Productos</a></li>
-          <li><a href="../index.html#categorias">Categorías</a></li>
-          <li><a href="../index.html#blog">Blog</a></li>
-          <li><a href="../index.html#contacto">Contacto</a></li>
+      <input type="checkbox" id="nav-toggle" aria-hidden="true" style="display:none;">
+      <!-- Navegación principal -->
+      <nav style="flex:1;">
+        <ul style="display:flex; gap:1.2rem; justify-content:center; align-items:center; list-style:none; margin:0; padding:0; flex-wrap:wrap;">
+          <li><a href="../index.html#home" aria-current="page" style="color:#fff; font-weight:500; text-decoration:none;">Inicio</a></li>
+          <li><a href="../index.html#productos" style="color:#fff; font-weight:500; text-decoration:none;">Productos</a></li>
+          <li><a href="../index.html#categorias" style="color:#fff; font-weight:500; text-decoration:none;">Categorías</a></li>
+          <li><a href="../index.html#blog" style="color:#fff; font-weight:500; text-decoration:none;">Blog</a></li>
+          <li><a href="../index.html#contacto" style="color:#fff; font-weight:500; text-decoration:none;">Contacto</a></li>
         </ul>
       </nav>
-      <a class="cart" href="../index.html#carrito" aria-label="Ir al carrito">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 7h14l-1.5 9h-11zM7 7l-2-4H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <!-- Icono de carrito -->
+      <a class="cart" href="../index.html#carrito" aria-label="Ir al carrito" style="color:#fff; display:flex; align-items:center; gap:0.4rem; text-decoration:none;">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 7h14l-1.5 9h-11zM7 7l-2-4H2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         <span>Carrito</span>
-        <span class="badge" aria-live="polite" aria-atomic="true">0</span>
+        <span class="badge" aria-live="polite" aria-atomic="true" style="background:#ffd700; color:#1e6a45; font-weight:700; border-radius:999px; padding:0 0.5em;">0</span>
       </a>
+    </div>
+    <!-- Descripción informativa del blog -->
+    <div style="background:#e9f7ef; color:#1e6a45; border-radius:0 0 18px 18px; margin:0 auto 1.5rem auto; max-width:900px; box-shadow:0 2px 8px rgba(46,139,87,0.08); padding:1.1rem 1.5rem 0.7rem 1.5rem; text-align:center;">
+      <h1 style="font-size:1.7rem; font-family:'Playfair Display',serif; margin-bottom:0.5rem;">Blog Huerto Hogar</h1>
+      <p style="font-size:1.08rem; color:#25603b; margin-bottom:0;">Explora artículos, guías y novedades sobre agricultura urbana, alimentación saludable y sostenibilidad. ¡Aprende y conecta con nuestra comunidad!</p>
     </div>
   </header>
 
   <!-- Blog principal -->
-  <section id="blog" class="blog" aria-labelledby="blog-title">
-<section id="blog" class="blog" aria-labelledby="blog-title">
-  <div class="container">
-    <div class="blog-header">
-      <h2 id="blog-title">Del huerto aprendemos</h2>
-      <p class="blog-intro">En nuestro espacio de aprendizaje compartimos conocimientos sobre agricultura sostenible, vida saludable y consumo responsable. Cada artículo está diseñado para ayudarte a tomar decisiones más conscientes sobre tu alimentación y el cuidado del medio ambiente.</p>
-      <div class="blog-categories">
-        <span class="category-tag">Guías Prácticas</span>
-        <span class="category-tag">Sostenibilidad</span>
-        <span class="category-tag">Alimentación Consciente</span>
-        <span class="category-tag">Comunidad</span>
+  <section id="blog" class="blog" aria-labelledby="blog-title" style="background:#f8fafb; border-radius:18px; margin:0 auto 2.5rem auto; max-width:1200px; box-shadow:0 4px 18px rgba(46,139,87,0.10); padding:2.5rem 1.5rem;">
+    <!-- CABECERA DEL BLOG CON DESCRIPCIÓN Y CATEGORÍAS -->
+    <div class="container">
+      <div class="blog-header" style="text-align:center; margin-bottom:2.2rem;">
+        <h2 id="blog-title" style="color:#1e6a45; font-size:2.1rem; font-family:'Playfair Display',serif;">Del huerto aprendemos</h2>
+        <p class="blog-intro" style="color:#4b5563; font-size:1.13rem; margin-bottom:1.1rem;">En este espacio compartimos conocimientos, experiencias y recursos para que puedas cultivar tu propio huerto, mejorar tu alimentación y cuidar el planeta. ¡Descubre, aprende y participa!</p>
+        <div class="blog-categories" style="display:flex; flex-wrap:wrap; gap:0.7rem; justify-content:center; margin-bottom:0.5rem;">
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Guías Prácticas</span>
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Sostenibilidad</span>
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Alimentación Consciente</span>
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Comunidad</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="grid">
-    <article class="card post">
-      <div class="media"><img src="../img/compostcasero.jfif" alt="Compost casero - Proceso de compostaje"></div>
-      <div class="content">
-        <span class="tag">Guía Práctica</span>
-        <h4>Guía Completa: Compostaje en Casa</h4>
-        <p class="preview-text">¿Sabías que hasta el 30% de tus residuos domésticos pueden convertirse en abono? Aprende a crear tu propio compost casero con esta guía práctica.</p>
-        <div class="full-text">
-          <p>¿Sabías que hasta el 30% de tus residuos domésticos pueden convertirse en abono? Aprende a crear tu propio compost casero con esta guía práctica. Descubre cómo transformar restos de frutas, verduras y otros desechos orgánicos en un valioso nutriente para tu jardín.</p>
-          <ul>
-            <li>Aprende la proporción correcta de materiales verdes y marrones</li>
-            <li>Consejos para mantener la humedad y temperatura ideal</li>
-            <li>Obtén compost de calidad en 3-4 meses</li>
-            <li>Soluciones a problemas comunes</li>
-          </ul>
-          <span class="read-more">Leer guía completa →</span>
+    <div class="grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:2rem; max-width:1100px; margin:0 auto;">
+  <!-- TARJETA DE BLOG: COMPOSTAJE EN CASA -->
+  <article class="card post" style="background:#fff; border-radius:20px; box-shadow:0 4px 18px rgba(46,139,87,0.10); overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.3s,transform 0.3s; border:1.5px solid #e0e7ef; min-width:0;">
+        <div class="media" style="width:100%; aspect-ratio:16/9; background:#e9f7ef; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img src="../img/compostcasero.jfif" alt="Compost casero - Proceso de compostaje" style="width:100%; height:100%; object-fit:cover; border-radius:0 0 18px 18px; transition:transform 0.3s;">
         </div>
-      </div>
-    </article>
-    <article class="card post">
-      <div class="media"><img src="../img/productores.jpg" alt="Productores locales trabajando en el campo"></div>
-      <div class="content">
-        <span class="tag">Comunidad</span>
-        <h4>Conoce a Nuestros Productores Locales</h4>
-        <p class="preview-text">Detrás de cada producto fresco hay historias de dedicación y amor por la tierra. Conoce a nuestros agricultores locales que mantienen vivas las tradiciones sostenibles.</p>
-        <div class="full-text">
-          <p>Detrás de cada producto fresco hay historias de dedicación y amor por la tierra. Nuestros agricultores locales, con décadas de experiencia transmitida de generación en generación, mantienen vivas las tradiciones de cultivo sostenible en nuestra región.</p>
-          <ul>
-            <li>Técnicas ancestrales combinadas con agricultura regenerativa</li>
-            <li>Compromiso con la preservación de semillas locales</li>
-            <li>Cultivos de temporada 100% libres de pesticidas</li>
-            <li>Fortalecimiento de la economía y comunidad local</li>
-          </ul>
-          <span class="read-more">Descubre nuestra comunidad agrícola →</span>
+        <div class="content" style="padding:1.3rem 1.2rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.5rem;">
+          <!-- Etiqueta de categoría -->
+          <span class="tag" style="background:#ffd700; color:#1e6a45; border-radius:999px; padding:0.2em 0.9em; font-size:0.95rem; font-weight:700; margin-bottom:0.2rem; display:inline-block;">Guía Práctica</span>
+          <h4 style="font-size:1.18rem; color:#1e2d2f; margin:0.2rem 0 0.3rem 0;">Guía Completa: Compostaje en Casa</h4>
+          <!-- Descripción breve -->
+          <p class="preview-text" style="color:#4b5563; font-size:1.05rem; margin-bottom:0.2rem;">Aprende a transformar tus residuos orgánicos en abono natural y enriquece tu huerto o jardín. Compostar es fácil, ecológico y reduce tu huella ambiental.</p>
+          <div class="full-text" style="color:#3a3a3a; font-size:0.98rem; margin-top:0.5rem;">
+            <!-- Texto completo con consejos y beneficios -->
+            <p>¿Sabías que hasta el 30% de tus residuos domésticos pueden convertirse en abono? Descubre cómo transformar restos de frutas, verduras y otros desechos orgánicos en un valioso nutriente para tu jardín. Consejos prácticos para mantener la humedad, temperatura y proporción ideal de materiales verdes y marrones.</p>
+            <ul>
+              <li>Proporción correcta de materiales verdes y marrones</li>
+              <li>Consejos para mantener la humedad y temperatura ideal</li>
+              <li>Obtén compost de calidad en 3-4 meses</li>
+              <li>Soluciones a problemas comunes</li>
+            </ul>
+            <span class="read-more" style="color:#2E8B57; font-weight:600; cursor:pointer; display:inline-block; margin-top:0.5rem; transition:color 0.2s;">Leer guía completa →</span>
+            <!-- Botón para leer más -->
+  <!-- TARJETA DE BLOG: PRODUCTORES LOCALES -->
+          </div>
         </div>
-      </div>
-    </article>
-    <article class="card post">
-      <div class="media"><img src="../img/fruta-fresca.jpg" alt="Variedad de frutas frescas de temporada"></div>
-      <div class="content">
-        <span class="tag">Alimentación Consciente</span>
-        <h4>Frutas de Temporada: La Mejor Elección</h4>
-        <p class="preview-text">Las frutas de temporada no solo son más económicas, sino que también alcanzan su máximo potencial nutritivo. Descubre qué frutas elegir en cada estación del año.</p>
-        <div class="full-text">
-          <p>Cada estación nos ofrece exactamente lo que nuestro cuerpo necesita. Al elegir frutas de temporada, obtienes:</p>
-          <ul>
-            <li>Primavera: Fresas y cerezas frescas</li>
-            <li>Verano: Melocotones y sandías jugosas</li>
-            <li>Otoño: Manzanas y peras crujientes</li>
-            <li>Invierno: Cítricos llenos de vitamina C</li>
-          </ul>
-          <p>Además, reduces tu huella de carbono y apoyas a los agricultores locales.</p>
-          <span class="read-more">Ver calendario de temporada →</span>
+      </article>
+      <article class="card post" style="background:#fff; border-radius:20px; box-shadow:0 4px 18px rgba(46,139,87,0.10); overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.3s,transform 0.3s; border:1.5px solid #e0e7ef; min-width:0;">
+        <div class="media" style="width:100%; aspect-ratio:16/9; background:#e9f7ef; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img src="../img/productores.jpg" alt="Productores locales trabajando en el campo" style="width:100%; height:100%; object-fit:cover; border-radius:0 0 18px 18px; transition:transform 0.3s;">
         </div>
-      </div>
-    </article>
-  </div>
-</section>
+        <div class="content" style="padding:1.3rem 1.2rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.5rem;">
+          <span class="tag" style="background:#ffd700; color:#1e6a45; border-radius:999px; padding:0.2em 0.9em; font-size:0.95rem; font-weight:700; margin-bottom:0.2rem; display:inline-block;">Comunidad</span>
+          <h4 style="font-size:1.18rem; color:#1e2d2f; margin:0.2rem 0 0.3rem 0;">Conoce a Nuestros Productores Locales</h4>
+          <!-- Descripción breve -->
+          <p class="preview-text" style="color:#4b5563; font-size:1.05rem; margin-bottom:0.2rem;">Historias reales de quienes cultivan con pasión y compromiso. Descubre cómo la agricultura local impulsa la economía y la sostenibilidad de tu región.</p>
+            <!-- Texto completo con información sobre productores -->
+          <div class="full-text" style="color:#3a3a3a; font-size:0.98rem; margin-top:0.5rem;">
+            <p>Detrás de cada producto fresco hay historias de dedicación y amor por la tierra. Nuestros agricultores locales, con décadas de experiencia transmitida de generación en generación, mantienen vivas las tradiciones de cultivo sostenible en nuestra región. Conoce sus técnicas, valores y el impacto positivo en la comunidad.</p>
+            <ul>
+              <li>Técnicas ancestrales combinadas con agricultura regenerativa</li>
+              <li>Compromiso con la preservación de semillas locales</li>
+              <li>Cultivos de temporada 100% libres de pesticidas</li>
+              <li>Fortalecimiento de la economía y comunidad local</li>
+            </ul>
+            <span class="read-more" style="color:#2E8B57; font-weight:600; cursor:pointer; display:inline-block; margin-top:0.5rem; transition:color 0.2s;">Descubre nuestra comunidad agrícola →</span>
+            <!-- Botón para leer más -->
+  <!-- TARJETA DE BLOG: FRUTAS DE TEMPORADA -->
+          </div>
+        </div>
+      </article>
+      <article class="card post" style="background:#fff; border-radius:20px; box-shadow:0 4px 18px rgba(46,139,87,0.10); overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.3s,transform 0.3s; border:1.5px solid #e0e7ef; min-width:0;">
+        <div class="media" style="width:100%; aspect-ratio:16/9; background:#e9f7ef; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img src="../img/fruta-fresca.jpg" alt="Variedad de frutas frescas de temporada" style="width:100%; height:100%; object-fit:cover; border-radius:0 0 18px 18px; transition:transform 0.3s;">
+        </div>
+        <div class="content" style="padding:1.3rem 1.2rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.5rem;">
+          <span class="tag" style="background:#ffd700; color:#1e6a45; border-radius:999px; padding:0.2em 0.9em; font-size:0.95rem; font-weight:700; margin-bottom:0.2rem; display:inline-block;">Alimentación Consciente</span>
+          <h4 style="font-size:1.18rem; color:#1e2d2f; margin:0.2rem 0 0.3rem 0;">Frutas de Temporada: La Mejor Elección</h4>
+          <!-- Descripción breve -->
+          <p class="preview-text" style="color:#4b5563; font-size:1.05rem; margin-bottom:0.2rem;">Conoce los beneficios de consumir frutas de temporada: más sabor, mejor precio y menor impacto ambiental. ¡Elige lo mejor de cada estación!</p>
+            <!-- Texto completo con información sobre frutas de temporada -->
+          <div class="full-text" style="color:#3a3a3a; font-size:0.98rem; margin-top:0.5rem;">
+            <p>Cada estación nos ofrece exactamente lo que nuestro cuerpo necesita. Al elegir frutas de temporada, obtienes más nutrientes, frescura y apoyas a los agricultores locales. Descubre qué frutas elegir en primavera, verano, otoño e invierno.</p>
+            <ul>
+              <li>Primavera: Fresas y cerezas frescas</li>
+              <li>Verano: Melocotones y sandías jugosas</li>
+              <li>Otoño: Manzanas y peras crujientes</li>
+              <li>Invierno: Cítricos llenos de vitamina C</li>
+            </ul>
+            <span class="read-more" style="color:#2E8B57; font-weight:600; cursor:pointer; display:inline-block; margin-top:0.5rem; transition:color 0.2s;">Ver calendario de temporada →</span>
+            <!-- Botón para leer más -->
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
 </body>
 </html>

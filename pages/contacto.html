@@ -10,78 +10,89 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<!-- Sección principal de contacto -->
-<section class="contact-section">
-  <!-- Contenedor principal con diseño de dos columnas -->
-  <div class="contact-container">
-    <!-- Columna del formulario -->
-    <div class="contact-card form-card">
-      <h1>Contacto</h1>
-      <p class="contact-intro">¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
-      
-      <!-- Formulario con validación -->
-      <form id="contact-form" novalidate>
-        <div class="form-group">
-          <label for="nombre">Nombre Completo</label>
-          <input type="text" id="nombre" name="nombre" required maxlength="100">
-          <div class="error-message" id="nombre-error"></div>
+<!-- CONTACTO MODERNO -->
+<section class="contact-section" style="background:#f8fafb;min-height:100vh;padding:2.5rem 0;">
+  <div class="contact-container" style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:2.5rem 3.5rem;justify-content:center;align-items:stretch;">
+    <!-- Formulario de contacto -->
+    <div class="contact-card form-card" style="flex:1 1 340px;min-width:320px;max-width:480px;background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 2rem 1.5rem 2rem;display:flex;flex-direction:column;gap:1.1rem;">
+  <h1 style="color:#184c2f;font-size:2rem;margin-bottom:0.2em;">Contacto</h1>
+  <p class="contact-intro" style="color:#222;font-size:1.08rem;">¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
+      <form id="contact-form" novalidate style="display:flex;flex-direction:column;gap:1.1rem;">
+        <div class="form-group" style="display:flex;flex-direction:column;gap:0.3rem;">
+          <label for="nombre" style="font-weight:600;">Nombre Completo</label>
+          <input type="text" id="nombre" name="nombre" required maxlength="100" style="padding:0.7em 1em;border-radius:8px;border:1.5px solid #e0e7ef;font-size:1.05rem;">
+          <div class="error-message" id="nombre-error" style="color:#b91c1c;font-size:0.95rem;"></div>
         </div>
-        
-        <div class="form-group">
-          <label for="email">Correo Electrónico</label>
-          <input type="email" id="email" name="email" maxlength="100">
-          <div class="error-message" id="email-error"></div>
+        <div class="form-group" style="display:flex;flex-direction:column;gap:0.3rem;">
+          <label for="email" style="font-weight:600;">Correo Electrónico</label>
+          <input type="email" id="email" name="email" maxlength="100" style="padding:0.7em 1em;border-radius:8px;border:1.5px solid #e0e7ef;font-size:1.05rem;">
+          <div class="error-message" id="email-error" style="color:#b91c1c;font-size:0.95rem;"></div>
         </div>
-        
-        <div class="form-group">
-          <label for="comentario">Mensaje</label>
-          <textarea id="comentario" name="comentario" rows="5" required maxlength="500"></textarea>
-          <div class="error-message" id="comentario-error"></div>
-          <div class="char-count">
+        <div class="form-group" style="display:flex;flex-direction:column;gap:0.3rem;">
+          <label for="comentario" style="font-weight:600;">Mensaje</label>
+          <textarea id="comentario" name="comentario" rows="5" required maxlength="500" style="padding:0.7em 1em;border-radius:8px;border:1.5px solid #e0e7ef;font-size:1.05rem;"></textarea>
+          <div class="error-message" id="comentario-error" style="color:#b91c1c;font-size:0.95rem;"></div>
+          <div class="char-count" style="color:#184c2f;font-size:0.97rem;text-align:right;">
             <span id="char-remaining">500</span> caracteres restantes
           </div>
         </div>
-        
-        <!-- Botón de envío con icono -->
-        <button type="submit" class="submit-btn">
+        <button type="submit" class="submit-btn" style="background:linear-gradient(90deg,#2E8B57 60%,#ffd700 120%);color:#fff;border:none;border-radius:8px;padding:0.8em 1.5em;font-weight:700;font-size:1.08rem;box-shadow:0 2px 8px rgba(46,139,87,0.10);display:flex;align-items:center;gap:0.7em;transition:background 0.2s;">
           <i class="fas fa-paper-plane"></i> Enviar Mensaje
         </button>
       </form>
     </div>
-    
-    <!-- Tarjeta de información de contacto -->
-    <div class="contact-card info-card">
-      <h2>Información de Contacto</h2>
-      <div class="contact-details">
-        <div class="contact-item">
-          <i class="fas fa-map-marker-alt"></i>
+    <!-- Información de contacto -->
+    <div class="contact-card info-card" style="flex:1 1 280px;min-width:260px;max-width:400px;background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 2rem 1.5rem 2rem;display:flex;flex-direction:column;gap:1.1rem;">
+      <h2 style="color:#184c2f;font-size:1.35rem;margin-bottom:0.2em;text-align:center;letter-spacing:0.5px;">Información de Contacto</h2>
+      <div class="contact-details" style="display:flex;flex-direction:column;gap:1.1rem;">
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 0.7s cubic-bezier(.4,2,.6,1);">
+          <i class="fas fa-map-marker-alt" style="color:#2E8B57;font-size:1.3em;"></i>
           <div class="contact-text">
-            <h3>Dirección</h3>
-            <p>Av. Principal 1234, Santiago, Chile</p>
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Dirección</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">Av. Principal 1234, Santiago, Chile</p>
           </div>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-phone"></i>
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 0.8s cubic-bezier(.4,2,.6,1);">
+          <i class="fas fa-phone" style="color:#2E8B57;font-size:1.2em;"></i>
           <div class="contact-text">
-            <h3>Teléfono</h3>
-            <p>+56 2 2345 6789</p>
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Teléfono</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">+56 2 2345 6789</p>
           </div>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-envelope"></i>
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 0.9s cubic-bezier(.4,2,.6,1);">
+          <i class="fas fa-envelope" style="color:#2E8B57;font-size:1.2em;"></i>
           <div class="contact-text">
-            <h3>Email</h3>
-            <p>contacto@huertohogar.cl</p>
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Email</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">contacto@huertohogar.cl</p>
           </div>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-clock"></i>
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 1s cubic-bezier(.4,2,.6,1);">
+          <i class="fas fa-clock" style="color:#2E8B57;font-size:1.2em;"></i>
           <div class="contact-text">
-            <h3>Horario de Atención</h3>
-            <p>Lunes a Viernes: 9:00 - 18:00<br>Sábado: 9:00 - 14:00</p>
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Horario de Atención</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">Lunes a Viernes: 9:00 - 18:00<br>Sábado: 9:00 - 14:00</p>
           </div>
         </div>
       </div>
+      <style>
+        @media (max-width: 900px) {
+          .contact-card.info-card {
+            max-width: 100% !important;
+            min-width: 0 !important;
+            margin: 0 auto 1.5rem auto !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .contact-card.info-card {
+            padding: 1.2rem 0.7rem 1rem 0.7rem !important;
+          }
+          .contact-details { gap: 0.7rem !important; }
+        }
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+      </style>
     </div>
   </div>
 </section>
