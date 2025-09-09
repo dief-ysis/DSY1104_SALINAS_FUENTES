@@ -1,33 +1,54 @@
-# HuertoHogar - Documentación del Proyecto
+# Huerto Hogar
+
+Tienda online de productos agrícolas frescos y orgánicos, directo del campo a tu hogar.
+
+## Tabla de Contenidos
+- [Descripción](#descripción)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Buenas Prácticas](#buenas-prácticas)
+- [Contacto](#contacto)
 
 ## Descripción
-Tienda online de productos agrícolas frescos directamente del campo a domicilio.
+Huerto Hogar es una tienda web que ofrece productos orgánicos, frutas, verduras y lácteos frescos, con entrega a domicilio.
 
 ## Estructura del Proyecto
 
-huerto-hogar/
-├── index.html # Página principal
-├── pages/ # Otras páginas
-│ ├── productos.html # Catálogo de productos
-│ ├── detalle-producto.html # Detalle de producto
-│ ├── carrito.html # Carrito de compras
-│ ├── login.html # Inicio de sesión
-│ ├── registro.html # Registro de usuario
-│ ├── contacto.html # Formulario de contacto
-│ ├── blogs.html # Listado de blogs
-│ ├── blog-detalle.html # Detalle de blog
-│ └── nosotros.html # Información de la empresa
-├── css/
-│ └── styles.css # Estilos principales
-├── js/
-│ ├── main.js # Funcionalidad principal
-│ ├── productos_huerto.js # Datos de productos
-│ ├── categorias_huerto.js # Datos de categorías
-│ ├── carrito.js # Gestión del carrito
-│ ├── productos.js # Página de productos
-│ ├── detalle-producto.js # Página de detalle
-│ ├── login.js # Formulario de login
-│ ├── registro.js # Formulario de registro
+```
+DSY1104_SALINAS_FUENTES/
+├── index.html                # Página principal
+├── pages/                    # Páginas secundarias (productos, blogs, contacto, etc.)
+├── css/                      # Hojas de estilo
+├── js/                       # Archivos JavaScript
+├── assets/                   # Imágenes y recursos multimedia
+├── products/                 # Imágenes de productos
+├── instrucciones/            # Documentos de requerimientos
+├── README.md                 # Documentación
+└── .gitignore                # Exclusiones de git
+```
+
+## Instalación
+1. Clona el repositorio:
+	```
+	git clone https://github.com/dief-ysis/DSY1104_SALINAS_FUENTES.git
+	```
+2. Abre la carpeta en tu editor de preferencia (VS Code recomendado).
+3. No requiere instalación de dependencias, solo abre `index.html` en tu navegador.
+
+## Uso
+- Navega por la tienda, agrega productos al carrito, regístrate o inicia sesión.
+- Consulta el blog y la información de contacto.
+
+## Buenas Prácticas
+- Mantén el código organizado en carpetas por tipo de recurso.
+- Usa comentarios y nombres descriptivos en el código.
+- Optimiza imágenes antes de subirlas.
+- Usa atributos `alt` descriptivos en todas las imágenes para accesibilidad.
+- Utiliza un archivo `.gitignore` para evitar subir archivos innecesarios.
+
+## Contacto
+Para dudas o sugerencias, contacta a: [Tu Nombre] <tu.email@ejemplo.com>
 │ ├── contacto.js # Formulario de contacto
 │ ├── blogs.js # Página de blogs
 │ ├── blog-detalle.js # Detalle de blog

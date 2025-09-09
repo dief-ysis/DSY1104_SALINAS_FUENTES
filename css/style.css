@@ -1,4 +1,110 @@
 /* =========================
+   MODIFICACIONES REALIZADAS
+   =========================
+   - Se agregaron estilos modernos para hero, footer y productos.
+   - Se mejoró la cuadrícula y tarjetas de productos.
+   - Se agregaron clases .container para centrar y limitar el ancho del contenido principal.
+   - Se optimizó la visualización en desktop y mobile.
+*/
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+/* === ESTILO TIPO MENÚ DE COMPRA PARA PRODUCTOS === */
+.products, .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 0 2.5rem 0;
+}
+
+.card.prod {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: box-shadow 0.2s, transform 0.2s;
+  min-width: 0;
+  overflow: hidden;
+  border: 1.5px solid #e0e7ef;
+}
+.card.prod:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  transform: translateY(-4px) scale(1.02);
+}
+.card.prod .media {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #f8fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #f0f0f0;
+  overflow: hidden;
+}
+.card.prod .media img {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: #fff;
+  transition: transform 0.2s;
+}
+.card.prod:hover .media img {
+  transform: scale(1.05);
+}
+.card.prod .content {
+  padding: 1.1rem 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.card.prod .title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #1e2d2f;
+  margin-bottom: 0.1rem;
+}
+.card.prod .muted {
+  color: #6b7280;
+  font-size: 0.97rem;
+  margin-bottom: 0.2rem;
+}
+.card.prod .meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+.card.prod .price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2E8B57;
+}
+.card.prod .btn.add {
+  background: #2E8B57;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4em 1.1em;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.card.prod .btn.add:hover {
+  background: #1e6a45;
+}
+/* =========================
    HH-001: SISTEMA DE DISEÑO MEJORADO
    ========================= */
 
@@ -39,10 +145,10 @@
     --space-3xl: 4rem;      /* 64px */
     
     /* Sistema de bordes y radios */
-    --radius: 14px;         /* Radio general */
-    --radius-sm: 10px;      /* Elementos pequeños */
-    --radius-lg: 20px;      /* Elementos grandes */
-    --radius-full: 9999px;  /* Botones circulares/pills */
+  --radius: 18px;         /* Radio general */
+  --radius-sm: 14px;      /* Elementos pequeños */
+  --radius-lg: 28px;      /* Elementos grandes */
+  --radius-full: 9999px;  /* Botones circulares/pills */
     
     /* Sistema de sombras avanzado */
     --shadow-sm: 0 2px 4px rgba(0,0,0,.05);     /* Sutil */
@@ -203,8 +309,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: var(--color-bg, #f9f9f9);
-    color: var(--color-text, #333333);
+  background: linear-gradient(135deg, #f1f8f4 0%, #e6f0ea 100%);
+  color: var(--color-text, #222);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -473,29 +579,36 @@ input:focus, textarea:focus {
 .card .media {
   height: 200px;
   overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
 }
 
 .card .media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  border-radius: var(--radius-lg);
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
 }
 
 .card.post:hover .media img {
-  transform: scale(1.05);
+  transform: scale(1.07);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
 }
 
 .card .content {
   padding: 1.5rem;
+  background: rgba(255,255,255,0.96);
+  border-radius: var(--radius);
 }
 
 .card .tag {
   display: inline-block;
   background-color: var(--color-accent);
-  color: var(--color-dark);
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
+  color: #222;
+  padding: 0.25rem 1em;
+  border-radius: var(--radius-full);
   font-size: 0.85rem;
   margin-bottom: 1rem;
 }
@@ -1626,12 +1739,15 @@ body {
 
 /* Ajustes para el contenedor de imágenes */
 .card-image-container {
-    padding: 10px;
-    background-color: var(--color-light);
-    border-radius: 8px;
-    margin-bottom: 10px;
-    position: relative;
-    overflow: hidden;
+  padding: 16px 0 8px 0;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  margin-bottom: 10px;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Ajustes para el logo */
@@ -1729,12 +1845,14 @@ body {
 }
 
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 15px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 10px 32px 10px;
+  background: #f8fafb;
+  border-radius: var(--radius-lg);
 }
 
 @media (max-width: 992px) {
@@ -1762,10 +1880,15 @@ body {
 }
 
 .product-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  margin: 0 auto 12px auto;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  background: #fff;
+  display: block;
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
 }
 
 .product-card:hover {
@@ -1774,7 +1897,8 @@ body {
 }
 
 .product-card:hover .product-image {
-    transform: scale(1.05);
+  transform: scale(1.10);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.16);
 }
 
 .product-name {
