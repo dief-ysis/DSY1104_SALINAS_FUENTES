@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Productos</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <!-- Barra de filtros por categoría HH-021 -->
@@ -34,16 +34,21 @@
     </section>
 
     <script type="module">
-    import { PRODUCTS_VALIDOS } from './productos_huerto.js'; // HH-021
+    import { PRODUCTS_VALIDOS } from '../js/productos_huerto.js'; // HH-021
 
     // Utilidad para formatear CLP HH-021
     function formatCLP(value) {
-        return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
+        return value.toLocaleString('es-CL', { 
+            style: 'currency', 
+            currency: 'CLP', 
+            minimumFractionDigits: 0 });
     }
 
     // Normalizar texto (acentos y mayúsculas) HH-022
     function normalizeText(text) { // HH-022
-        return text.normalize('NFD').replace(/[00-6f]/g, '').toLowerCase();
+        return text.normalize('NFD')
+        .replace(/[00-6f]/g, '')
+        .toLowerCase();
     }
 
     // Estado de filtro, búsqueda y paginación HH-023
@@ -61,17 +66,18 @@
         const inicio = 0;
         const fin = paginaActual * productosPorPagina;
         const productosPagina = productos.slice(0, fin);
+
         grid.innerHTML = productosPagina.map((producto, idx) => `
-            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}"> <!-- HH-021 HH-023 HH-024 -->
-                <div class="card-image-container"> <!-- HH-024 -->
-                    <img src="${producto.imagen.replace('assets/products/', 'img/')}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" /> <!-- HH-024 -->
-                    <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span> <!-- HH-024 -->
+            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}"> 
+                <div class="card-image-container"> 
+                    <img src="../${producto.imagen}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" /> 
+                    <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span> 
                 </div>
-                <div class="product-name">${producto.nombre}</div> <!-- HH-024 -->
-                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-024 -->
-                <div class="product-actions"> <!-- HH-024 -->
-                    <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button> <!-- HH-024 -->
-                    <a href="detalle.html?code=${producto.code}" class="details-btn">Detalle</a> <!-- HH-024 -->
+                <div class="product-name">${producto.nombre}</div> 
+                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> 
+                <div class="product-actions"> 
+                    <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button>
+                    <a href="detalle.html?code=${producto.code}" class="details-btn">Detalle</a> 
                 </div>
             </div>
         `).join('');

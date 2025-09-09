@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - HuertoHogar</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section class="contact-form">
+  <div class="container">
+    <div class="form-container">
+      <h1>Contacto</h1>
+      <p>¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
+      
+      <form id="contact-form" novalidate>
+        <div class="form-group">
+          <label for="nombre">Nombre Completo</label>
+          <input type="text" id="nombre" name="nombre" required maxlength="100">
+          <div class="error-message" id="nombre-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input type="email" id="email" name="email" maxlength="100">
+          <div class="error-message" id="email-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="comentario">Mensaje</label>
+          <textarea id="comentario" name="comentario" rows="5" required maxlength="500"></textarea>
+          <div class="error-message" id="comentario-error"></div>
+          <div class="char-count">
+            <span id="char-remaining">500</span> caracteres restantes
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full">Enviar Mensaje</button>
+      </form>
+    </div>
+    
+    <div class="contact-info">
+      <h2>Información de Contacto</h2>
+      <div class="contact-details">
+        <div class="contact-item">
+          <h3>📍 Dirección</h3>
+          <p>Av. Principal 1234, Santiago, Chile</p>
+        </div>
+        <div class="contact-item">
+          <h3>📞 Teléfono</h3>
+          <p>+56 2 2345 6789</p>
+        </div>
+        <div class="contact-item">
+          <h3>✉️ Email</h3>
+          <p>contacto@huertohogar.cl</p>
+        </div>
+        <div class="contact-item">
+          <h3>🕒 Horario de Atención</h3>
+          <p>Lunes a Viernes: 9:00 - 18:00<br>Sábado: 9:00 - 14:00</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

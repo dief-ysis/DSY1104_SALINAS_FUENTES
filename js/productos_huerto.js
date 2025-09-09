@@ -21,7 +21,7 @@ export const PRODUCTS_HH = [
     descripcion: "Manzanas crujientes y dulces; ideales para snack o postres.",
     practicas: ["Agricultura responsable"],
     recetas: ["https://www.ejemplo.cl/recetas/strudel-manzana"],
-    imagen: "assets/products/fr001.jpg"
+    imagen: "assets/products/fr001.webp"
   },
   {
     code: "FR002", nombre: "Naranjas Valencia", categoriaId: "FR",
@@ -45,7 +45,7 @@ export const PRODUCTS_HH = [
     descripcion: "Crujientes y sin pesticidas; excelentes para ensaladas y jugos.",
     practicas: ["Certificación orgánica"],
     recetas: ["https://www.ejemplo.cl/recetas/ensalada-zanahoria"],
-    imagen: "assets/products/vr001.jpg"
+    imagen: "assets/products/vr001.webp"
   },
   {
     code: "VR002", nombre: "Espinacas Frescas", categoriaId: "VR",
@@ -53,7 +53,7 @@ export const PRODUCTS_HH = [
     descripcion: "Hojas tiernas y nutritivas; ideales para ensaladas y batidos.",
     practicas: ["Riego eficiente"],
     recetas: ["https://www.ejemplo.cl/recetas/quiche-espinaca"],
-    imagen: "assets/products/vr002.jpg"
+    imagen: "assets/products/vr002.webp"
   },
   {
     code: "VR003", nombre: "Pimientos Tricolores", categoriaId: "VR",
@@ -61,7 +61,7 @@ export const PRODUCTS_HH = [
     descripcion: "Rojos, amarillos y verdes; aportan color y antioxidantes.",
     practicas: ["Rotación de cultivos"],
     recetas: ["https://www.ejemplo.cl/recetas/salteado-pimientos"],
-    imagen: "assets/products/vr003.jpg"
+    imagen: "assets/products/vr003.webp"
   },
   {
     code: "PO001", nombre: "Miel Orgánica", categoriaId: "PO",
