@@ -7,6 +7,33 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <!-- [MEJORA] Header replicado según solicitud -->
+    <header>
+        <div class="container topbar" role="navigation" aria-label="Principal">
+            <a class="brand" href="../index.html" aria-label="Ir al inicio Huerto Hogar">
+                <img src="../img/logo.jpg" alt="Logo Huerto Hogar" class="logo-img">
+                <span class="title">Huerto Hogar</span>
+            </a>
+            <label for="nav-toggle" class="burger" aria-label="Abrir menú">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+            </label>
+            <input type="checkbox" id="nav-toggle" aria-hidden="true">
+            <nav>
+                <ul>
+                    <li><a href="../index.html#home" aria-current="page">Inicio</a></li>
+                    <li><a href="../index.html#productos">Productos</a></li>
+                    <li><a href="../index.html#categorias">Categorías</a></li>
+                    <li><a href="../index.html#blog">Blog</a></li>
+                    <li><a href="../index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <a class="cart" href="../index.html#carrito" aria-label="Ir al carrito">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 7h14l-1.5 9h-11zM7 7l-2-4H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span>Carrito</span>
+                <span class="badge" aria-live="polite" aria-atomic="true">0</span>
+            </a>
+        </div>
+    </header>
     <main class="detalle-producto"> <!-- HH-030 -->
         <section id="detalle-container"> <!-- HH-030 -->
             <!-- Render dinámico aquí -->

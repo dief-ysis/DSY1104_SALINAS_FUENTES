@@ -4,15 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro - HuertoHogar</title>
+  <!-- Estilos principales -->
   <link rel="stylesheet" href="/css/style.css">
+  <!-- Font Awesome para íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<section class="contact-form">
-  <div class="container">
-    <div class="form-container">
+<!-- Sección principal de contacto -->
+<section class="contact-section">
+  <!-- Contenedor principal con diseño de dos columnas -->
+  <div class="contact-container">
+    <!-- Columna del formulario -->
+    <div class="contact-card form-card">
       <h1>Contacto</h1>
-      <p>¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
+      <p class="contact-intro">¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
       
+      <!-- Formulario con validación -->
       <form id="contact-form" novalidate>
         <div class="form-group">
           <label for="nombre">Nombre Completo</label>
@@ -35,28 +42,44 @@
           </div>
         </div>
         
-        <button type="submit" class="btn btn-primary btn-full">Enviar Mensaje</button>
+        <!-- Botón de envío con icono -->
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane"></i> Enviar Mensaje
+        </button>
       </form>
     </div>
     
-    <div class="contact-info">
+    <!-- Tarjeta de información de contacto -->
+    <div class="contact-card info-card">
       <h2>Información de Contacto</h2>
       <div class="contact-details">
         <div class="contact-item">
-          <h3>📍 Dirección</h3>
-          <p>Av. Principal 1234, Santiago, Chile</p>
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="contact-text">
+            <h3>Dirección</h3>
+            <p>Av. Principal 1234, Santiago, Chile</p>
+          </div>
         </div>
         <div class="contact-item">
-          <h3>📞 Teléfono</h3>
-          <p>+56 2 2345 6789</p>
+          <i class="fas fa-phone"></i>
+          <div class="contact-text">
+            <h3>Teléfono</h3>
+            <p>+56 2 2345 6789</p>
+          </div>
         </div>
         <div class="contact-item">
-          <h3>✉️ Email</h3>
-          <p>contacto@huertohogar.cl</p>
+          <i class="fas fa-envelope"></i>
+          <div class="contact-text">
+            <h3>Email</h3>
+            <p>contacto@huertohogar.cl</p>
+          </div>
         </div>
         <div class="contact-item">
-          <h3>🕒 Horario de Atención</h3>
-          <p>Lunes a Viernes: 9:00 - 18:00<br>Sábado: 9:00 - 14:00</p>
+          <i class="fas fa-clock"></i>
+          <div class="contact-text">
+            <h3>Horario de Atención</h3>
+            <p>Lunes a Viernes: 9:00 - 18:00<br>Sábado: 9:00 - 14:00</p>
+          </div>
         </div>
       </div>
     </div>
