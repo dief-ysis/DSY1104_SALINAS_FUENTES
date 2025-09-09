@@ -69,7 +69,7 @@ export const PRODUCTS_HH = [
     descripcion: "Miel pura y aromática; rica en antioxidantes.",
     practicas: ["Apicultura sostenible"],
     recetas: ["https://www.ejemplo.cl/recetas/te-miel-limon"],
-    imagen: "assets/products/po001.jpg"
+    imagen: "assets/products/po001.webp"
   },
   {
     code: "PO003", nombre: "Quinua Orgánica", categoriaId: "PO",
@@ -85,7 +85,7 @@ export const PRODUCTS_HH = [
     descripcion: "Leche fresca, ideal para consumo diario.",
     practicas: ["Bienestar animal"],
     recetas: ["https://www.ejemplo.cl/recetas/arroz-con-leche"],
-    imagen: "assets/products/pl001.jpg"
+    imagen: "assets/products/pl001.png"
   }
 ];
 
