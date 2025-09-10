@@ -34,6 +34,7 @@
   border-bottom: 1px solid #f0f0f0;
 }
 .product-image {
+  margin: 1px;
   width: 90%;
   height: 90%;
   object-fit: cover;
@@ -2042,7 +2043,7 @@ body {
 }
 
 .add-to-cart-btn {
-    background-color: var(--color-primary);
+    background-color: var(--color-brand);
     color: white;
     flex: 2;
 }
