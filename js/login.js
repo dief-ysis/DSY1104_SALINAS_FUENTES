@@ -108,7 +108,7 @@ class LoginForm {
       this.form.reset();
       
       // Redirigir a la página principal
-      window.location.href = 'index.html';
+      window.location.href = '../../index.html';
     }, 1500);
   }
 }

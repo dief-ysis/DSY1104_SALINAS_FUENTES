@@ -21,23 +21,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/blog.css">
-  <link rel="stylesheet" href="css/hero.css">
-  <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
-    <!--
-      MODIFICACIONES REALIZADAS:
-      - Se agregó un footer moderno con navegación, newsletter y redes sociales.
-      - Se creó una sección hero visualmente atractiva con mensaje, botones y foto destacada.
-      - Se mejoró el CSS para productos, cuadrícula, tarjetas y hero.
-      - Se optimizó la accesibilidad y estructura semántica.
-      - Se agregó un archivo hero.css y footer.css para estilos modernos.
-      - Se ajustó el botón 'Ver productos' para que apunte a la sección de productos destacados.
-      - Se recomienda usar la estructura de main y secciones como en el ejemplo proporcionado.
-    -->
-    <a href="#contenido" class="skip-link">Saltar al contenido principal</a>
-
     <nav class="navbar" role="navigation" aria-label="Navegación principal">
       <div class="navbar-container">
         <a href="index.html" class="navbar-logo">
@@ -49,6 +34,7 @@
         <div class="navbar-menu">
           <a href="index.html" class="nav-link active">Home</a>
           <a href="pages/productos.html" class="nav-link">Productos</a>
+          <a href="pages/nosotros.html" class="nav-link">Nosotros</a>
           <a href="pages/blogs.html" class="nav-link">Blog</a>
           <a href="pages/contacto.html" class="nav-link">Contacto</a>
           <div class="cart-container">
@@ -68,51 +54,70 @@
     <main id="contenido" class="container">
       <!-- HERO (HOME) -->
       <section id="home" class="hero" aria-labelledby="home-title">
-        <div>
+        <div class="hero-content">
           <span class="stamp">Fresco · Local · Responsable</span>
-          <h1 id="home-title">Del huerto a tu hogar</h1>
-          <p>Frutas, verduras y productos naturales seleccionados de productores locales. Compra con confianza y apoya el consumo responsable.</p>
-          <div class="actions">
-            <a class="btn brand" href="#productos">Ver productos</a>
-            <a class="btn ghost" href="#categorias">Explorar categorías</a>
-          </div>
+          <h1 id="home-title" class="hero-title">Del huerto a tu hogar</h1>
+          <p class="hero-subtitle">Frutas, verduras y productos naturales seleccionados de productores locales. Compra con confianza y apoya el consumo responsable.</p>
+          <a href="pages/productos.html" class="cta-button" role="button">Ver catálogo</a>
         </div>
-        <div class="hero-card" aria-hidden="true">
-          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" alt="Canasta con verduras frescas">
+        <div class="hero-images" aria-hidden="true">
+          <img src="assets/images/VerdurasOrganicas.jpg" alt="Selección de productos orgánicos frescos">
         </div>
       </section>
-      <!-- Aquí puedes agregar las demás secciones siguiendo el ejemplo proporcionado -->
-            <div class="hero-content"> <!-- HH-011 -->
-                <h1 class="hero-title">Frescura y naturalidad</h1> <!-- HH-011 -->
-                <p class="hero-subtitle">Productos orgánicos directo a tu hogar</p> <!-- HH-011 -->
-                <a href="pages/productos.html" class="cta-button" role="button">Ver catálogo</a> <!-- HH-011 -->
+
+    <!-- Categorías destacadas -->
+    <section class="featured-categories">
+        <div class="container">
+            <h2 style="text-align: center; color: var(--color-brand-dark); font-size: 2rem; margin-bottom: var(--space-lg);">
+                Categorías destacadas
+            </h2>
+            <div class="categories-grid">
+                <a href="pages/productos.html?cat=frutas" class="category-card">
+                    <img src="assets/images/FrutasFrescas.jpg" alt="Variedad de frutas frescas">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Frutas Frescas</h3>
+                        <p class="category-description">Deliciosas frutas de temporada seleccionadas</p>
+                    </div>
+                    <span class="category-badge">Fresco</span>
+                </a>
+                
+                <a href="pages/productos.html?cat=verduras" class="category-card">
+                    <img src="assets/images/VerdurasOrganicas.jpg" alt="Verduras orgánicas variadas">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Verduras Orgánicas</h3>
+                        <p class="category-description">Verduras cultivadas sin pesticidas</p>
+                    </div>
+                    <span class="category-badge">Orgánico</span>
+                </a>
+                
+                <a href="pages/productos.html?cat=organicos" class="category-card">
+                    <img src="assets/images/ProductosOrganicos.webp" alt="Productos orgánicos diversos">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Productos Orgánicos</h3>
+                        <p class="category-description">Alimentos naturales y saludables</p>
+                    </div>
+                    <span class="category-badge">Natural</span>
+                </a>
+                
+                <a href="pages/productos.html?cat=lacteos" class="category-card">
+                    <img src="assets/images/Lacteos.jpg" alt="Productos lácteos frescos">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Lácteos</h3>
+                        <p class="category-description">Lácteos frescos de productores locales</p>
+                    </div>
+                    <span class="category-badge">Local</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Categorías destacadas HH-012 -->
-    <section class="categories-grid"> <!-- HH-012 -->
-        <h2 class="categories-title">Categorías destacadas</h2> <!-- HH-012 -->
-        <div class="categories-tiles"> <!-- HH-012 -->
-            <a href="pages/productos.html?cat=frutas" class="category-tile" tabindex="0" aria-label="Frutas Frescas" style="background-image:url('assets/images/FrutasFrescas.jpg')"> <!-- HH-012 -->
-                <span class="category-label">Frutas Frescas</span> <!-- HH-012 -->
-            </a>
-            <a href="pages/productos.html?cat=verduras" class="category-tile" tabindex="0" aria-label="Verduras Orgánicas" style="background-image:url('assets/images/VerdurasOrganicas.jpg')"> <!-- HH-012 -->
-                <span class="category-label">Verduras Orgánicas</span> <!-- HH-012 -->
-            </a>
-            <a href="pages/productos.html?cat=organicos" class="category-tile" tabindex="0" aria-label="Productos Orgánicos" style="background-image:url('assets/images/ProductosOrganicos.webp')"> <!-- HH-012 -->
-                <span class="category-label">Productos Orgánicos</span> <!-- HH-012 -->
-            </a>
-            <a href="pages/productos.html?cat=lacteos" class="category-tile" tabindex="0" aria-label="Lácteos" style="background-image:url('assets/images/Lacteos.jpg')"> <!-- HH-012 -->
-                <span class="category-label">Lácteos</span> <!-- HH-012 -->
-            </a>
-        </div>
-    </section>
-
     <!-- Productos destacados HH-013 -->
-    <section class="featured-products"> <!-- HH-013 -->
-        <h2 class="featured-title">Productos destacados</h2> <!-- HH-013 -->
-        <div class="products-grid" id="featured-products-grid"> <!-- HH-013 -->
+    <section class="featured-products container"> <!-- HH-013 -->
+        <div class="section-header">
+            <h2 class="section-title">Productos destacados</h2>
+            <p class="section-subtitle">Descubre nuestra selección de productos frescos y orgánicos</p>
+        </div>
+        <div class="product-grid" id="featured-products-grid"> <!-- HH-013 -->
             <!-- Cards de productos destacados se renderizan aquí --> <!-- HH-013 -->
         </div>
     </section>
@@ -208,12 +213,33 @@
         const destacados = PRODUCTS_HH.slice(0, 6);
         grid.innerHTML = destacados.map(producto => `
             <div class="product-card" tabindex="0"> <!-- HH-013 -->
-                <img src="${producto.imagen}" alt="Imagen de producto: ${producto.nombre}" class="product-image" /> <!-- HH-013 -->
-                <div class="product-name">${producto.nombre}</div> <!-- HH-013 -->
-                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> <!-- HH-013 -->
-                <div class="product-actions"> <!-- HH-013 -->
-                    <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button> <!-- HH-013 -->
-                    <a href="detalle.html?code=${producto.code}" class="details-btn" aria-label="Ver detalle de ${producto.nombre}">Detalle</a> <!-- HH-013 -->
+                <div class="product-image">
+                    <img src="${producto.imagen}" alt="Imagen de producto: ${producto.nombre}" />
+                    ${producto.oferta ? '<span class="product-badge">Oferta</span>' : ''}
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">${producto.nombre}</h3>
+                    <div class="product-price">${formatCLP(producto.precioCLP)}</div>
+                    <p class="product-description">${producto.descripcion || 'Producto fresco y natural de nuestra selección.'}</p>
+                </div>
+                <div class="product-footer">
+                    <button class="add-to-cart" aria-label="Añadir ${producto.nombre} al carrito">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                            <path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        Añadir al carrito
+                    </button>
+                    <a href="pages/detalle.html?code=${producto.code}" class="view-details-btn" aria-label="Ver detalle de ${producto.nombre}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                        Ver detalles
+                    </a>
                 </div>
             </div>
         `).join('');
@@ -233,9 +259,39 @@
         }
 
         // Manejar el toggle del menú móvil
-        document.querySelector('.navbar-toggle').addEventListener('click', function() {
-            document.querySelector('.navbar-menu').classList.toggle('active');
-            this.classList.toggle('active');
+        const navbarToggle = document.querySelector('.navbar-toggle');
+        const navbarMenu = document.querySelector('.navbar-menu');
+        const body = document.body;
+
+        // Crear overlay para el menú móvil
+        const menuOverlay = document.createElement('div');
+        menuOverlay.className = 'menu-overlay';
+        document.body.appendChild(menuOverlay);
+
+        function toggleMenu() {
+            navbarToggle.classList.toggle('active');
+            navbarMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            body.classList.toggle('menu-open');
+        }
+
+        navbarToggle.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navbarMenu.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Cerrar menú con la tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navbarMenu.classList.contains('active')) {
+                toggleMenu();
+            }
         });
 
         // Marcar el enlace activo
@@ -266,13 +322,13 @@
         <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
       </div>
       <div>
-        <h5>Navegación</h5>
-        <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.4rem">
-          <li><a href="#home">Inicio</a></li>
-          <li><a href="#productos">Productos</a></li>
-          <li><a href="#categorias">Categorías</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#contacto">Contacto</a></li>
+        <h5>Contáctanos</h5>
+        <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+          <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+          <li>📞 +56 2 2826 7000</li>
+          <li>✉️ contacto@huertohogar.cl</li>
+          <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+          <li>🌱 Síguenos en redes sociales</li>
         </ul>
       </div>
       <div>

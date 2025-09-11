@@ -91,3 +91,20 @@ export const PRODUCTS_HH = [
 
 // Validar todos los productos al cargar HH-020
 export const PRODUCTS_VALIDOS = PRODUCTS_HH.filter(validarProducto); // HH-020
+
+// Función para obtener el nombre de la categoría
+import { CATEGORIES_HH } from './categorias_huerto.js';
+
+export function categoriaNombre(categoriaId) {
+    const categoria = CATEGORIES_HH.find(cat => cat.id === categoriaId);
+    return categoria ? categoria.nombre : 'Otra categoría';
+}
+
+// Función para formatear precios en CLP
+export function formatCLP(value) {
+    return value.toLocaleString('es-CL', { 
+        style: 'currency', 
+        currency: 'CLP', 
+        minimumFractionDigits: 0 
+    });
+}

@@ -4,12 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro - HuertoHogar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
   <!-- Estilos principales -->
   <link rel="stylesheet" href="/css/style.css">
   <!-- Font Awesome para íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    #mapa {
+      height: 400px;
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-logo">
+          <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
+        </a>
+        <button class="navbar-toggle" aria-label="Menú">
+          <span class="hamburger"></span>
+        </button>
+        <div class="navbar-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="productos.html" class="nav-link">Productos</a>
+          <a href="blogs.html" class="nav-link">Blog</a>
+          <a href="contacto.html" class="nav-link active">Contacto</a>
+          <div class="cart-container">
+            <button class="cart-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span class="cart-badge">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
 <!-- CONTACTO MODERNO -->
 <section class="contact-section" style="background:#f8fafb;min-height:100vh;padding:2.5rem 0;">
   <div class="contact-container" style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:2.5rem 3.5rem;justify-content:center;align-items:stretch;">
@@ -17,6 +56,9 @@
     <div class="contact-card form-card" style="flex:1 1 340px;min-width:320px;max-width:480px;background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 2rem 1.5rem 2rem;display:flex;flex-direction:column;gap:1.1rem;">
   <h1 style="color:#184c2f;font-size:2rem;margin-bottom:0.2em;">Contacto</h1>
   <p class="contact-intro" style="color:#222;font-size:1.08rem;">¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
+      <!-- Contenedor del mapa -->
+      <div id="mapa"></div>
+      
       <form id="contact-form" novalidate style="display:flex;flex-direction:column;gap:1.1rem;">
         <div class="form-group" style="display:flex;flex-direction:column;gap:0.3rem;">
           <label for="nombre" style="font-weight:600;">Nombre Completo</label>
@@ -96,5 +138,49 @@
     </div>
   </div>
 </section>
+
+<!-- Footer -->
+<footer>
+    <div class="container foot">
+        <div>
+            <div class="brand" style="margin-bottom:.6rem">
+                <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="logo-img footer-logo">
+                <span class="title" style="color:#e9f7ef; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Huerto Hogar</span>
+            </div>
+            <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
+        </div>
+        <div>
+            <h5>Contáctanos</h5>
+            <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+                <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+                <li>📞 +56 2 2826 7000</li>
+                <li>✉️ contacto@huertohogar.cl</li>
+                <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+                <li>🌱 Síguenos en redes sociales</li>
+            </ul>
+        </div>
+        <div>
+            <h5>Newsletter</h5>
+            <form class="newsletter" onsubmit="return false;" aria-label="Suscripción al boletín">
+                <input type="email" placeholder="tu@correo.cl" required>
+                <button type="submit">Suscribirme</button>
+                <small>Sigamos en redes: 
+                    <a href="#" aria-label="Instagram">📸</a>
+                    <a href="#" aria-label="Facebook">👥</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                </small>
+            </form>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="../js/mapa.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    new MapaUbicaciones();
+  });
+</script>
 </body>
 </html>

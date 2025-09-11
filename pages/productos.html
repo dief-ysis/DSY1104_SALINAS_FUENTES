@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Productos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -16,10 +19,11 @@
           <span class="hamburger"></span>
         </button>
         <div class="navbar-menu">
-          <a href="index.html" class="nav-link active">Home</a>
-          <a href="pages/productos.html" class="nav-link">Productos</a>
-          <a href="pages/blogs.html" class="nav-link">Blog</a>
-          <a href="pages/contacto.html" class="nav-link">Contacto</a>
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="productos.html" class="nav-link active">Productos</a>
+          <a href="nosotros.html" class="nav-link">Nosotros</a>
+          <a href="blogs.html" class="nav-link">Blog</a>
+          <a href="contacto.html" class="nav-link">Contacto</a>
           <div class="cart-container">
             <button class="cart-button">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -106,8 +110,23 @@
                 <div class="product-desc" style="color:#4b5563;font-size:0.98rem;margin-bottom:0.3rem;min-height:2.2em;">${producto.descripcion}</div>
                 <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> 
                 <div class="product-actions"> 
-                    <button class="add-to-cart-btn" aria-label="Añadir ${producto.nombre} al carrito">Añadir</button>
-                    <a href="detalle.html?code=${producto.code}" class="details-btn">Detalle</a> 
+                    <button class="add-to-cart" aria-label="Añadir ${producto.nombre} al carrito">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                            <path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        Añadir al carrito
+                    </button>
+                    <a href="detalle.html?code=${producto.code}" class="view-details-btn" aria-label="Ver detalle de ${producto.nombre}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                        Ver detalles
+                    </a>
                 </div>
             </div>
         `).join('');
@@ -241,5 +260,39 @@
     // Inicializar listado HH-021/HH-022/HH-023
     aplicarFiltroBusquedaOrden();
     </script>
+    <!-- Footer -->
+    <footer>
+        <div class="container foot">
+            <div>
+                <div class="brand" style="margin-bottom:.6rem">
+                    <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="logo-img footer-logo">
+                    <span class="title" style="color:#e9f7ef; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Huerto Hogar</span>
+                </div>
+                <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
+            </div>
+            <div>
+                <h5>Contáctanos</h5>
+                <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+                    <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+                    <li>📞 +56 2 2826 7000</li>
+                    <li>✉️ contacto@huertohogar.cl</li>
+                    <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+                    <li>🌱 Síguenos en redes sociales</li>
+                </ul>
+            </div>
+            <div>
+                <h5>Newsletter</h5>
+                <form class="newsletter" onsubmit="return false;" aria-label="Suscripción al boletín">
+                    <input type="email" placeholder="tu@correo.cl" required>
+                    <button type="submit">Suscribirme</button>
+                    <small>Sigamos en redes: 
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">👥</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </small>
+                </form>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <main class="carrito-resumen"> <!-- HH-041 -->
@@ -13,7 +13,7 @@
         </section>
     </main>
     <script type="module">
-    import { getCart, updateItem, removeItem, clearCart } from './carrito.js'; // HH-041
+    import { getCart, updateItem, removeItem, clearCart } from '../js/carrito.js'; // HH-041
 
     function formatCLP(value) { // HH-041
         return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });

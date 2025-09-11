@@ -70,7 +70,7 @@ class BlogsManager {
           </div>
           <h2>${blog.titulo}</h2>
           <p>${blog.descripcion}</p>
-          <a href="blog-detalle.html?id=${blog.id}" class="blog-link">Leer más →</a>
+          <a href="#" class="blog-link read-more">Leer más →</a>
         </div>
       </article>
     `).join('');
