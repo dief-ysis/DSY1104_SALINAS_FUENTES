@@ -10,33 +10,49 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <nav class="navbar" role="navigation" aria-label="Navegación principal">
-      <div class="navbar-container">
-        <a href="index.html" class="navbar-logo">
-          <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
-        </a>
-        <button class="navbar-toggle" aria-label="Menú">
-          <span class="hamburger"></span>
-        </button>
-        <div class="navbar-menu">
-          <a href="../index.html" class="nav-link">Home</a>
-          <a href="productos.html" class="nav-link active">Productos</a>
-          <a href="nosotros.html" class="nav-link">Nosotros</a>
-          <a href="blogs.html" class="nav-link">Blog</a>
-          <a href="contacto.html" class="nav-link">Contacto</a>
-          <div class="cart-container">
-            <button class="cart-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-              </svg>
-              <span class="cart-badge">0</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </nav>
+        <nav class="navbar" role="navigation" aria-label="Navegación principal">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
+                </a>
+                <button class="navbar-toggle" aria-label="Menú" id="navbar-toggle-btn">
+                    <span class="hamburger"></span>
+                </button>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="productos.html" class="nav-link active">Productos</a>
+                    <a href="nosotros.html" class="nav-link">Nosotros</a>
+                    <a href="blogs.html" class="nav-link">Blog</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                    <div class="cart-container">
+                        <button class="cart-button" id="cart-toggle-btn" aria-label="Abrir carrito">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <span class="cart-badge">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Side-cart (carrito lateral oculto) -->
+            <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+                <div class="side-cart-header">
+                    <h2 id="side-cart-title">Tu carrito</h2>
+                    <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+                </div>
+                <div class="side-cart-body" tabindex="0">
+                    <div id="side-cart-items"></div>
+                    <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+                </div>
+                <div class="side-cart-footer">
+                    <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+                    <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+                    <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+                </div>
+            </aside>
         <!-- CATÁLOGO MODERNO DE PRODUCTOS -->
         <main class="catalogo-container" style="max-width:1200px;margin:2.5rem auto 2rem auto;padding:0 1.5rem;">
             <!-- Barra de filtros por categoría -->
@@ -66,8 +82,162 @@
             </section>
         </main>
 
-    <script type="module">
+        <script type="module">
+        // Menú móvil funcional
+        const navbarToggleBtn = document.getElementById('navbar-toggle-btn');
+        const navbarMenu = document.getElementById('navbar-menu');
+        navbarToggleBtn.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+        });
+        // Cerrar menú móvil al hacer click en un link (opcional UX)
+        navbarMenu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navbarMenu.classList.remove('active');
+            });
+        });
+            // Side-cart: abrir/cerrar
+            const sideCart = document.getElementById('side-cart');
+            const cartToggleBtn = document.getElementById('cart-toggle-btn');
+            const closeSideCartBtn = document.getElementById('close-side-cart');
+            cartToggleBtn.addEventListener('click', () => {
+                renderSideCart();
+                sideCart.style.display = 'block';
+                setTimeout(() => {
+                    sideCart.classList.add('open');
+                    sideCart.focus();
+                }, 10);
+            });
+            closeSideCartBtn.addEventListener('click', () => {
+                sideCart.classList.remove('open');
+                setTimeout(() => {
+                    sideCart.style.display = 'none';
+                    cartToggleBtn.focus();
+                }, 300);
+            });
+            // Cerrar con Escape y mantener foco dentro del side-cart
+            sideCart.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSideCartBtn.click();
+                }
+                // Trap focus dentro del side-cart
+                if (e.key === 'Tab') {
+                    const focusable = sideCart.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+                    if (e.shiftKey) {
+                        if (document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                    } else {
+                        if (document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                }
+            });
+
+            // Función para renderizar el side-cart
+            import { getCart, updateItem, removeItem } from '../js/carrito.js';
+            import { formatearPrecio } from '../js/utils.js';
+            // Feedback visual y mensajes en el side-cart
+            let lastAddedProduct = null;
+            function showSideCartMessage(msg, color = '#2E8B57') {
+                let msgDiv = document.getElementById('side-cart-msg');
+                if (!msgDiv) {
+                    msgDiv = document.createElement('div');
+                    msgDiv.id = 'side-cart-msg';
+                    msgDiv.style.position = 'absolute';
+                    msgDiv.style.top = '0.5em';
+                    msgDiv.style.left = '50%';
+                    msgDiv.style.transform = 'translateX(-50%)';
+                    msgDiv.style.background = color;
+                    msgDiv.style.color = '#fff';
+                    msgDiv.style.padding = '0.7em 1.5em';
+                    msgDiv.style.borderRadius = '8px';
+                    msgDiv.style.fontWeight = 'bold';
+                    msgDiv.style.zIndex = '9999';
+                    msgDiv.style.boxShadow = '0 2px 8px #0002';
+                    msgDiv.style.transition = 'opacity 0.3s';
+                    document.getElementById('side-cart').appendChild(msgDiv);
+                }
+                msgDiv.textContent = msg;
+                msgDiv.style.opacity = '1';
+                setTimeout(() => { msgDiv.style.opacity = '0'; }, 1800);
+            }
+
+            function renderSideCart() {
+                const items = getCart();
+                const itemsDiv = document.getElementById('side-cart-items');
+                const emptyDiv = document.getElementById('side-cart-empty');
+                const totalSpan = document.getElementById('side-cart-total');
+                let minCompra = 20000;
+                if (!items.length) {
+                    itemsDiv.innerHTML = '';
+                    emptyDiv.style.display = 'block';
+                    totalSpan.textContent = '$0';
+                    // Mensaje de carrito vacío
+                    showSideCartMessage('El carrito está vacío', '#888');
+                    return;
+                }
+                emptyDiv.style.display = 'none';
+                let total = 0;
+                itemsDiv.innerHTML = items.map(item => {
+                    total += item.subtotal;
+                    // Animación si es el último añadido
+                    let anim = (lastAddedProduct === item.code) ? 'background:#eaffea;box-shadow:0 0 0 2px #2E8B57;' : '';
+                    return `<div class="side-cart-item" data-code="${item.code}" style="display:flex;align-items:center;gap:0.7em;margin-bottom:1.1em;${anim}">
+                        <span style="flex:1;font-weight:500;">${item.name}</span>
+                        <button class="side-cart-qty-btn" data-action="minus" aria-label="Restar" style="background:#eee;border:none;border-radius:4px;padding:0.2em 0.7em;font-size:1.1em;">-</button>
+                        <span style="min-width:2em;text-align:center;">${item.qty}</span>
+                        <button class="side-cart-qty-btn" data-action="plus" aria-label="Sumar" style="background:#eee;border:none;border-radius:4px;padding:0.2em 0.7em;font-size:1.1em;">+</button>
+                        <span style="width:4em;text-align:right;">${formatearPrecio(item.subtotal)}</span>
+                        <button class="side-cart-remove-btn" aria-label="Eliminar" style="background:none;border:none;color:#c00;font-size:1.2em;margin-left:0.5em;">&times;</button>
+                    </div>`;
+                }).join('');
+                totalSpan.textContent = formatearPrecio(total);
+                // Mensaje de mínimo de compra
+                if (total < minCompra) {
+                    showSideCartMessage('El mínimo de compra es $20.000', '#c00');
+                }
+                // Eventos sumar/restar/eliminar
+                itemsDiv.querySelectorAll('.side-cart-qty-btn').forEach(btn => {
+                    btn.onclick = e => {
+                        const code = btn.closest('.side-cart-item').dataset.code;
+                        const item = items.find(i => i.code === code);
+                        if (!item) return;
+                        let newQty = item.qty + (btn.dataset.action === 'plus' ? 1 : -1);
+                        updateItem(code, newQty);
+                        renderSideCart();
+                        syncCartBadge();
+                    };
+                });
+                itemsDiv.querySelectorAll('.side-cart-remove-btn').forEach(btn => {
+                    btn.onclick = e => {
+                        const code = btn.closest('.side-cart-item').dataset.code;
+                        removeItem(code);
+                        renderSideCart();
+                        syncCartBadge();
+                    };
+                });
+            }
+            // Sincronizar badge siempre que cambie el carrito
+            window.addEventListener('storage', () => {
+                syncCartBadge();
+                renderSideCart();
+            });
+// Limpieza de carritos antiguos incompatibles (con 'cantidad' en vez de 'qty')
+if (localStorage.getItem('carrito')) {
+    try {
+        const oldCart = JSON.parse(localStorage.getItem('carrito'));
+        if (Array.isArray(oldCart) && oldCart.some(i => typeof i.cantidad === 'number')) {
+            localStorage.removeItem('carrito');
+        }
+    } catch {}
+}
     import { PRODUCTS_VALIDOS } from '../js/productos_huerto.js'; // HH-021
+    import { addItem, syncCartBadge } from '../js/carrito.js';
 
     // Utilidad para formatear CLP HH-021
     function formatCLP(value) {
@@ -100,56 +270,80 @@
         const fin = paginaActual * productosPorPagina;
         const productosPagina = productos.slice(0, fin);
 
-        grid.innerHTML = productosPagina.map((producto, idx) => `
-            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}"> 
-                <div class="card-image-container"> 
-                    <img src="../${producto.imagen}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" /> 
-                    <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span> 
+    // --- INICIO MODIFICACIÓN: Tarjeta de producto moderna con controles de cantidad, botón grande y etiqueta AGOTADO ---
+    grid.innerHTML = productosPagina.map((producto, idx) => {
+            // Control de cantidad y estado de stock
+            const agotado = producto.stock === 0;
+            const oldPrice = producto.precioOferta && producto.precioOferta < producto.precioCLP ? `<span class="old-price">${formatCLP(producto.precioCLP)}</span>` : '';
+            const price = producto.precioOferta && producto.precioOferta < producto.precioCLP ? producto.precioOferta : producto.precioCLP;
+            // Estructura de la tarjeta:
+            // - Imagen grande
+            // - Nombre como enlace
+            // - Precio (con oferta si aplica)
+            // - Controles de cantidad (+/-)
+            // - Botón grande de añadir al carrito
+            // - Etiqueta AGOTADO si no hay stock
+            return `
+            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}">
+                <div class="card-image-container" style="position:relative;">
+                    <img src="../${producto.imagen}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" />
+                    <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span>
+                    ${agotado ? '<div class="product-badge out-of-stock">AGOTADO</div>' : ''}
                 </div>
-                <div class="product-name">${producto.nombre}</div>
+                <h2 class="product-title">
+                  <a href="detalle.html?code=${producto.code}">${producto.nombre}</a>
+                </h2>
                 <div class="product-desc" style="color:#4b5563;font-size:0.98rem;margin-bottom:0.3rem;min-height:2.2em;">${producto.descripcion}</div>
-                <div class="product-price">${formatCLP(producto.precioCLP)} / ${producto.unidad}</div> 
-                <div class="product-actions"> 
-                    <button class="add-to-cart" aria-label="Añadir ${producto.nombre} al carrito">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
-                            <path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                        Añadir al carrito
-                    </button>
-                    <a href="detalle.html?code=${producto.code}" class="view-details-btn" aria-label="Ver detalle de ${producto.nombre}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            <line x1="11" y1="8" x2="11" y2="14"></line>
-                            <line x1="8" y1="11" x2="14" y2="11"></line>
-                        </svg>
-                        Ver detalles
-                    </a>
+                <div class="product-price">${oldPrice}<span class="current-price">${formatCLP(price)}</span> <span class="product-unit">/ ${producto.unidad}</span></div>
+                <div class="product-quantity">
+                    <button class="qty-btn minus" aria-label="Disminuir cantidad" data-idx="${idx}" ${agotado ? 'disabled' : ''}>−</button>
+                    <input type="number" class="qty-input" value="1" min="1" max="99" aria-label="Cantidad de productos" data-idx="${idx}" ${agotado ? 'disabled' : ''}>
+                    <button class="qty-btn plus" aria-label="Aumentar cantidad" data-idx="${idx}" ${agotado ? 'disabled' : ''}>+</button>
                 </div>
+                <button class="add-to-cart-btn" data-idx="${idx}" ${agotado ? 'disabled' : ''} aria-label="Añadir ${producto.nombre} al carrito">Añadir al carrito</button>
             </div>
-        `).join('');
+            `;
+        }).join('');
         // Mostrar/ocultar botón HH-023
         if (productos.length > productosPagina.length) {
             verMasBtn.style.display = '';
         } else {
             verMasBtn.style.display = 'none';
         }
-        // Evento añadir al carrito y feedback HH-024
-        grid.querySelectorAll('.add-to-cart-btn').forEach((btn, i) => {
+    // Lógica de cantidad y añadir al carrito (maneja los controles +/-, input y botón)
+    // --- FIN MODIFICACIÓN ---
+        const qtyInputs = grid.querySelectorAll('.qty-input');
+        const minusBtns = grid.querySelectorAll('.qty-btn.minus');
+        const plusBtns = grid.querySelectorAll('.qty-btn.plus');
+        minusBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                const prod = productosPagina[i];
-                let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-                const idx = carrito.findIndex(item => item.code === prod.code);
-                if (idx >= 0) {
-                    carrito[idx].cantidad += 1;
-                } else {
-                    carrito.push({ code: prod.code, cantidad: 1 });
-                }
-                localStorage.setItem('carrito', JSON.stringify(carrito));
-                mostrarFeedback(btn, 'Añadido');
-                actualizarContadorCarrito();
+                const idx = parseInt(btn.dataset.idx, 10);
+                const input = grid.querySelector(`.qty-input[data-idx='${idx}']`);
+                let val = parseInt(input.value, 10) || 1;
+                if (val > 1) input.value = val - 1;
+            });
+        });
+        plusBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const input = grid.querySelector(`.qty-input[data-idx='${idx}']`);
+                let val = parseInt(input.value, 10) || 1;
+                if (val < 99) input.value = val + 1;
+            });
+        });
+        grid.querySelectorAll('.add-to-cart-btn').forEach((btn) => {
+            btn.addEventListener('click', function() {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const prod = productosPagina[idx];
+                const input = grid.querySelector(`.qty-input[data-idx='${idx}']`);
+                const qty = parseInt(input.value, 10) || 1;
+                addItem(prod, qty);
+                lastAddedProduct = prod.code;
+                renderSideCart();
+                sideCart.style.display = 'block';
+                setTimeout(() => sideCart.classList.add('open'), 10);
+                showSideCartMessage('Producto añadido', '#2E8B57');
+                syncCartBadge();
             });
         });
     }
@@ -179,12 +373,8 @@
     }
 
     // Actualizar contador carrito HH-024
-    function actualizarContadorCarrito() {
-        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        const contador = carrito.reduce((total, item) => total + item.cantidad, 0);
-        const badge = document.querySelector('.cart-badge');
-        if (badge) badge.textContent = contador;
-    }
+    // Sincronizar badge del carrito al cargar y tras cada render
+    syncCartBadge();
 
     // Lógica de filtro, búsqueda, orden y paginación HH-023
     function aplicarFiltroBusquedaOrden() {
@@ -295,4 +485,36 @@
         </div>
     </footer>
 </body>
+</main>
+
+<!-- Banner de cookies accesible y responsivo -->
+<div id="cookieOverlay" style="display:none;position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
+    <div id="cookieBanner" style="background:#E5E5E5;color:#000;padding:24px;max-width:500px;border-radius:14px;text-align:center;font-family:sans-serif;box-shadow:0 0 20px #000;margin:auto;">
+        <p style="margin-bottom:20px;font-size:16px;line-height:1.4;">
+            Usamos cookies para mejorar tu experiencia en nuestro sitio. Al continuar navegando, aceptas nuestra
+            <a href="../pages/politicas.html" target="_blank" style="color:#3E9600;text-decoration:underline;font-weight:600;">Política de Privacidad y Términos</a>.
+        </p>
+        <div>
+            <button id="acceptCookies" style="margin:8px;padding:10px 20px;background-color:#3E9600;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;transition:background-color 0.3s;">Aceptar</button>
+            <button id="rejectCookies" style="margin:8px;padding:10px 20px;background-color:#888;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;transition:background-color 0.3s;">Rechazar</button>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (!localStorage.getItem("cookiesAccepted")) {
+            const overlay = document.getElementById("cookieOverlay");
+            overlay.style.display = "flex";
+            document.body.style.overflow = "hidden";
+            document.getElementById("acceptCookies").onclick = function () {
+                localStorage.setItem("cookiesAccepted", "true");
+                overlay.style.display = "none";
+                document.body.style.overflow = '';
+            };
+            document.getElementById("rejectCookies").onclick = function () {
+                window.location.href = "https://www.google.com";
+            };
+        }
+    });
+</script>
 </html>

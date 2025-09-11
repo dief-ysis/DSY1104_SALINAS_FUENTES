@@ -39,6 +39,25 @@
         </div>
       </div>
     </nav>
+
+  <!-- Side-cart global: visible en todas las páginas -->
+  <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+    <div class="side-cart-header">
+      <h2 id="side-cart-title">Tu carrito</h2>
+      <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+    </div>
+    <div class="side-cart-body" tabindex="0">
+      <div id="side-cart-items"></div>
+      <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+    </div>
+    <div class="side-cart-footer">
+      <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+      <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+      <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+    </div>
+  </aside>
+
+  <script type="module" src="../js/sidecart-global.js"></script>
   </header>
 
   <!-- Blog principal -->

@@ -35,15 +35,46 @@
       </div>
     </nav>
 
+  <!-- Side-cart global: visible en todas las páginas -->
+  <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+    <div class="side-cart-header">
+      <h2 id="side-cart-title">Tu carrito</h2>
+      <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+    </div>
+    <div class="side-cart-body" tabindex="0">
+      <div id="side-cart-items"></div>
+      <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+    </div>
+    <div class="side-cart-footer">
+      <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+      <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+      <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+    </div>
+  </aside>
+
+  <script type="module" src="../js/sidecart-global.js"></script>
+
     <main class="container">
       <section class="about-us">
-  <div class="container">
-    <div class="about-hero">
-      <h1>Acerca de HuertoHogar</h1>
-      <p class="hero-subtitle">Conectando el campo con tu hogar desde 2018</p>
-    </div>
-    
-    <div class="about-content">
+        <!-- HERO MODERNO Y ANIMADO -->
+        <!-- Banner reducido: menor altura, logo más pequeño, paddings ajustados -->
+        <div class="about-hero-modern about-hero-small"> <!-- Banner reducido -->
+          <div class="about-hero-bg-llamativo"></div>
+          <div class="about-hero-content animate-fadein">
+            <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="about-hero-logo animate-pop about-hero-logo-small" /> <!-- Logo más pequeño -->
+            <div>
+              <h1 class="about-hero-title" style="color:#2E8B57; text-shadow: 0 2px 8px #fff;">Sobre Nosotros</h1>
+              <p class="about-hero-subtitle" style="color:#222;font-size:1.1rem; background:rgba(255,255,255,0.85); padding:0.2em 0.8em; border-radius:8px; display:inline-block;">¡Frescura, calidad y compromiso directo del campo a tu hogar!</p> <!-- Texto más pequeño y padding reducido -->
+              <ul class="about-hero-list animate-slidein">
+                <li><span class="about-icon">🥬</span> <span style="color:#222;">Productos frescos y locales</span></li>
+                <li><span class="about-icon">🚚</span> <span style="color:#222;">Entrega rápida y segura</span></li>
+                <li><span class="about-icon">💚</span> <span style="color:#222;">Apoyo a agricultores chilenos</span></li>
+                <li><span class="about-icon">🌱</span> <span style="color:#222;">Sostenibilidad y cuidado ambiental</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="about-content">
       <div class="about-section">
         <div class="about-text">
           <h2>Nuestra Misión</h2>
@@ -65,7 +96,7 @@
       </div>
       
       <div class="values-section">
-        <h2>Nuestros Valores</h2>
+  <h2 style="color:#2E8B57;text-align:center;margin-bottom:1.2rem;text-shadow:0 2px 8px #fff;">Nuestros Valores</h2>
         <div class="values-grid">
           <div class="value-card">
             <div class="value-icon">🌱</div>
@@ -91,19 +122,24 @@
       </div>
       
       <div class="team-section">
-        <h2>Nuestro Equipo</h2>
+  <h2 style="color:#2E8B57;text-align:center;margin-bottom:1.2rem;text-shadow:0 2px 8px #fff;">Nuestro Equipo</h2>
         <div class="team-grid">
-          <div class="team-member">
-            <img src="assets/images/equipo/ceo.jpg" alt="Juan Pérez - CEO & Fundador" loading="lazy">
-            <h3>Juan Pérez</h3>
-            <p class="role">CEO & Fundador</p>
-            <p>Ingeniero Agrónomo con más de 15 años de experiencia en agricultura sostenible.</p>
+        <div class="about-hero-bg-llamativo"></div>
+        <div class="about-hero-content animate-fadein">
+          <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="about-hero-logo animate-pop" />
+          <div>
+            <h1 class="about-hero-title" style="color:#FFD700;">Sobre Nosotros</h1>
+            <p class="about-hero-subtitle" style="color:#fff;font-size:1.3rem;">¡Frescura, calidad y compromiso directo del campo a tu hogar!</p>
+            <ul class="about-hero-list animate-slidein">
+              <li><span class="about-icon">🥬</span> Productos frescos y locales</li>
+              <li><span class="about-icon">🚚</span> Entrega rápida y segura</li>
+              <li><span class="about-icon">💚</span> Apoyo a agricultores chilenos</li>
+              <li><span class="about-icon">🌱</span> Sostenibilidad y cuidado ambiental</li>
+            </ul>
           </div>
-          <div class="team-member">
-            <img src="assets/images/equipo/cto.jpg" alt="María González - Directora de Tecnología" loading="lazy">
-            <h3>María González</h3>
-            <p class="role">Directora de Tecnología</p>
-            <p>Especialista en e-commerce y transformación digital de negocios agrícolas.</p>
+        </div>
+      </div>
+      <div class="about-content">
           </div>
           <div class="team-member">
             <img src="assets/images/equipo/operations.jpg" alt="Carlos Rodríguez - Director de Operaciones" loading="lazy">
@@ -115,7 +151,7 @@
       </div>
 
     <div class="locations-section">
-        <h2>Nuestros Puntos de Presencia</h2>
+  <h2 style="color:#2E8B57;text-align:center;margin-bottom:1.2rem;text-shadow:0 2px 8px #fff;">Nuestros Puntos de Presencia</h2>
         <p>Estamos presentes en 7 ciudades a lo largo de Chile, llevando frescura a cada rincón del país.</p>
         
         <div class="map-container">

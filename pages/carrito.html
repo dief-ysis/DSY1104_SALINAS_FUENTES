@@ -7,90 +7,149 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <main class="carrito-resumen"> <!-- HH-041 -->
-        <section id="carrito-container"> <!-- HH-041 -->
-            <!-- Render dinámico aquí -->
-        </section>
-    </main>
+        <main class="carrito-resumen-modern">
+            <section class="carrito-grid">
+                <!-- Columna productos -->
+                <div class="carrito-col carrito-col-productos">
+                    <div id="carrito-container"></div>
+                </div>
+                <!-- Columna totales sticky -->
+                <aside class="carrito-col carrito-col-totales">
+                    <div class="carrito-totales-sticky">
+                        <div id="carrito-mensaje-minimo" class="carrito-alert" style="display:none;"></div>
+                        <h2>Resumen de compra</h2>
+                        <div id="carrito-totales"></div>
+                        <form id="carrito-cupon-form" class="carrito-cupon-form">
+                            <input type="text" id="cupon-input" placeholder="Código de cupón" autocomplete="off">
+                            <button type="submit">Aplicar cupón</button>
+                        </form>
+                        <button id="continuar-btn" class="carrito-btn-principal">Proceder al pago</button>
+                        <button id="vaciar-btn" class="carrito-btn-secundario">Vaciar carrito</button>
+                    </div>
+                </aside>
+            </section>
+        </main>
     <script type="module">
-    import { getCart, updateItem, removeItem, clearCart } from '../js/carrito.js'; // HH-041
+    import { getCart, updateItem, removeItem, clearCart } from '../js/carrito.js';
+    import { PRODUCTS_HH } from '../js/productos_huerto.js';
 
-    function formatCLP(value) { // HH-041
+    function formatCLP(value) {
         return value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
     }
 
-    function renderCarrito() { // HH-041
+    function getProductImage(code) {
+        const prod = PRODUCTS_HH.find(p => p.code === code);
+        return prod ? prod.imagen : '';
+    }
+
+    function renderCarritoModern() {
         const container = document.getElementById('carrito-container');
+        const totalesDiv = document.getElementById('carrito-totales');
+        const mensajeMinimo = document.getElementById('carrito-mensaje-minimo');
         const cart = getCart();
+        let minCompra = 20000;
         if (!cart.length) {
-            container.innerHTML = '<p>El carrito está vacío.</p>';
+            container.innerHTML = '<p class="carrito-vacio">El carrito está vacío.</p>';
+            totalesDiv.innerHTML = '';
+            mensajeMinimo.style.display = 'none';
             return;
         }
         let total = cart.reduce((sum, item) => sum + item.subtotal, 0);
+        // Tabla moderna con imágenes y botones +/-
         container.innerHTML = `
-        <table class="carrito-table"> <!-- HH-041 -->
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${cart.map(item => `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${formatCLP(item.price)}</td>
-                    <td><input type="number" min="1" value="${item.qty}" data-code="${item.code}" class="qty-input" /></td>
-                    <td>${formatCLP(item.subtotal)}</td>
-                    <td>
-                        <button class="remove-btn" data-code="${item.code}">Eliminar</button>
-                    </td>
-                </tr>
-                `).join('')}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3" style="text-align:right;font-weight:bold;">Total:</td>
-                    <td colspan="2" style="font-weight:bold;">${formatCLP(total)}</td>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="carrito-cta"> <!-- HH-041 -->
-            <button id="continuar-btn">Continuar compra</button>
-            <button id="vaciar-btn">Vaciar carrito</button>
-        </div>
+            <table class="carrito-table-modern">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${cart.map(item => `
+                        <tr>
+                            <td class="carrito-thumb"><img src="../${getProductImage(item.code)}" alt="${item.name}" /></td>
+                            <td class="carrito-nombre">${item.name}</td>
+                            <td>${formatCLP(item.price)}</td>
+                            <td>
+                                <div class="carrito-qty-wrapper">
+                                    <button class="qty-btn minus" data-code="${item.code}" aria-label="Restar">-</button>
+                                    <input type="number" min="1" value="${item.qty}" data-code="${item.code}" class="qty-input" aria-label="Cantidad de ${item.name}" />
+                                    <button class="qty-btn plus" data-code="${item.code}" aria-label="Sumar">+</button>
+                                </div>
+                            </td>
+                            <td>${formatCLP(item.subtotal)}</td>
+                            <td><button class="remove-btn" data-code="${item.code}" aria-label="Eliminar">×</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
         `;
-        // Eventos cantidad HH-041
+        // Totales y resumen sticky
+        totalesDiv.innerHTML = `
+            <table class="carrito-totales-table">
+                <tbody>
+                    <tr><th>Subtotal</th><td>${formatCLP(total)}</td></tr>
+                    <tr><th>Envío</th><td>$2.990</td></tr>
+                    <tr class="carrito-total-final"><th>Total</th><td>${formatCLP(total + 2990)}</td></tr>
+                </tbody>
+            </table>
+        `;
+        // Mensaje de mínimo de compra
+        if (total < minCompra) {
+            mensajeMinimo.textContent = 'El mínimo de compra es $20.000. Agrega más productos para completar tu pedido.';
+            mensajeMinimo.style.display = 'block';
+        } else {
+            mensajeMinimo.style.display = 'none';
+        }
+        // Eventos cantidad +/-
+        container.querySelectorAll('.qty-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const code = this.dataset.code;
+                const item = cart.find(i => i.code === code);
+                if (!item) return;
+                let newQty = item.qty + (this.classList.contains('plus') ? 1 : -1);
+                if (newQty < 1) newQty = 1;
+                updateItem(code, newQty);
+                renderCarritoModern();
+            });
+        });
+        // Eventos input cantidad
         container.querySelectorAll('.qty-input').forEach(input => {
             input.addEventListener('input', function() {
                 let val = parseInt(this.value, 10);
                 if (isNaN(val) || val < 1) val = 1;
                 updateItem(this.dataset.code, val);
-                renderCarrito();
+                renderCarritoModern();
             });
         });
-        // Evento eliminar HH-041
+        // Evento eliminar
         container.querySelectorAll('.remove-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 removeItem(this.dataset.code);
-                renderCarrito();
+                renderCarritoModern();
             });
         });
-        // Evento vaciar HH-041
-        container.querySelector('#vaciar-btn').addEventListener('click', function() {
+        // Evento vaciar
+        document.getElementById('vaciar-btn').onclick = function() {
             clearCart();
-            renderCarrito();
-        });
-        // Evento continuar compra (mock) HH-041
-        container.querySelector('#continuar-btn').addEventListener('click', function() {
+            renderCarritoModern();
+        };
+        // Evento continuar compra
+        document.getElementById('continuar-btn').onclick = function() {
             alert('Función de compra simulada.');
-        });
+        };
+        // Evento cupón (mock)
+        document.getElementById('carrito-cupon-form').onsubmit = function(e) {
+            e.preventDefault();
+            alert('Cupón aplicado (demo).');
+        };
     }
 
-    renderCarrito(); // HH-041
+    renderCarritoModern();
     </script>
 </body>
 </html>
