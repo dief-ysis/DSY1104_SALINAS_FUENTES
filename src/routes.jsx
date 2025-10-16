@@ -7,8 +7,6 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail';
-import Login from './pages/Login'
-import ProductDetail from './pages/ProductDetail'
 
 export const router = createBrowserRouter([
   {
@@ -46,8 +44,6 @@ export const router = createBrowserRouter([
     ]
   }
 ])
-      },
-      {
         path: 'blog',
         element: <Blog />
       },
