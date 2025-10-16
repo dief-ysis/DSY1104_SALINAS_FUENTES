@@ -3,7 +3,7 @@
   "private": false,
   "version": "0.1.0",
   "type": "module",
-  "homepage": "https://dief-ysis.github.io/DSY1104_SALINAS_FUENTES",
+  "homepage": "https://github.com/dief-ysis/DSY1104_SALINAS_FUENTES#readme",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -18,10 +18,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
+    "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.12.2",
+    "bootstrap": "^5.3.8",
     "formik": "^2.4.6",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^7.0.3",
     "react-router-dom": "^6.16.0",
@@ -59,6 +62,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dief-ysis/DSY1104_SALINAS_FUENTES/issues"
-  },
-  "homepage": "https://github.com/dief-ysis/DSY1104_SALINAS_FUENTES#readme"
+  }
 }

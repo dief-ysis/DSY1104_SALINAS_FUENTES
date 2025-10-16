@@ -1,6 +1,23 @@
 # Huerto Hogar - React
 
-Tienda online de productos agrícolas frescos y orgánicos, directo del campo a tu hogar. Migrada a React para mejorar la experiencia de usuario y el mantenimiento del código.
+Tienda online de productos agrícolas frescos y orgánicos, directo del campo a tu hogar. Proyecto migrado a React como parte de la Evaluación 2 de Desarrollo Fullstack II.
+
+## 📝 Evaluación 2 - Requerimientos Cumplidos
+
+### Tecnologías Implementadas
+- ✅ React 18
+- ✅ Bootstrap + React Bootstrap
+- ✅ Material UI (componentes adicionales)
+- ✅ Jest + React Testing Library
+- ✅ GitHub Pages para despliegue
+
+### Funcionalidades
+- ✅ Migración completa de HTML/JS a React
+- ✅ Componentes modulares y reutilizables
+- ✅ Integración de datos JSON
+- ✅ Sistema de rutas
+- ✅ Gestión de estado con Context API
+- ✅ Tests unitarios implementados
 
 ## 🌟 Características Principales
 
