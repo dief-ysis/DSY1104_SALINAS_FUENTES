@@ -6,8 +6,13 @@
  * @param {number} precio
  * @returns {string}
  */
-export function formatearPrecio(precio) {
-    return precio.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' });
+/**
+ * Formatea un precio en peso chileno (CLP)
+ * @param {number} cantidad
+ * @returns {string}
+ */
+export function formatearPrecio(cantidad) {
+    return cantidad.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 });
 }
 
 /**
