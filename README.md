@@ -1,82 +1,172 @@
-# Huerto Hogar
+# Huerto Hogar - React
 
-Tienda online de productos agrícolas frescos y orgánicos, directo del campo a tu hogar.
+Tienda online de productos agrícolas frescos y orgánicos, directo del campo a tu hogar. Migrada a React para mejorar la experiencia de usuario y el mantenimiento del código.
 
-## Tabla de Contenidos
-- [Descripción](#descripción)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Buenas Prácticas](#buenas-prácticas)
-- [Contacto](#contacto)
+## 🌟 Características Principales
 
-## Descripción
-Huerto Hogar es una tienda web que ofrece productos orgánicos, frutas, verduras y lácteos frescos, con entrega a domicilio.
+- Catálogo de productos con filtros y paginación
+- Carrito de compras con persistencia local
+- Sistema de autenticación y gestión de usuarios
+- Blog informativo con artículos sobre agricultura orgánica
+- Formulario de contacto validado
+- Diseño responsive optimizado
+- Material UI para una interfaz moderna
 
-## Estructura del Proyecto
+## 🛠 Tecnologías Utilizadas
+
+- **Frontend:**
+  - React 18
+  - Material UI
+  - React Router DOM
+  - Formik & Yup
+  - Axios
+
+- **Desarrollo:**
+  - Vite
+  - Jest
+  - Testing Library
+  - Babel
+
+## 📁 Estructura del Proyecto
 
 ```
-DSY1104_SALINAS_FUENTES/
-├── index.html                # Página principal
-├── pages/                    # Páginas secundarias (productos, blogs, contacto, etc.)
-├── css/                      # Hojas de estilo
-├── js/                       # Archivos JavaScript
-├── assets/                   # Imágenes y recursos multimedia
-├── products/                 # Imágenes de productos
-├── instrucciones/            # Documentos de requerimientos
-├── README.md                 # Documentación
-└── .gitignore                # Exclusiones de git
-```
+src/
+├── components/     # Componentes reutilizables
+│   ├── Navigation/    # Barra de navegación
+│   ├── ProductCard/   # Tarjeta de producto
+│   └── Cart/         # Componentes del carrito
+├── context/       # Contextos de React
+│   ├── AuthContext   # Manejo de autenticación
+│   └── CartContext   # Estado del carrito
+├── database/     # Datos estáticos
+├── pages/        # Componentes de páginas
+├── utils/        # Utilidades y helpers
+├── theme.js      # Configuración de Material UI
+└── main.jsx      # Punto de entrada
 
-## Instalación
-1. Clona el repositorio:
-	```
-	git clone https://github.com/dief-ysis/DSY1104_SALINAS_FUENTES.git
-	```
-2. Abre la carpeta en tu editor de preferencia (VS Code recomendado).
-3. No requiere instalación de dependencias, solo abre `index.html` en tu navegador.
-
-## Uso
-- Navega por la tienda, agrega productos al carrito, regístrate o inicia sesión.
-- Consulta el blog y la información de contacto.
-
-## Buenas Prácticas
-- Mantén el código organizado en carpetas por tipo de recurso.
-- Usa comentarios y nombres descriptivos en el código.
-- Optimiza imágenes antes de subirlas.
-- Usa atributos `alt` descriptivos en todas las imágenes para accesibilidad.
-- Utiliza un archivo `.gitignore` para evitar subir archivos innecesarios.
-
-## Contacto
-Para dudas o sugerencias, contacta a: [Tu Nombre] <tu.email@ejemplo.com>
-│ ├── contacto.js # Formulario de contacto
-│ ├── blogs.js # Página de blogs
-│ ├── blog-detalle.js # Detalle de blog
-│ ├── mapa.js # Mapa de ubicaciones
-│ └── accessibility.js # Verificación de accesibilidad
+public/
 └── assets/
-├── images/ # Imágenes generales
-└── products/ # Imágenes de productos
+    ├── images/   # Imágenes generales
+    └── products/ # Imágenes de productos
+```
 
+## 🔍 Componentes Principales
 
-## Instalación y Uso
-1. Clonar el repositorio
-2. Abrir index.html en un navegador web
-3. No se requiere servidor para funcionalidad básica
+### Navigation
+- Barra de navegación responsive
+- Menú desplegable para móviles
+- Indicador de items en carrito
+- Integración con autenticación
 
-## Tecnologías Utilizadas
-- HTML5 semántico
-- CSS3 con variables custom properties
-- JavaScript ES6+
-- LocalStorage para persistencia de datos
-- Leaflet.js para mapas
+### Cart
+- Gestión completa del carrito
+- Control de cantidades
+- Cálculo automático de totales
+- Proceso de checkout
 
-## Características Implementadas
-- [x] Diseño responsive (mobile-first)
-- [x] Sistema de temas con colores del caso
-- [x] Catálogo de productos con filtros
-- [x] Carrito de compras con persistencia
-- [x] Formularios con validación
+### ProductDetail
+- Vista detallada de productos
+- Integración con carrito
+- Imágenes y descripciones
+- Acciones de compra
+
+### Login & Auth
+- Sistema de autenticación
+- Validación de formularios
+- Gestión de sesiones
+- Manejo de errores
+
+### Contact
+- Formulario de contacto validado
+- Validación con Formik
+- Información de contacto
+- Diseño responsive
+
+## 🚀 Instalación
+
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/dief-ysis/DSY1104_SALINAS_FUENTES.git
+```
+
+2. Instalar dependencias:
+```bash
+cd DSY1104_SALINAS_FUENTES
+npm install
+```
+
+3. Iniciar el servidor de desarrollo:
+```bash
+npm run dev
+```
+
+## 📝 Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo
+- `npm run build`: Construye la aplicación para producción
+- `npm run test`: Ejecuta los tests
+- `npm run lint`: Ejecuta el linter
+
+## ✅ Testing
+
+El proyecto incluye tests unitarios y de integración usando Jest y Testing Library. Los tests se encuentran en la carpeta `src/__tests__/` y cubren:
+
+### Tests de Componentes
+- **Hero.test.jsx**: Verifica la renderización del componente Hero
+  - Título principal
+  - Descripción
+  - Botón de acción
+
+- **ProductCard.test.jsx**: Prueba el componente de tarjeta de producto
+  - Renderización de información
+  - Funcionalidad del botón "Agregar al carrito"
+  - Integración con CartContext
+
+### Tests de Contextos
+- **CartContext**: Prueba la lógica del carrito
+  - Agregar productos
+  - Actualizar cantidades
+  - Remover productos
+  - Calcular totales
+
+### Tests de Utilidades
+- Formateo de precios
+- Validación de datos
+- Manejo de errores
+
+Para ejecutar los tests:
+```bash
+# Ejecutar todos los tests
+npm run test
+
+# Ejecutar tests con coverage
+npm run test:coverage
+
+# Ejecutar tests en modo watch
+npm run test:watch
+```
+
+## 🔒 Seguridad
+
+- Rutas protegidas
+- Manejo seguro de tokens
+- Validación de inputs
+- Sanitización de datos
+- Manejo de errores
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea tu rama de características
+3. Commit tus cambios
+4. Push a la rama
+5. Abre un Pull Request
+
+## 📫 Contacto
+
+Para dudas o sugerencias sobre la implementación en React, contactar a:
+- Email: allan.salinas@example.com
+- GitHub: @dief-ysis
 - [x] Páginas de contenido (blog, nosotros)
 - [x] Mapa de ubicaciones
 - [x] Programa de fidelización
