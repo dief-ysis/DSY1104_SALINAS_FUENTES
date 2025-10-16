@@ -1,12 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import Root from './pages/Root';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import Blog from './pages/Blog';
-import Contact from './pages/Contact';
-import Cart from './pages/Cart';
-import Login from './pages/Login';
-import ProductDetail from './pages/ProductDetail';
+
+// Lazy loading de componentes
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const Blog = lazy(() => import('./pages/Blog'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Login = lazy(() => import('./pages/Login'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+
+import LoadingSpinner from './components/common/LoadingSpinner';
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +20,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Home />
+          </Suspense>
+        )
       },
       {
         path: 'productos',
@@ -43,18 +52,4 @@ export const router = createBrowserRouter([
       }
     ]
   }
-])
-        path: 'blog',
-        element: <Blog />
-      },
-      {
-        path: 'contacto',
-        element: <Contact />
-      },
-      {
-        path: 'carrito',
-        element: <Cart />
-      }
-    ]
-  }
-])
+]);

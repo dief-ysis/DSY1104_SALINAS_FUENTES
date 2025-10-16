@@ -1,22 +1,36 @@
 import { render, screen } from '@testing-library/react';
-import Hero from '../components/home/Hero';
+import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
+import { Hero } from '../components/home/Hero';
 
 describe('Hero Component', () => {
   it('renderiza el título principal', () => {
-    render(<Hero />);
-    const titleElement = screen.getByText(/Huerto Hogar/i);
+    render(
+      <MemoryRouter>
+        <Hero />
+      </MemoryRouter>
+    );
+    const titleElement = screen.getByText(/Del huerto a tu hogar/i);
     expect(titleElement).toBeInTheDocument();
   });
 
   it('renderiza la descripción', () => {
-    render(<Hero />);
-    const descriptionElement = screen.getByText(/productos orgánicos/i);
+    render(
+      <MemoryRouter>
+        <Hero />
+      </MemoryRouter>
+    );
+    const descriptionElement = screen.getByText(/Frutas, verduras y productos naturales/i);
     expect(descriptionElement).toBeInTheDocument();
   });
 
   it('renderiza el botón de acción', () => {
-    render(<Hero />);
-    const buttonElement = screen.getByRole('button', { name: /comprar/i });
+    render(
+      <MemoryRouter>
+        <Hero />
+      </MemoryRouter>
+    );
+    const buttonElement = screen.getByRole('button', { name: /Ver catálogo/i });
     expect(buttonElement).toBeInTheDocument();
   });
 });

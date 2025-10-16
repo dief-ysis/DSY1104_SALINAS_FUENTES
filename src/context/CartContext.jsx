@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { formatearPrecio } from '../utils/formatters';
 
-const CartContext = createContext();
+export const CartContext = createContext();
 
 const STORAGE_KEY = 'carrito';
 
