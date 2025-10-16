@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { Pagination } from '../components/products/Pagination';
 
 describe('Pagination', () => {
@@ -13,40 +14,59 @@ describe('Pagination', () => {
     mockOnPageChange.mockClear();
   });
 
-  it('renders correct number of page buttons', () => {
+  it('renderiza la paginación de Bootstrap con el número correcto de páginas', () => {
     render(<Pagination {...defaultProps} />);
-    const pageButtons = screen.getAllByRole('button').filter(button => !isNaN(button.textContent));
-    expect(pageButtons).toHaveLength(5);
+    const pageItems = screen.getAllByRole('listitem');
+    expect(pageItems).toHaveLength(7); // 5 números + botones prev/next
+    
+    // Verifica que usa los estilos de Bootstrap
+    const nav = screen.getByRole('list');
+    expect(nav).toHaveClass('pagination');
+    expect(nav).toHaveClass('justify-content-center');
+
+    // Verifica que los números de página están presentes
+    for (let i = 1; i <= 5; i++) {
+      expect(screen.getByText(i.toString())).toBeInTheDocument();
+    }
   });
 
-  it('disables previous button on first page', () => {
+  it('deshabilita el botón Anterior en la primera página', () => {
     render(<Pagination {...defaultProps} />);
-    const prevButton = screen.getByLabelText('Página anterior');
-    expect(prevButton).toBeDisabled();
+    const items = screen.getAllByRole('listitem');
+    const prevButton = items[0];
+    expect(prevButton).toHaveClass('disabled');
   });
 
-  it('disables next button on last page', () => {
+  it('deshabilita el botón Siguiente en la última página', () => {
     render(<Pagination {...defaultProps} currentPage={5} />);
-    const nextButton = screen.getByLabelText('Página siguiente');
-    expect(nextButton).toBeDisabled();
+    const items = screen.getAllByRole('listitem');
+    const nextButton = items[items.length - 1];
+    expect(nextButton).toHaveClass('disabled');
   });
 
-  it('calls onPageChange with correct page number when clicking page button', () => {
+  it('llama a onPageChange con el número de página correcto al hacer clic', () => {
     render(<Pagination {...defaultProps} />);
     const pageThreeButton = screen.getByText('3');
     fireEvent.click(pageThreeButton);
     expect(mockOnPageChange).toHaveBeenCalledWith(3);
   });
 
-  it('calls onPageChange when clicking next/previous buttons', () => {
+  it('llama a onPageChange al hacer clic en los botones Anterior/Siguiente', () => {
     render(<Pagination {...defaultProps} currentPage={2} />);
     
-    const prevButton = screen.getByLabelText('Página anterior');
+    const items = screen.getAllByRole('listitem');
+    const prevButton = items[0].querySelector('.page-link');
     fireEvent.click(prevButton);
     expect(mockOnPageChange).toHaveBeenCalledWith(1);
 
-    const nextButton = screen.getByLabelText('Página siguiente');
+    const nextButton = items[items.length - 1].querySelector('.page-link');
     fireEvent.click(nextButton);
     expect(mockOnPageChange).toHaveBeenCalledWith(3);
+  });
+
+  it('marca la página actual como activa usando los estilos de Bootstrap', () => {
+    render(<Pagination {...defaultProps} currentPage={3} />);
+    const activePageButton = screen.getByText('3').closest('.page-item');
+    expect(activePageButton).toHaveClass('active');
   });
 });

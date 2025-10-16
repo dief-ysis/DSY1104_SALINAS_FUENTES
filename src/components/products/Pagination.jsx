@@ -1,43 +1,32 @@
-import './Pagination.css';
+import React from 'react';
+import { Pagination as BSPagination } from 'react-bootstrap';
 
 export function Pagination({ currentPage, totalPages, onPageChange }) {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-  
   if (totalPages <= 1) return null;
 
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  
   return (
-    <div className="pagination" role="navigation" aria-label="Paginación">
-      <button
-        className="pagination-button"
+    <BSPagination className="justify-content-center my-4">
+      <BSPagination.Prev
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        aria-label="Página anterior"
-      >
-        &larr;
-      </button>
+      />
 
-      <div className="pagination-pages">
-        {pages.map(page => (
-          <button
-            key={page}
-            className={`pagination-button ${page === currentPage ? 'active' : ''}`}
-            onClick={() => onPageChange(page)}
-            aria-current={page === currentPage ? 'page' : undefined}
-            aria-label={`Ir a página ${page}`}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+      {pages.map(page => (
+        <BSPagination.Item
+          key={page}
+          active={page === currentPage}
+          onClick={() => onPageChange(page)}
+        >
+          {page}
+        </BSPagination.Item>
+      ))}
 
-      <button
-        className="pagination-button"
+      <BSPagination.Next
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        aria-label="Página siguiente"
-      >
-        &rarr;
-      </button>
-    </div>
+      />
+    </BSPagination>
   );
 }
