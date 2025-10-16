@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "id": "FR001",
+      "name": "Manzanas Fuji",
+      "price": 1200,
+      "stock": 150,
+      "category": "Frutas Frescas",
+      "description": "Manzanas Fuji crujientes y dulces, cultivadas en el Valle del Maule..."
+    }
+  ],
+  "categories": [
+    {
+      "id": "frutas",
+      "name": "Frutas Frescas",
+      "description": "Nuestra selección de frutas frescas ofrece una experiencia directa del campo..."
+    }
+  ]
+}
