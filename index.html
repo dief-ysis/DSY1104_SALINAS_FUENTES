@@ -3,24 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Huerto Hogar - Productos orgánicos directo a tu hogar</title>
     
-    <!-- HH-003: Meta tags para SEO -->
-    <meta name="description" content="Tienda online de productos orgánicos, frutas frescas, verduras y lácteos. Entrega directa a tu hogar con la mejor calidad y frescura.">
-    <meta name="keywords" content="productos orgánicos, frutas frescas, verduras orgánicas, lácteos, alimentos naturales, huerto hogar">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tienda online de productos orgánicos, frutas frescas, verduras y lácteos. Entrega directa a tu hogar con la mejor calidad y frescura. ¡Compra ahora!">
+    <meta name="keywords" content="productos orgánicos, frutas frescas, verduras orgánicas, lácteos, alimentos naturales, huerto hogar, delivery orgánico, compra orgánicos online">
     <meta name="author" content="Huerto Hogar">
+    <meta name="robots" content="index, follow">
     
-    <!-- HH-003: Open Graph tags para redes sociales -->
+    <!-- Social Media Meta Tags -->
     <meta property="og:title" content="Huerto Hogar - Productos orgánicos frescos">
-    <meta property="og:description" content="Descubre nuestra selección de productos orgánicos, frutas y verduras frescas con entrega a domicilio.">
-    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:description" content="Descubre nuestra selección de productos orgánicos, frutas y verduras frescas con entrega a domicilio. ¡La mejor calidad garantizada!">
+    <meta property="og:image" content="https://huertohogar.com/assets/images/social-share.jpg">
     <meta property="og:url" content="https://huertohogar.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Huerto Hogar">
     
-    <!-- HH-002: Importar fuentes de Google -->
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Huerto Hogar - Productos orgánicos frescos">
+    <meta name="twitter:description" content="Descubre nuestra selección de productos orgánicos, frutas y verduras frescas con entrega a domicilio. ¡La mejor calidad garantizada!">
+    <meta name="twitter:image" content="https://huertohogar.com/assets/images/social-share.jpg">
+    
+    <!-- Schema.org markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Huerto Hogar",
+      "description": "Tienda online de productos orgánicos frescos",
+      "image": "https://huertohogar.com/assets/images/logo.png",
+      "url": "https://huertohogar.com",
+      "telephone": "+56912345678",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Calle Principal 123",
+        "addressLocality": "Santiago",
+        "addressRegion": "RM",
+        "postalCode": "12345",
+        "addressCountry": "CL"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-33.4489",
+        "longitude": "-70.6693"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    }
+    </script>
+    
+    <!-- Precargar recursos críticos -->
+    <!-- Precargar fuentes y recursos críticos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/assets/images/logo.png" as="image">
+    <link rel="preload" href="/css/style.css" as="style">
+    <link rel="preload" href="/js/main.js" as="script">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Performance optimization -->
+    <script type="module" src="/js/main.js" defer></script>
+    
+    <!-- PWA support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Huerto Hogar">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 </head>
 <body>
     <nav class="navbar" role="navigation" aria-label="Navegación principal">
