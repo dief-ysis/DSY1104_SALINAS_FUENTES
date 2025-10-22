@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+        <nav class="navbar" role="navigation" aria-label="Navegación principal">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
+                </a>
+                <button class="navbar-toggle" aria-label="Menú" id="navbar-toggle-btn">
+                    <span class="hamburger"></span>
+                </button>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="productos.html" class="nav-link active">Productos</a>
+                    <a href="nosotros.html" class="nav-link">Nosotros</a>
+                    <a href="blogs.html" class="nav-link">Blog</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                    <div class="cart-container">
+                        <button class="cart-button" id="cart-toggle-btn" aria-label="Abrir carrito">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <span class="cart-badge">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Side-cart (carrito lateral oculto) -->
+            <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+                <div class="side-cart-header">
+                    <h2 id="side-cart-title">Tu carrito</h2>
+                    <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+                </div>
+                <div class="side-cart-body" tabindex="0">
+                    <div id="side-cart-items"></div>
+                    <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+                </div>
+                <div class="side-cart-footer">
+                    <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+                    <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+                    <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+                </div>
+            </aside>
+        <!-- CATÁLOGO MODERNO DE PRODUCTOS -->
+        <main class="catalogo-container" style="max-width:1200px;margin:2.5rem auto 2rem auto;padding:0 1.5rem;">
+            <!-- Barra de filtros por categoría -->
+            <section class="filter-bar" style="background:#f8fafb;border-radius:16px;padding:1.1rem 1.5rem 0.7rem 1.5rem;box-shadow:0 2px 8px rgba(46,139,87,0.08);margin-bottom:1.2rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+                <div class="filter-tabs" style="display:flex;gap:0.7rem;">
+                    <button class="filter-tab" data-cat="FR" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Frutas</button>
+                    <button class="filter-tab" data-cat="VR" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Verduras</button>
+                    <button class="filter-tab" data-cat="PO" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Orgánicos</button>
+                    <button class="filter-tab" data-cat="PL" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:999px;padding:0.5em 1.3em;font-weight:600;transition:background 0.2s,color 0.2s,box-shadow 0.2s;">Lácteos</button>
+                </div>
+                <button class="clear-filters-btn" style="background:#ffd700;color:#1e6a45;border:none;border-radius:8px;padding:0.5em 1.2em;font-weight:600;box-shadow:0 2px 8px rgba(46,139,87,0.08);transition:background 0.2s,color 0.2s;">Quitar filtros</button>
+            </section>
+
+            <!-- Búsqueda y ordenamiento -->
+            <section class="search-sort-bar" style="display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2.5rem;margin-bottom:1.5rem;justify-content:space-between;">
+                <input type="text" id="search-input" placeholder="Buscar por nombre o código..." autocomplete="off" style="flex:1 1 260px;max-width:340px;padding:0.7em 1.1em;border-radius:8px;border:1.5px solid #e0e7ef;font-size:1.05rem;box-shadow:0 1px 4px rgba(46,139,87,0.06);" />
+                <div class="sort-buttons" style="display:flex;gap:0.7rem;">
+                    <button id="sort-asc" aria-label="Ordenar por precio ascendente" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:8px;padding:0.5em 1.2em;font-weight:600;transition:background 0.2s,color 0.2s;">Precio ↑</button>
+                    <button id="sort-desc" aria-label="Ordenar por precio descendente" style="background:#fff;color:#2E8B57;border:1.5px solid #2E8B57;border-radius:8px;padding:0.5em 1.2em;font-weight:600;transition:background 0.2s,color 0.2s;">Precio ↓</button>
+                </div>
+            </section>
+
+            <!-- Listado de productos -->
+            <section class="products-list" style="background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 1.2rem 1.5rem 1.2rem;">
+                <div id="products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2rem 1.5rem;"></div>
+                <button id="ver-mas-btn" style="display:none;margin:2rem auto 0 auto;min-width:180px;background:#2E8B57;color:#fff;border:none;border-radius:8px;padding:0.7em 1.5em;font-weight:600;box-shadow:0 2px 8px rgba(46,139,87,0.10);transition:background 0.2s;" aria-label="Ver más productos">Ver más</button>
+            </section>
+        </main>
+
+        <script type="module">
+        // Menú móvil funcional
+        const navbarToggleBtn = document.getElementById('navbar-toggle-btn');
+        const navbarMenu = document.getElementById('navbar-menu');
+        navbarToggleBtn.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+        });
+        // Cerrar menú móvil al hacer click en un link (opcional UX)
+        navbarMenu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navbarMenu.classList.remove('active');
+            });
+        });
+            // Side-cart: abrir/cerrar
+            const sideCart = document.getElementById('side-cart');
+            const cartToggleBtn = document.getElementById('cart-toggle-btn');
+            const closeSideCartBtn = document.getElementById('close-side-cart');
+            cartToggleBtn.addEventListener('click', () => {
+                renderSideCart();
+                sideCart.style.display = 'block';
+                setTimeout(() => {
+                    sideCart.classList.add('open');
+                    sideCart.focus();
+                }, 10);
+            });
+            closeSideCartBtn.addEventListener('click', () => {
+                sideCart.classList.remove('open');
+                setTimeout(() => {
+                    sideCart.style.display = 'none';
+                    cartToggleBtn.focus();
+                }, 300);
+            });
+            // Cerrar con Escape y mantener foco dentro del side-cart
+            sideCart.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSideCartBtn.click();
+                }
+                // Trap focus dentro del side-cart
+                if (e.key === 'Tab') {
+                    const focusable = sideCart.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+                    if (e.shiftKey) {
+                        if (document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                    } else {
+                        if (document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                }
+            });
+
+            // Función para renderizar el side-cart
+            import { getCart, updateItem, removeItem } from '../js/carrito.js';
+            import { formatearPrecio } from '../js/utils.js';
+            // Feedback visual y mensajes en el side-cart
+            let lastAddedProduct = null;
+            function showSideCartMessage(msg, color = '#2E8B57') {
+                let msgDiv = document.getElementById('side-cart-msg');
+                if (!msgDiv) {
+                    msgDiv = document.createElement('div');
+                    msgDiv.id = 'side-cart-msg';
+                    msgDiv.style.position = 'absolute';
+                    msgDiv.style.top = '0.5em';
+                    msgDiv.style.left = '50%';
+                    msgDiv.style.transform = 'translateX(-50%)';
+                    msgDiv.style.background = color;
+                    msgDiv.style.color = '#fff';
+                    msgDiv.style.padding = '0.7em 1.5em';
+                    msgDiv.style.borderRadius = '8px';
+                    msgDiv.style.fontWeight = 'bold';
+                    msgDiv.style.zIndex = '9999';
+                    msgDiv.style.boxShadow = '0 2px 8px #0002';
+                    msgDiv.style.transition = 'opacity 0.3s';
+                    document.getElementById('side-cart').appendChild(msgDiv);
+                }
+                msgDiv.textContent = msg;
+                msgDiv.style.opacity = '1';
+                setTimeout(() => { msgDiv.style.opacity = '0'; }, 1800);
+            }
+
+            function renderSideCart() {
+                const items = getCart();
+                const itemsDiv = document.getElementById('side-cart-items');
+                const emptyDiv = document.getElementById('side-cart-empty');
+                const totalSpan = document.getElementById('side-cart-total');
+                let minCompra = 20000;
+                if (!items.length) {
+                    itemsDiv.innerHTML = '';
+                    emptyDiv.style.display = 'block';
+                    totalSpan.textContent = '$0';
+                    // Mensaje de carrito vacío
+                    showSideCartMessage('El carrito está vacío', '#888');
+                    return;
+                }
+                emptyDiv.style.display = 'none';
+                let total = 0;
+                itemsDiv.innerHTML = items.map(item => {
+                    total += item.subtotal;
+                    // Animación si es el último añadido
+                    let anim = (lastAddedProduct === item.code) ? 'background:#eaffea;box-shadow:0 0 0 2px #2E8B57;' : '';
+                    return `<div class="side-cart-item" data-code="${item.code}" style="display:flex;align-items:center;gap:0.7em;margin-bottom:1.1em;${anim}">
+                        <span style="flex:1;font-weight:500;">${item.name}</span>
+                        <button class="side-cart-qty-btn" data-action="minus" aria-label="Restar" style="background:#eee;border:none;border-radius:4px;padding:0.2em 0.7em;font-size:1.1em;">-</button>
+                        <span style="min-width:2em;text-align:center;">${item.qty}</span>
+                        <button class="side-cart-qty-btn" data-action="plus" aria-label="Sumar" style="background:#eee;border:none;border-radius:4px;padding:0.2em 0.7em;font-size:1.1em;">+</button>
+                        <span style="width:4em;text-align:right;">${formatearPrecio(item.subtotal)}</span>
+                        <button class="side-cart-remove-btn" aria-label="Eliminar" style="background:none;border:none;color:#c00;font-size:1.2em;margin-left:0.5em;">&times;</button>
+                    </div>`;
+                }).join('');
+                totalSpan.textContent = formatearPrecio(total);
+                // Mensaje de mínimo de compra
+                if (total < minCompra) {
+                    showSideCartMessage('El mínimo de compra es $20.000', '#c00');
+                }
+                // Eventos sumar/restar/eliminar
+                itemsDiv.querySelectorAll('.side-cart-qty-btn').forEach(btn => {
+                    btn.onclick = e => {
+                        const code = btn.closest('.side-cart-item').dataset.code;
+                        const item = items.find(i => i.code === code);
+                        if (!item) return;
+                        let newQty = item.qty + (btn.dataset.action === 'plus' ? 1 : -1);
+                        updateItem(code, newQty);
+                        renderSideCart();
+                        syncCartBadge();
+                    };
+                });
+                itemsDiv.querySelectorAll('.side-cart-remove-btn').forEach(btn => {
+                    btn.onclick = e => {
+                        const code = btn.closest('.side-cart-item').dataset.code;
+                        removeItem(code);
+                        renderSideCart();
+                        syncCartBadge();
+                    };
+                });
+            }
+            // Sincronizar badge siempre que cambie el carrito
+            window.addEventListener('storage', () => {
+                syncCartBadge();
+                renderSideCart();
+            });
+// Limpieza de carritos antiguos incompatibles (con 'cantidad' en vez de 'qty')
+if (localStorage.getItem('carrito')) {
+    try {
+        const oldCart = JSON.parse(localStorage.getItem('carrito'));
+        if (Array.isArray(oldCart) && oldCart.some(i => typeof i.cantidad === 'number')) {
+            localStorage.removeItem('carrito');
+        }
+    } catch {}
+}
+    import { PRODUCTS_VALIDOS } from '../js/productos_huerto.js'; // HH-021
+    import { addItem, syncCartBadge } from '../js/carrito.js';
+
+    // Utilidad para formatear CLP HH-021
+    function formatCLP(value) {
+        return value.toLocaleString('es-CL', { 
+            style: 'currency', 
+            currency: 'CLP', 
+            minimumFractionDigits: 0 });
+    }
+
+    // Normalizar texto (acentos y mayúsculas) HH-022
+    function normalizeText(text) { // HH-022
+        return text.normalize('NFD')
+        .replace(/[00-6f]/g, '')
+        .toLowerCase();
+    }
+
+    // Estado de filtro, búsqueda y paginación HH-023
+    let filtroCategoria = null;
+    let searchTerm = '';
+    let sortOrder = null; // 'asc' | 'desc'
+    let paginaActual = 1; // HH-023
+    const productosPorPagina = 12; // HH-023
+
+    // Renderizar productos filtrados, ordenados y paginados HH-023
+    function renderProducts(productos) {
+        const grid = document.getElementById('products-grid');
+        const verMasBtn = document.getElementById('ver-mas-btn');
+        // Paginación HH-023
+        const inicio = 0;
+        const fin = paginaActual * productosPorPagina;
+        const productosPagina = productos.slice(0, fin);
+
+    // --- INICIO MODIFICACIÓN: Tarjeta de producto moderna con controles de cantidad, botón grande y etiqueta AGOTADO ---
+    grid.innerHTML = productosPagina.map((producto, idx) => {
+            // Control de cantidad y estado de stock
+            const agotado = producto.stock === 0;
+            const oldPrice = producto.precioOferta && producto.precioOferta < producto.precioCLP ? `<span class="old-price">${formatCLP(producto.precioCLP)}</span>` : '';
+            const price = producto.precioOferta && producto.precioOferta < producto.precioCLP ? producto.precioOferta : producto.precioCLP;
+            // Estructura de la tarjeta:
+            // - Imagen grande
+            // - Nombre como enlace
+            // - Precio (con oferta si aplica)
+            // - Controles de cantidad (+/-)
+            // - Botón grande de añadir al carrito
+            // - Etiqueta AGOTADO si no hay stock
+            return `
+            <div class="product-card" tabindex="0" id="prod-${paginaActual}-${idx}">
+                <div class="card-image-container" style="position:relative;">
+                    <img src="../${producto.imagen}" alt="Imagen de ${producto.nombre}, ${producto.descripcion}" class="product-image" />
+                    <span class="category-badge badge-${producto.categoriaId}">${categoriaNombre(producto.categoriaId)}</span>
+                    ${agotado ? '<div class="product-badge out-of-stock">AGOTADO</div>' : ''}
+                </div>
+                <h2 class="product-title">
+                  <a href="detalle.html?code=${producto.code}">${producto.nombre}</a>
+                </h2>
+                <div class="product-desc" style="color:#4b5563;font-size:0.98rem;margin-bottom:0.3rem;min-height:2.2em;">${producto.descripcion}</div>
+                <div class="product-price">${oldPrice}<span class="current-price">${formatCLP(price)}</span> <span class="product-unit">/ ${producto.unidad}</span></div>
+                <div class="product-quantity">
+                    <button class="qty-btn minus" aria-label="Disminuir cantidad" data-idx="${idx}" ${agotado ? 'disabled' : ''}>−</button>
+                    <input type="number" class="qty-input" value="1" min="1" max="99" aria-label="Cantidad de productos" data-idx="${idx}" ${agotado ? 'disabled' : ''}>
+                    <button class="qty-btn plus" aria-label="Aumentar cantidad" data-idx="${idx}" ${agotado ? 'disabled' : ''}>+</button>
+                </div>
+                <button class="add-to-cart-btn" data-idx="${idx}" ${agotado ? 'disabled' : ''} aria-label="Añadir ${producto.nombre} al carrito">Añadir al carrito</button>
+            </div>
+            `;
+        }).join('');
+        // Mostrar/ocultar botón HH-023
+        if (productos.length > productosPagina.length) {
+            verMasBtn.style.display = '';
+        } else {
+            verMasBtn.style.display = 'none';
+        }
+    // Lógica de cantidad y añadir al carrito (maneja los controles +/-, input y botón)
+    // --- FIN MODIFICACIÓN ---
+        const qtyInputs = grid.querySelectorAll('.qty-input');
+        const minusBtns = grid.querySelectorAll('.qty-btn.minus');
+        const plusBtns = grid.querySelectorAll('.qty-btn.plus');
+        minusBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const input = grid.querySelector(`.qty-input[data-idx='${idx}']`);
+                let val = parseInt(input.value, 10) || 1;
+                if (val > 1) input.value = val - 1;
+            });
+        });
+        plusBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const input = grid.querySelector(`.qty-input[data-idx='${idx}']`);
+                let val = parseInt(input.value, 10) || 1;
+                if (val < 99) input.value = val + 1;
+            });
+        });
+        grid.querySelectorAll('.add-to-cart-btn').forEach((btn) => {
+            btn.addEventListener('click', function() {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const prod = productosPagina[idx];
+                const input = grid.querySelector(`.qty-input[data-idx='${idx}']`);
+                const qty = parseInt(input.value, 10) || 1;
+                addItem(prod, qty);
+                lastAddedProduct = prod.code;
+                renderSideCart();
+                sideCart.style.display = 'block';
+                setTimeout(() => sideCart.classList.add('open'), 10);
+                showSideCartMessage('Producto añadido', '#2E8B57');
+                syncCartBadge();
+            });
+        });
+    }
+
+    // Helper para nombre de categoría HH-024
+    function categoriaNombre(catId) {
+        switch(catId) {
+            case 'FR': return 'Frutas';
+            case 'VR': return 'Verduras';
+            case 'PO': return 'Orgánicos';
+            case 'PL': return 'Lácteos';
+            default: return 'Otro';
+        }
+    }
+
+    // Feedback visual HH-024
+    function mostrarFeedback(btn, texto) {
+        btn.disabled = true;
+        const original = btn.textContent;
+        btn.textContent = texto;
+        btn.classList.add('added');
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('added');
+            btn.disabled = false;
+        }, 900);
+    }
+
+    // Actualizar contador carrito HH-024
+    // Sincronizar badge del carrito al cargar y tras cada render
+    syncCartBadge();
+
+    // Lógica de filtro, búsqueda, orden y paginación HH-023
+    function aplicarFiltroBusquedaOrden() {
+        let productosFiltrados = filtroCategoria ? PRODUCTS_VALIDOS.filter(p => p.categoriaId === filtroCategoria) : PRODUCTS_VALIDOS;
+        if (searchTerm) {
+            const term = normalizeText(searchTerm);
+            productosFiltrados = productosFiltrados.filter(p =>
+                normalizeText(p.nombre).includes(term) || normalizeText(p.code).includes(term)
+            );
+        }
+        if (sortOrder) {
+            productosFiltrados = [...productosFiltrados].sort((a, b) => {
+                if (sortOrder === 'asc') return a.precioCLP - b.precioCLP;
+                else return b.precioCLP - a.precioCLP;
+            });
+        }
+        renderProducts(productosFiltrados);
+    }
+
+    // Botón Ver más HH-023
+    document.getElementById('ver-mas-btn').addEventListener('click', function() {
+        paginaActual++;
+        aplicarFiltroBusquedaOrden();
+        // Focus en el primer producto del nuevo bloque HH-023
+        setTimeout(() => {
+            const grid = document.getElementById('products-grid');
+            const primerNuevo = grid.querySelector(`#prod-${paginaActual}-${(paginaActual-1)*productosPorPagina}`);
+            if (primerNuevo) primerNuevo.focus();
+        }, 100);
+    });
+
+    // Eventos UI HH-021 y HH-022
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            filtroCategoria = this.dataset.cat;
+            paginaActual = 1; // HH-023
+            aplicarFiltroBusquedaOrden();
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    document.querySelector('.clear-filters-btn').addEventListener('click', function() {
+        filtroCategoria = null;
+        paginaActual = 1; // HH-023
+        aplicarFiltroBusquedaOrden();
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    });
+
+    // Debounce búsqueda HH-022
+    let debounceTimeout;
+    document.getElementById('search-input').addEventListener('input', function() {
+        clearTimeout(debounceTimeout);
+        const value = this.value;
+        debounceTimeout = setTimeout(() => {
+            searchTerm = value;
+            paginaActual = 1; // HH-023
+            aplicarFiltroBusquedaOrden();
+        }, 250);
+    });
+
+    // Ordenamiento HH-022
+    document.getElementById('sort-asc').addEventListener('click', function() {
+        sortOrder = 'asc';
+        paginaActual = 1; // HH-023
+        aplicarFiltroBusquedaOrden();
+    });
+    document.getElementById('sort-desc').addEventListener('click', function() {
+        sortOrder = 'desc';
+        paginaActual = 1; // HH-023
+        aplicarFiltroBusquedaOrden();
+    });
+
+    // Inicializar listado HH-021/HH-022/HH-023
+    aplicarFiltroBusquedaOrden();
+    </script>
+    <!-- Footer -->
+    <footer>
+        <div class="container foot">
+            <div>
+                <div class="brand" style="margin-bottom:.6rem">
+                    <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="logo-img footer-logo">
+                    <span class="title" style="color:#e9f7ef; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Huerto Hogar</span>
+                </div>
+                <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
+            </div>
+            <div>
+                <h5>Contáctanos</h5>
+                <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+                    <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+                    <li>📞 +56 2 2826 7000</li>
+                    <li>✉️ contacto@huertohogar.cl</li>
+                    <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+                    <li>🌱 Síguenos en redes sociales</li>
+                </ul>
+            </div>
+            <div>
+                <h5>Newsletter</h5>
+                <form class="newsletter" onsubmit="return false;" aria-label="Suscripción al boletín">
+                    <input type="email" placeholder="tu@correo.cl" required>
+                    <button type="submit">Suscribirme</button>
+                    <small>Sigamos en redes: 
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">👥</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </small>
+                </form>
+            </div>
+        </div>
+    </footer>
+</body>
+</main>
+
+<!-- Banner de cookies accesible y responsivo -->
+<div id="cookieOverlay" style="display:none;position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
+    <div id="cookieBanner" style="background:#E5E5E5;color:#000;padding:24px;max-width:500px;border-radius:14px;text-align:center;font-family:sans-serif;box-shadow:0 0 20px #000;margin:auto;">
+        <p style="margin-bottom:20px;font-size:16px;line-height:1.4;">
+            Usamos cookies para mejorar tu experiencia en nuestro sitio. Al continuar navegando, aceptas nuestra
+            <a href="../pages/politicas.html" target="_blank" style="color:#3E9600;text-decoration:underline;font-weight:600;">Política de Privacidad y Términos</a>.
+        </p>
+        <div>
+            <button id="acceptCookies" style="margin:8px;padding:10px 20px;background-color:#3E9600;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;transition:background-color 0.3s;">Aceptar</button>
+            <button id="rejectCookies" style="margin:8px;padding:10px 20px;background-color:#888;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;transition:background-color 0.3s;">Rechazar</button>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (!localStorage.getItem("cookiesAccepted")) {
+            const overlay = document.getElementById("cookieOverlay");
+            overlay.style.display = "flex";
+            document.body.style.overflow = "hidden";
+            document.getElementById("acceptCookies").onclick = function () {
+                localStorage.setItem("cookiesAccepted", "true");
+                overlay.style.display = "none";
+                document.body.style.overflow = '';
+            };
+            document.getElementById("rejectCookies").onclick = function () {
+                window.location.href = "https://www.google.com";
+            };
+        }
+    });
+</script>
+</html>

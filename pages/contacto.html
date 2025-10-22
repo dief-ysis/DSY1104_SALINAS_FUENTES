@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - HuertoHogar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Font Awesome para íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    #mapa {
+      height: 400px;
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-logo">
+          <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
+        </a>
+        <button class="navbar-toggle" aria-label="Menú">
+          <span class="hamburger"></span>
+        </button>
+        <div class="navbar-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="productos.html" class="nav-link">Productos</a>
+          <a href="blogs.html" class="nav-link">Blog</a>
+          <a href="contacto.html" class="nav-link active">Contacto</a>
+          <div class="cart-container">
+            <button class="cart-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span class="cart-badge">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+  <!-- Side-cart global: visible en todas las páginas -->
+  <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+    <div class="side-cart-header">
+      <h2 id="side-cart-title">Tu carrito</h2>
+      <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+    </div>
+    <div class="side-cart-body" tabindex="0">
+      <div id="side-cart-items"></div>
+      <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+    </div>
+    <div class="side-cart-footer">
+      <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+      <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+      <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+    </div>
+  </aside>
+
+  <script type="module" src="../js/sidecart-global.js"></script>
+<!-- CONTACTO MODERNO -->
+<section class="contact-section" style="background:#f8fafb;min-height:100vh;padding:2.5rem 0;">
+  <div class="contact-container contact-modern">
+    <!-- Formulario de contacto -->
+    <div class="contact-card form-card" style="flex:1 1 340px;min-width:320px;max-width:480px;background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 2rem 1.5rem 2rem;display:flex;flex-direction:column;gap:1.1rem;">
+  <h1 class="contact-title" style="font-size:1.5rem;margin-bottom:0.3em;">Contacto</h1>
+  <p class="contact-intro" style="font-size:1rem;margin-bottom:0.7em;">¿Tienes alguna pregunta o comentario? Escríbenos y te responderemos a la brevedad.</p>
+  <div id="mapa" style="height:220px;width:100%;border-radius:10px;margin-bottom:1.1em;"></div>
+  <form id="contact-form" novalidate style="display:flex;flex-direction:column;gap:0.7rem;">
+    <div class="form-group" style="gap:0.15rem;">
+      <label for="nombre" style="font-size:1rem;font-weight:600;">Nombre Completo</label>
+      <input type="text" id="nombre" name="nombre" required maxlength="100" style="padding:0.55em 0.9em;font-size:0.98rem;">
+      <div class="error-message" id="nombre-error" style="font-size:0.92rem;"></div>
+    </div>
+    <div class="form-group" style="gap:0.15rem;">
+      <label for="email" style="font-size:1rem;font-weight:600;">Correo Electrónico</label>
+      <input type="email" id="email" name="email" maxlength="100" style="padding:0.55em 0.9em;font-size:0.98rem;">
+      <div class="error-message" id="email-error" style="font-size:0.92rem;"></div>
+    </div>
+    <div class="form-group" style="gap:0.15rem;">
+      <label for="comentario" style="font-size:1rem;font-weight:600;">Mensaje</label>
+      <textarea id="comentario" name="comentario" rows="4" required maxlength="500" style="padding:0.55em 0.9em;font-size:0.98rem;min-height:90px;"></textarea>
+      <div class="error-message" id="comentario-error" style="font-size:0.92rem;"></div>
+      <div class="char-count" style="font-size:0.93rem;text-align:right;"><span id="char-remaining">500</span> caracteres restantes</div>
+    </div>
+    <button type="submit" class="submit-btn" style="background:linear-gradient(90deg,#2E8B57 60%,#ffd700 120%);color:#fff;border:none;border-radius:7px;padding:0.7em 1.1em;font-weight:700;font-size:1rem;box-shadow:0 2px 8px rgba(46,139,87,0.10);display:flex;align-items:center;gap:0.6em;transition:background 0.2s;min-width:140px;align-self:flex-end;">
+      <i class="fas fa-paper-plane"></i> Enviar
+    </button>
+  </form>
+</div>
+    <!-- Información de contacto -->
+    <div class="contact-card info-card" style="flex:1 1 280px;min-width:260px;max-width:400px;background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(46,139,87,0.10);padding:2.2rem 2rem 1.5rem 2rem;display:flex;flex-direction:column;gap:1.1rem;">
+  <h2 class="contact-info-title">Información de Contacto</h2>
+      <div class="contact-details" style="display:flex;flex-direction:column;gap:1.1rem;">
+  <div class="contact-item fadeInUp" style="--delay:0.7s;">
+          <i class="fas fa-map-marker-alt" style="color:#2E8B57;font-size:1.3em;"></i>
+          <div class="contact-text">
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Dirección</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">Av. Principal 1234, Santiago, Chile</p>
+          </div>
+        </div>
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 0.8s cubic-bezier(.4,2,.6,1);">
+  <div class="contact-item fadeInUp" style="--delay:0.8s;">
+          <i class="fas fa-phone" style="color:#2E8B57;font-size:1.2em;"></i>
+          <div class="contact-text">
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Teléfono</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">+56 2 2345 6789</p>
+          </div>
+        </div>
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 0.9s cubic-bezier(.4,2,.6,1);">
+  <div class="contact-item fadeInUp" style="--delay:0.9s;">
+          <i class="fas fa-envelope" style="color:#2E8B57;font-size:1.2em;"></i>
+          <div class="contact-text">
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Email</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">contacto@huertohogar.cl</p>
+          </div>
+        </div>
+        <div class="contact-item" style="display:flex;align-items:flex-start;gap:1rem;animation:fadeInUp 1s cubic-bezier(.4,2,.6,1);">
+  <div class="contact-item fadeInUp" style="--delay:1s;">
+          <i class="fas fa-clock" style="color:#2E8B57;font-size:1.2em;"></i>
+          <div class="contact-text">
+            <h3 style="margin:0;font-size:1.08rem;color:#184c2f;">Horario de Atención</h3>
+            <p style="margin:0;color:#184c2f;font-weight:500;">Lunes a Viernes: 9:00 - 18:00<br>Sábado: 9:00 - 14:00</p>
+          </div>
+        </div>
+      </div>
+      <style>
+      </style>
+      <style>
+        .contact-modern {
+          max-width: 1100px;
+          margin: 0 auto;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2.5rem 3.5rem;
+          justify-content: center;
+          align-items: stretch;
+        }
+        .contact-card {
+          background: #fff;
+          border-radius: 18px;
+          box-shadow: 0 4px 18px rgba(46,139,87,0.10);
+          padding: 2.2rem 2rem 1.5rem 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.1rem;
+          transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .contact-card:hover {
+          box-shadow: 0 8px 32px #ffd70055, 0 2px 12px #2e8b5733;
+          transform: translateY(-4px) scale(1.02);
+        }
+        .form-card {
+          flex: 1 1 340px;
+          min-width: 320px;
+          max-width: 480px;
+        }
+        .info-card {
+          flex: 1 1 280px;
+          min-width: 260px;
+          max-width: 400px;
+        }
+        .contact-title {
+          color: #184c2f;
+          font-size: 2rem;
+          margin-bottom: 0.2em;
+          font-family: 'Playfair Display', serif;
+          letter-spacing: 0.5px;
+        }
+        .contact-intro {
+          color: #222;
+          font-size: 1.08rem;
+        }
+        .form-group label {
+          font-weight: 600;
+          margin-bottom: 0.2em;
+        }
+        .form-group input,
+        .form-group textarea {
+          padding: 0.7em 1em;
+          border-radius: 8px;
+          border: 1.5px solid #e0e7ef;
+          font-size: 1.05rem;
+          transition: border 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+          border: 1.5px solid #2E8B57;
+          box-shadow: 0 2px 8px #2e8b5733;
+          outline: none;
+        }
+        .error-message {
+          color: #b91c1c;
+          font-size: 0.95rem;
+        }
+        .char-count {
+          color: #184c2f;
+          font-size: 0.97rem;
+          text-align: right;
+        }
+        .submit-btn {
+          background: linear-gradient(90deg,#2E8B57 60%,#ffd700 120%);
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          padding: 0.8em 1.5em;
+          font-weight: 700;
+          font-size: 1.08rem;
+          box-shadow: 0 2px 8px rgba(46,139,87,0.10);
+          display: flex;
+          align-items: center;
+          gap: 0.7em;
+          transition: background 0.2s, transform 0.2s;
+        }
+        .submit-btn:hover {
+          background: linear-gradient(90deg,#ffd700 60%,#2E8B57 120%);
+          color: #2E8B57;
+          transform: translateY(-2px) scale(1.03);
+        }
+        .contact-info-title {
+          color: #184c2f;
+          font-size: 1.35rem;
+          margin-bottom: 0.2em;
+          text-align: center;
+          letter-spacing: 0.5px;
+        }
+        .contact-details {
+          display: flex;
+          flex-direction: column;
+          gap: 1.1rem;
+        }
+        .contact-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          opacity: 0;
+          transform: translateY(30px);
+          animation: fadeInUp 0.7s cubic-bezier(.4,2,.6,1) forwards;
+          animation-delay: var(--delay, 0.7s);
+        }
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 900px) {
+          .contact-modern {
+            flex-direction: column;
+            gap: 1.5rem;
+          }
+          .contact-card.info-card {
+            max-width: 100% !important;
+            min-width: 0 !important;
+            margin: 0 auto 1.5rem auto !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .contact-card.info-card {
+            padding: 1.2rem 0.7rem 1rem 0.7rem !important;
+          }
+          .contact-details { gap: 0.7rem !important; }
+          .contact-modern {
+            padding: 0 0.5rem;
+          }
+        }
+      </style>
+      </style>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container foot">
+        <div>
+            <div class="brand" style="margin-bottom:.6rem">
+                <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="logo-img footer-logo">
+                <span class="title" style="color:#e9f7ef; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Huerto Hogar</span>
+            </div>
+            <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
+        </div>
+        <div>
+            <h5>Contáctanos</h5>
+            <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+                <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+                <li>📞 +56 2 2826 7000</li>
+                <li>✉️ contacto@huertohogar.cl</li>
+                <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+                <li>🌱 Síguenos en redes sociales</li>
+            </ul>
+        </div>
+        <div>
+            <h5>Newsletter</h5>
+            <form class="newsletter" onsubmit="return false;" aria-label="Suscripción al boletín">
+                <input type="email" placeholder="tu@correo.cl" required>
+                <button type="submit">Suscribirme</button>
+                <small>Sigamos en redes: 
+                    <a href="#" aria-label="Instagram">📸</a>
+                    <a href="#" aria-label="Facebook">👥</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                </small>
+            </form>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="../js/mapa.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    new MapaUbicaciones();
+  });
+</script>
+</body>
+</html>
