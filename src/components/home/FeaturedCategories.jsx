@@ -1,31 +1,64 @@
 import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import '../../../css/components/FeaturedCategories.css';
+import { Link } from 'react-router-dom';
+import './FeaturedCategories.css';
 
-export const FeaturedCategories = ({ categories = [] }) => {
+const FEATURED_CATEGORIES = [
+  {
+    id: 'frutas',
+    name: 'Frutas Frescas',
+    description: 'Deliciosas frutas de temporada',
+    image: '/assets/images/categories/frutas.jpg',
+  },
+  {
+    id: 'verduras',
+    name: 'Verduras Orgánicas',
+    description: 'Cultivadas sin pesticidas',
+    image: '/assets/images/categories/verduras.jpg',
+  },
+  {
+    id: 'organicos',
+    name: 'Productos Orgánicos',
+    description: 'Alimentos naturales y saludables',
+    image: '/assets/images/categories/organicos.jpg',
+  },
+  {
+    id: 'lacteos',
+    name: 'Lácteos',
+    description: 'Productos lácteos frescos',
+    image: '/assets/images/categories/lacteos.jpg',
+  }
+];
+
+export function FeaturedCategories() {
   return (
-    <section className="featured-categories py-5">
-      <Container>
-        <h2 className="text-center mb-4">Categorías Destacadas</h2>
-        <Row>
-          {categories.map(category => (
-            <Col key={category.id} xs={12} md={4}>
-              <LinkContainer to={{ pathname: '/products', search: `?category=${encodeURIComponent(category.name)}` }}>
-                <Card as="a" href={`/products?category=${encodeURIComponent(category.name)}`} className="category-card h-100">
-                  <Card.Img variant="top" src={category.image} alt={category.name} />
-                  <Card.Body>
-                    <Card.Title>{category.name}</Card.Title>
-                    <Card.Text>{category.description}</Card.Text>
-                  </Card.Body>
-                </Card>
-              </LinkContainer>
-            </Col>
+    <section className="featured-categories" aria-labelledby="featured-categories-title">
+      <div className="container">
+        <h2 id="featured-categories-title">Categorías Destacadas</h2>
+        
+        <ul className="categories-grid">
+          {FEATURED_CATEGORIES.map(category => (
+            <li key={category.id} className="category-tile">
+              <img
+                src={category.image}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+              />
+              <div className="category-content">
+                <h3 className="category-title">{category.name}</h3>
+                <p className="category-description">{category.description}</p>
+              </div>
+              <Link
+                to={`/productos?cat=${category.id}`}
+                className="category-link"
+                aria-label={`Ver productos de ${category.name}`}
+              />
+            </li>
           ))}
-        </Row>
-      </Container>
+        </ul>
+      </div>
     </section>
   );
-};
+}
 
 export default FeaturedCategories;

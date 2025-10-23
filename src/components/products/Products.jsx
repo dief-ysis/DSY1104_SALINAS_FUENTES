@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useSearchParams } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { productService } from '../../services/product';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [searchParams] = useSearchParams();
   const { addToCart } = useCart();
+  
+  const categoryFilter = searchParams.get('cat');
 
   useEffect(() => {
     const loadData = async () => {
@@ -16,14 +20,19 @@ export default function Products() {
           productService.getAllProducts(),
           productService.getAllCategories()
         ]);
-        setProducts(productsData);
+        
+        const filteredProducts = categoryFilter
+          ? productsData.filter(product => product.category === categoryFilter)
+          : productsData;
+          
+        setProducts(filteredProducts);
         setCategories(categoriesData);
       } catch (error) {
         console.error('Error loading data:', error);
       }
     };
     loadData();
-  }, []);
+  }, [categoryFilter]);
 
   const handleAddToCart = (product) => {
     addToCart(product, 1);
