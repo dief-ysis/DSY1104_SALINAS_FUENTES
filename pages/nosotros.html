@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - HuertoHogar</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
+      <div class="navbar-container">
+        <a href="../index.html" class="navbar-logo">
+          <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
+        </a>
+        <button class="navbar-toggle" aria-label="Menú">
+          <span class="hamburger"></span>
+        </button>
+        <div class="navbar-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="productos.html" class="nav-link">Productos</a>
+          <a href="nosotros.html" class="nav-link active">Nosotros</a>
+          <a href="blogs.html" class="nav-link">Blogs</a>
+          <a href="contacto.html" class="nav-link">Contacto</a>
+          <div class="cart-container">
+            <button class="cart-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span class="cart-badge">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+  <!-- Side-cart global: visible en todas las páginas -->
+  <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+    <div class="side-cart-header">
+      <h2 id="side-cart-title">Tu carrito</h2>
+      <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+    </div>
+    <div class="side-cart-body" tabindex="0">
+      <div id="side-cart-items"></div>
+      <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+    </div>
+    <div class="side-cart-footer">
+      <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+      <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+      <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+    </div>
+  </aside>
+
+  <script type="module" src="../js/sidecart-global.js"></script>
+
+    <main class="container">
+      <section class="about-us">
+        <!-- HERO MODERNO Y ANIMADO -->
+        <!-- Banner reducido: menor altura, logo más pequeño, paddings ajustados -->
+        <div class="about-hero-modern about-hero-small"> <!-- Banner reducido -->
+          <div class="about-hero-bg-llamativo"></div>
+          <div class="about-hero-content animate-fadein">
+            <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="about-hero-logo animate-pop about-hero-logo-small" /> <!-- Logo más pequeño -->
+            <div>
+              <h1 class="about-hero-title" style="color:#2E8B57; text-shadow: 0 2px 8px #fff;">Sobre Nosotros</h1>
+              <p class="about-hero-subtitle" style="color:#222;font-size:1.1rem; background:rgba(255,255,255,0.85); padding:0.2em 0.8em; border-radius:8px; display:inline-block;">¡Frescura, calidad y compromiso directo del campo a tu hogar!</p> <!-- Texto más pequeño y padding reducido -->
+              <ul class="about-hero-list animate-slidein">
+                <li><span class="about-icon">🥬</span> <span style="color:#222;">Productos frescos y locales</span></li>
+                <li><span class="about-icon">🚚</span> <span style="color:#222;">Entrega rápida y segura</span></li>
+                <li><span class="about-icon">💚</span> <span style="color:#222;">Apoyo a agricultores chilenos</span></li>
+                <li><span class="about-icon">🌱</span> <span style="color:#222;">Sostenibilidad y cuidado ambiental</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="about-content">
+      <div class="about-section">
+        <div class="about-text">
+          <h2>Nuestra Misión</h2>
+          <p>En HuertoHogar, nuestra misión es proporcionar productos frescos y de calidad directamente desde el campo hasta la puerta de nuestros clientes, garantizando la frescura y el sabor en cada entrega. Nos comprometemos a fomentar una conexión más cercana entre los consumidores y los agricultores locales.</p>
+        </div>
+        <div class="about-image">
+          <img src="../assets/images/nosotros/mision.jpg" alt="Nuestra misión - Productos frescos del campo" loading="lazy">
+        </div>
+      </div>
+      
+      <div class="about-section reverse">
+        <div class="about-text">
+          <h2>Nuestra Visión</h2>
+          <p>Aspiramos a ser la tienda online líder en la distribución de productos frescos y naturales en Chile, reconocida por nuestra calidad excepcional, servicio al cliente y compromiso con la sostenibilidad. Buscamos expandir nuestra presencia a nivel nacional e internacional, estableciendo un nuevo estándar en la distribución de productos agrícolas.</p>
+        </div>
+        <div class="about-image">
+          <img src="../assets/images/nosotros/vision.jpg" alt="Nuestra visión - Liderazgo en productos naturales" loading="lazy">
+        </div>
+      </div>
+      
+      <div class="values-section">
+  <h2 style="color:#2E8B57;text-align:center;margin-bottom:1.2rem;text-shadow:0 2px 8px #fff;">Nuestros Valores</h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">🌱</div>
+            <h3>Sostenibilidad</h3>
+            <p>Promovemos prácticas agrícolas responsables y el cuidado del medio ambiente en cada eslabón de nuestra cadena.</p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🏆</div>
+            <h3>Calidad</h3>
+            <p>Seleccionamos rigurosamente cada producto para garantizar los más altos estándares de frescura y sabor.</p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <h3>Comunidad</h3>
+            <p>Trabajamos directamente con agricultores locales, apoyando el desarrollo económico de las comunidades.</p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">💡</div>
+            <h3>Innovación</h3>
+            <p>Utilizamos tecnología para optimizar nuestros procesos y mejorar continuamente la experiencia del cliente.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="team-section">
+  <h2 style="color:#2E8B57;text-align:center;margin-bottom:1.2rem;text-shadow:0 2px 8px #fff;">Nuestro Equipo</h2>
+        <div class="team-grid">
+        <div class="about-hero-bg-llamativo"></div>
+        <div class="about-hero-content animate-fadein">
+          <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="about-hero-logo animate-pop" />
+          <div>
+            <h1 class="about-hero-title" style="color:#FFD700;">Sobre Nosotros</h1>
+            <p class="about-hero-subtitle" style="color:#fff;font-size:1.3rem;">¡Frescura, calidad y compromiso directo del campo a tu hogar!</p>
+            <ul class="about-hero-list animate-slidein">
+              <li><span class="about-icon">🥬</span> Productos frescos y locales</li>
+              <li><span class="about-icon">🚚</span> Entrega rápida y segura</li>
+              <li><span class="about-icon">💚</span> Apoyo a agricultores chilenos</li>
+              <li><span class="about-icon">🌱</span> Sostenibilidad y cuidado ambiental</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="about-content">
+          </div>
+          <div class="team-member">
+            <img src="assets/images/equipo/operations.jpg" alt="Carlos Rodríguez - Director de Operaciones" loading="lazy">
+            <h3>Carlos Rodríguez</h3>
+            <p class="role">Director de Operaciones</p>
+            <p>Experto en logística y cadena de suministro de productos perecederos.</p>
+          </div>
+        </div>
+      </div>
+
+    <div class="locations-section">
+  <h2 style="color:#2E8B57;text-align:center;margin-bottom:1.2rem;text-shadow:0 2px 8px #fff;">Nuestros Puntos de Presencia</h2>
+        <p>Estamos presentes en 7 ciudades a lo largo de Chile, llevando frescura a cada rincón del país.</p>
+        
+        <div class="map-container">
+            <div id="map" style="height: 400px; border-radius: var(--border-radius);"></div>
+        </div>
+        
+        <div class="locations-list">
+            <h3>Ciudades donde operamos:</h3>
+            <ul>
+            <li>📍 Santiago</li>
+            <li>📍 Puerto Montt</li>
+            <li>📍 Villarica</li>
+            <li>📍 Nacimiento</li>
+            <li>📍 Viña del Mar</li>
+            <li>📍 Valparaíso</li>
+            <li>📍 Concepción</li>
+            </ul>
+        </div>
+    </div>
+  </div>
+</section>
+</main>
+    <!-- Footer -->
+    <footer>
+        <div class="container foot">
+            <div>
+                <div class="brand" style="margin-bottom:.6rem">
+                    <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="logo-img footer-logo">
+                    <span class="title" style="color:#e9f7ef; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Huerto Hogar</span>
+                </div>
+                <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
+            </div>
+            <div>
+                <h5>Contáctanos</h5>
+                <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+                    <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+                    <li>📞 +56 2 2826 7000</li>
+                    <li>✉️ contacto@huertohogar.cl</li>
+                    <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+                    <li>🌱 Síguenos en redes sociales</li>
+                </ul>
+            </div>
+            <div>
+                <h5>Newsletter</h5>
+                <form class="newsletter" onsubmit="return false;" aria-label="Suscripción al boletín">
+                    <input type="email" placeholder="tu@correo.cl" required>
+                    <button type="submit">Suscribirme</button>
+                    <small>Sigamos en redes: 
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">👥</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </small>
+                </form>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

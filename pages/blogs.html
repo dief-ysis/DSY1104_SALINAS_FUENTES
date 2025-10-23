@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - HuertoHogar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap&text=ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- HEADER MODIFICADO Y COMENTADO -->
+  <header>
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-logo">
+          <img src="../assets/images/logo.png" alt="Logo de Huerto Hogar, tienda de productos orgánicos">
+        </a>
+        <button class="navbar-toggle" aria-label="Menú">
+          <span class="hamburger"></span>
+        </button>
+        <div class="navbar-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="productos.html" class="nav-link">Productos</a>
+          <a href="nosotros.html" class="nav-link">Nosotros</a>
+          <a href="blogs.html" class="nav-link active">Blog</a>
+          <a href="contacto.html" class="nav-link">Contacto</a>
+          <div class="cart-container">
+            <button class="cart-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span class="cart-badge">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+  <!-- Side-cart global: visible en todas las páginas -->
+  <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+    <div class="side-cart-header">
+      <h2 id="side-cart-title">Tu carrito</h2>
+      <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+    </div>
+    <div class="side-cart-body" tabindex="0">
+      <div id="side-cart-items"></div>
+      <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+    </div>
+    <div class="side-cart-footer">
+      <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+      <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+      <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+    </div>
+  </aside>
+
+  <script type="module" src="../js/sidecart-global.js"></script>
+  </header>
+
+  <!-- Blog principal -->
+  <section id="blog" class="blog" aria-labelledby="blog-title" style="background:#f8fafb; border-radius:18px; margin:0 auto 2.5rem auto; max-width:1200px; box-shadow:0 4px 18px rgba(46,139,87,0.10); padding:2.5rem 1.5rem;">
+    <!-- CABECERA DEL BLOG CON DESCRIPCIÓN Y CATEGORÍAS -->
+    <div class="container">
+      <div class="blog-header" style="text-align:center; margin-bottom:2.2rem;">
+        <h2 id="blog-title" style="color:#1e6a45; font-size:2.1rem; font-family:'Playfair Display',serif;">Del huerto aprendemos</h2>
+        <p class="blog-intro" style="color:#4b5563; font-size:1.13rem; margin-bottom:1.1rem;">En este espacio compartimos conocimientos, experiencias y recursos para que puedas cultivar tu propio huerto, mejorar tu alimentación y cuidar el planeta. ¡Descubre, aprende y participa!</p>
+        <div class="blog-categories" style="display:flex; flex-wrap:wrap; gap:0.7rem; justify-content:center; margin-bottom:0.5rem;">
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Guías Prácticas</span>
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Sostenibilidad</span>
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Alimentación Consciente</span>
+          <span class="category-tag" style="background:#2E8B57; color:#fffbe6; border-radius:999px; padding:0.3em 1em; font-size:0.98rem; font-weight:600; box-shadow:0 2px 8px rgba(46,139,87,0.08);">Comunidad</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:2rem; max-width:1100px; margin:0 auto;">
+  <!-- TARJETA DE BLOG: COMPOSTAJE EN CASA -->
+  <article class="card post" style="background:#fff; border-radius:20px; box-shadow:0 4px 18px rgba(46,139,87,0.10); overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.3s,transform 0.3s; border:1.5px solid #e0e7ef; min-width:0;">
+        <div class="media" style="width:100%; aspect-ratio:16/9; background:#e9f7ef; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img src="../assets/images/CompostCasero.jpg" alt="Compost casero - Proceso de compostaje" style="width:100%; height:100%; object-fit:cover; border-radius:0 0 18px 18px; transition:transform 0.3s;">
+        </div>
+        <div class="content" style="padding:1.3rem 1.2rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.5rem;">
+          <!-- Etiqueta de categoría -->
+          <span class="tag" style="background:#ffd700; color:#1e6a45; border-radius:999px; padding:0.2em 0.9em; font-size:0.95rem; font-weight:700; margin-bottom:0.2rem; display:inline-block;">Guía Práctica</span>
+          <h4 style="font-size:1.18rem; color:#1e2d2f; margin:0.2rem 0 0.3rem 0;">Guía Completa: Compostaje en Casa</h4>
+          <!-- Descripción breve -->
+          <p class="preview-text" style="color:#4b5563; font-size:1.05rem; margin-bottom:0.2rem;">Aprende a transformar tus residuos orgánicos en abono natural y enriquece tu huerto o jardín. Compostar es fácil, ecológico y reduce tu huella ambiental.</p>
+          <div class="full-text" style="color:#3a3a3a; font-size:0.98rem; margin-top:0.5rem;">
+            <!-- Texto completo con consejos y beneficios -->
+            <p>¿Sabías que hasta el 30% de tus residuos domésticos pueden convertirse en abono? Descubre cómo transformar restos de frutas, verduras y otros desechos orgánicos en un valioso nutriente para tu jardín. Consejos prácticos para mantener la humedad, temperatura y proporción ideal de materiales verdes y marrones.</p>
+            <ul>
+              <li>Proporción correcta de materiales verdes y marrones</li>
+              <li>Consejos para mantener la humedad y temperatura ideal</li>
+              <li>Obtén compost de calidad en 3-4 meses</li>
+              <li>Soluciones a problemas comunes</li>
+            </ul>
+            <span class="read-more" style="color:#2E8B57; font-weight:600; cursor:pointer; display:inline-block; margin-top:0.5rem; transition:color 0.2s;">Leer guía completa →</span>
+            <!-- Botón para leer más -->
+  <!-- TARJETA DE BLOG: PRODUCTORES LOCALES -->
+          </div>
+        </div>
+      </article>
+      <article class="card post" style="background:#fff; border-radius:20px; box-shadow:0 4px 18px rgba(46,139,87,0.10); overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.3s,transform 0.3s; border:1.5px solid #e0e7ef; min-width:0;">
+        <div class="media" style="width:100%; aspect-ratio:16/9; background:#e9f7ef; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img src="../assets/images/Productores.jpeg" alt="Productores locales trabajando en el campo" style="width:100%; height:100%; object-fit:cover; border-radius:0 0 18px 18px; transition:transform 0.3s;">
+        </div>
+        <div class="content" style="padding:1.3rem 1.2rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.5rem;">
+          <span class="tag" style="background:#ffd700; color:#1e6a45; border-radius:999px; padding:0.2em 0.9em; font-size:0.95rem; font-weight:700; margin-bottom:0.2rem; display:inline-block;">Comunidad</span>
+          <h4 style="font-size:1.18rem; color:#1e2d2f; margin:0.2rem 0 0.3rem 0;">Conoce a Nuestros Productores Locales</h4>
+          <!-- Descripción breve -->
+          <p class="preview-text" style="color:#4b5563; font-size:1.05rem; margin-bottom:0.2rem;">Historias reales de quienes cultivan con pasión y compromiso. Descubre cómo la agricultura local impulsa la economía y la sostenibilidad de tu región.</p>
+            <!-- Texto completo con información sobre productores -->
+          <div class="full-text" style="color:#3a3a3a; font-size:0.98rem; margin-top:0.5rem;">
+            <p>Detrás de cada producto fresco hay historias de dedicación y amor por la tierra. Nuestros agricultores locales, con décadas de experiencia transmitida de generación en generación, mantienen vivas las tradiciones de cultivo sostenible en nuestra región. Conoce sus técnicas, valores y el impacto positivo en la comunidad.</p>
+            <ul>
+              <li>Técnicas ancestrales combinadas con agricultura regenerativa</li>
+              <li>Compromiso con la preservación de semillas locales</li>
+              <li>Cultivos de temporada 100% libres de pesticidas</li>
+              <li>Fortalecimiento de la economía y comunidad local</li>
+            </ul>
+            <span class="read-more" style="color:#2E8B57; font-weight:600; cursor:pointer; display:inline-block; margin-top:0.5rem; transition:color 0.2s;">Descubre nuestra comunidad agrícola →</span>
+            <!-- Botón para leer más -->
+  <!-- TARJETA DE BLOG: FRUTAS DE TEMPORADA -->
+          </div>
+        </div>
+      </article>
+      <article class="card post" style="background:#fff; border-radius:20px; box-shadow:0 4px 18px rgba(46,139,87,0.10); overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.3s,transform 0.3s; border:1.5px solid #e0e7ef; min-width:0;">
+        <div class="media" style="width:100%; aspect-ratio:16/9; background:#e9f7ef; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img src="../assets/images/FrutaFresca.jpg" alt="Variedad de frutas frescas de temporada" style="width:100%; height:100%; object-fit:cover; border-radius:0 0 18px 18px; transition:transform 0.3s;">
+        </div>
+        <div class="content" style="padding:1.3rem 1.2rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.5rem;">
+          <span class="tag" style="background:#ffd700; color:#1e6a45; border-radius:999px; padding:0.2em 0.9em; font-size:0.95rem; font-weight:700; margin-bottom:0.2rem; display:inline-block;">Alimentación Consciente</span>
+          <h4 style="font-size:1.18rem; color:#1e2d2f; margin:0.2rem 0 0.3rem 0;">Frutas de Temporada: La Mejor Elección</h4>
+          <!-- Descripción breve -->
+          <p class="preview-text" style="color:#4b5563; font-size:1.05rem; margin-bottom:0.2rem;">Conoce los beneficios de consumir frutas de temporada: más sabor, mejor precio y menor impacto ambiental. ¡Elige lo mejor de cada estación!</p>
+            <!-- Texto completo con información sobre frutas de temporada -->
+          <div class="full-text" style="color:#3a3a3a; font-size:0.98rem; margin-top:0.5rem;">
+            <p>Cada estación nos ofrece exactamente lo que nuestro cuerpo necesita. Al elegir frutas de temporada, obtienes más nutrientes, frescura y apoyas a los agricultores locales. Descubre qué frutas elegir en primavera, verano, otoño e invierno.</p>
+            <ul>
+              <li>Primavera: Fresas y cerezas frescas</li>
+              <li>Verano: Melocotones y sandías jugosas</li>
+              <li>Otoño: Manzanas y peras crujientes</li>
+              <li>Invierno: Cítricos llenos de vitamina C</li>
+            </ul>
+            <span class="read-more" style="color:#2E8B57; font-weight:600; cursor:pointer; display:inline-block; margin-top:0.5rem; transition:color 0.2s;">Ver calendario de temporada →</span>
+            <!-- Botón para leer más -->
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+    <!-- Footer -->
+    <footer>
+        <div class="container foot">
+            <div>
+                <div class="brand" style="margin-bottom:.6rem">
+                    <img src="../assets/images/logo.png" alt="Logo Huerto Hogar" class="logo-img footer-logo">
+                    <span class="title" style="color:#e9f7ef; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Huerto Hogar</span>
+                </div>
+                <p>Fresco, local y responsable. Juntos impulsamos una alimentación consciente.</p>
+            </div>
+            <div>
+                <h5>Contáctanos</h5>
+                <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.8rem">
+                    <li>📍 Av. Vicuña Mackenna 4917, San Joaquín</li>
+                    <li>📞 +56 2 2826 7000</li>
+                    <li>✉️ contacto@huertohogar.cl</li>
+                    <li>⏰ Lunes a Viernes: 9:00 - 18:00</li>
+                    <li>🌱 Síguenos en redes sociales</li>
+                </ul>
+            </div>
+            <div>
+                <h5>Newsletter</h5>
+                <form class="newsletter" onsubmit="return false;" aria-label="Suscripción al boletín">
+                    <input type="email" placeholder="tu@correo.cl" required>
+                    <button type="submit">Suscribirme</button>
+                    <small>Sigamos en redes: 
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">👥</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </small>
+                </form>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

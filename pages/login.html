@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Huerto Hogar</title>
+    <meta name="description" content="Inicia sesión en Huerto Hogar para acceder a tu cuenta y gestionar tus pedidos de productos orgánicos.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- Side-cart global: visible en todas las páginas -->
+    <aside id="side-cart" class="side-cart" aria-label="Carrito de compras" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+        <div class="side-cart-header">
+            <h2 id="side-cart-title">Tu carrito</h2>
+            <button id="close-side-cart" aria-label="Cerrar carrito" tabindex="0">&times;</button>
+        </div>
+        <div class="side-cart-body" tabindex="0">
+            <div id="side-cart-items"></div>
+            <div id="side-cart-empty" style="display:none;text-align:center;color:#888;margin:2em 0;">El carrito está vacío.</div>
+        </div>
+        <div class="side-cart-footer">
+            <div class="side-cart-total">Total: <span id="side-cart-total">$0</span></div>
+            <a href="carrito.html" class="side-cart-btn" aria-label="Ver carrito completo">Ver carrito</a>
+            <a href="#" class="side-cart-btn side-cart-btn-checkout" style="background:#2E8B57;color:#fff;" aria-label="Finalizar compra">Finalizar compra</a>
+        </div>
+    </aside>
+
+    <script type="module" src="../js/sidecart-global.js"></script>
+    <main class="container" style="min-height: calc(100vh - 200px); padding: 2rem 1rem; display: flex; align-items: center; justify-content: center;">
+        <section class="auth-form" style="width: 100%;">
+            <div class="form-container" style="max-width: 400px; margin: 0 auto; background: white; padding: 2.5rem; 
+                                             border-radius: var(--radius-lg); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <h1 style="color: var(--color-brand); margin-bottom: 2rem; font-size: 2rem; text-align: center; font-weight: 600;">
+                    Iniciar Sesión
+                </h1>
+      
+                <form id="login-form" novalidate style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="email" style="display: block; margin-bottom: 0.5rem; color: var(--color-text); font-weight: 500;">
+                            Correo Electrónico
+                        </label>
+                        <input type="email" id="email" name="email" required maxlength="100" 
+                               style="width: 100%; padding: 0.875rem; border: 2px solid #e0e7ef; border-radius: var(--radius-md); 
+                                      font-size: 1rem; transition: all 0.2s ease; outline: none;"
+                               onFocus="this.style.borderColor='var(--color-brand)'; 
+                                       this.style.boxShadow='0 0 0 3px rgba(var(--color-brand-rgb), 0.1)'"
+                               onBlur="this.style.borderColor='#e0e7ef'; this.style.boxShadow='none'">
+                        <div class="error-message" id="email-error" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;"></div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="password" style="display: block; margin-bottom: 0.5rem; color: var(--color-text); font-weight: 500;">
+                            Contraseña
+                        </label>
+                        <input type="password" id="password" name="password" required minlength="4" maxlength="10"
+                               style="width: 100%; padding: 0.875rem; border: 2px solid #e0e7ef; border-radius: var(--radius-md);
+                                      font-size: 1rem; transition: all 0.2s ease; outline: none;"
+                               onFocus="this.style.borderColor='var(--color-brand)'; 
+                                       this.style.boxShadow='0 0 0 3px rgba(var(--color-brand-rgb), 0.1)'"
+                               onBlur="this.style.borderColor='#e0e7ef'; this.style.boxShadow='none'">
+                        <div class="error-message" id="password-error" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;"></div>
+                    </div>
+        
+                    <button type="submit" 
+                            style="background: var(--color-brand); color: white; border: none; border-radius: var(--radius-md);
+                                   padding: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; 
+                                   transition: all 0.2s ease; margin-top: 0.5rem;"
+                            onMouseOver="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-1px)'"
+                            onMouseOut="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'">
+                        Iniciar Sesión
+                    </button>
+                </form>
+      
+                <div style="margin-top: 2rem; text-align: center; color: var(--color-text-muted);">
+                    <p style="margin-bottom: 0.5rem;">
+                        ¿No tienes cuenta? 
+                        <a href="registro.html" 
+                           style="color: var(--color-brand); text-decoration: none; font-weight: 500; 
+                                  transition: color 0.2s ease;"
+                           onMouseOver="this.style.color='var(--color-brand-dark)'"
+                           onMouseOut="this.style.color='var(--color-brand)'">
+                            Regístrate aquí
+                        </a>
+                    </p>
+                    <p>
+                        <a href="#" 
+                           style="color: var(--color-brand); text-decoration: none; font-weight: 500;
+                                  transition: color 0.2s ease;"
+                           onMouseOver="this.style.color='var(--color-brand-dark)'"
+                           onMouseOut="this.style.color='var(--color-brand)'">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/login.js"></script>
+</body>
+</html>
