@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { CartProvider } from '../context/CartContext';
 import { Navbar } from '../components/common/Navbar';
-import './Root.css';
+import '../../css/pages/root.css';
 
 export default function Root() {
   return (

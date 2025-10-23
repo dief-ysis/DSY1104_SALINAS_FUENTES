@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Typography, Card, CardContent, CardMedia, Box } from '@mui/material';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 const blogs = [
   {

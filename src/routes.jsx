@@ -11,6 +11,8 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Login = lazy(() => import('./pages/Login'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const About = lazy(() => import('./pages/About'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +36,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: 'producto/:id',
+        path: 'productos/:id',
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <ProductDetail />
@@ -66,8 +68,32 @@ export const router = createBrowserRouter([
         )
       },
       {
+        path: 'checkout',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Checkout />
+          </Suspense>
+        )
+      },
+      {
+        path: 'nosotros',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <About />
+          </Suspense>
+        )
+      },
+      {
         path: 'login',
+<<<<<<< HEAD
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Login />
+          </Suspense>
+        )
+=======
         element: <Login />
+>>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f
       }
     ]
   }

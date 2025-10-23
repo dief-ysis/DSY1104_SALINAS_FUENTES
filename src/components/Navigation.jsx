@@ -1,9 +1,11 @@
-import React from 'react';
-import { Navbar, Nav, Container, Badge, Button, Image } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Navbar, Container, Nav, NavDropdown, Badge } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { BsCart3, BsPerson, BsHouseFill } from 'react-icons/bs';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { BsCart3, BsPerson } from 'react-icons/bs';
+import '../../css/components/Navigation.css';
 
 const pages = [
   { name: 'Inicio', path: '/' },
@@ -14,73 +16,93 @@ const pages = [
 
 const Navigation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, logout } = useAuth();
   const { cart } = useCart();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+    <Navbar 
+      bg="primary" 
+      variant="dark" 
+      expand="lg" 
+      sticky="top" 
+      expanded={isExpanded}
+      onToggle={(expanded) => setIsExpanded(expanded)}
+    >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="fw-bold">
-          HUERTO HOGAR
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <LinkContainer to="/">
+          <Navbar.Brand className="d-flex align-items-center">
+            <BsHouseFill size={24} className="me-2" aria-hidden="true" />
+            <span>HUERTO HOGAR</span>
+          </Navbar.Brand>
+        </LinkContainer>
+        
+        <Navbar.Toggle 
+          aria-controls="basic-navbar-nav" 
+          aria-label="Toggle navigation"
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {pages.map((page) => (
-              <Nav.Link 
+              <LinkContainer 
                 key={page.path} 
-                as={Link} 
-                to={page.path}
+                to={page.path} 
+                onClick={() => setIsExpanded(false)}
               >
-                {page.name}
-              </Nav.Link>
+                <Nav.Link className={isActive(page.path) ? 'active' : ''}>
+                  {page.name}
+                </Nav.Link>
+              </LinkContainer>
             ))}
           </Nav>
+          
           <Nav>
-            <Nav.Link as={Link} to="/carrito" className="position-relative me-2">
-              <BsCart3 size={20} />
-              {cartItemsCount > 0 && (
-                <Badge 
-                  bg="danger" 
-                  pill 
-                  className="position-absolute top-0 start-100 translate-middle"
-                >
-                  {cartItemsCount}
-                </Badge>
-              )}
-            </Nav.Link>
+            <LinkContainer to="/carrito" onClick={() => setIsExpanded(false)}>
+              <Nav.Link className="position-relative cart-link" aria-label={`Carrito de compras con ${cartItemsCount} items`}>
+                <BsCart3 size={24} aria-hidden="true" />
+                {cartItemsCount > 0 && (
+                  <Badge pill bg="danger" className="cart-badge position-absolute">
+                    {cartItemsCount}
+                  </Badge>
+                )}
+              </Nav.Link>
+            </LinkContainer>
+
             {user ? (
-              <>
-                <Image
-                  src={user.avatar || '/static/images/avatar/default.jpg'}
-                  alt={user.name}
-                  roundedCircle
-                  width={32}
-                  height={32}
-                  className="me-2"
-                />
-                <Button 
-                  variant="outline-light" 
-                  onClick={handleLogout}
-                >
-                  Cerrar sesión
-                </Button>
-              </>
-            ) : (
-              <Button 
-                variant="outline-light" 
-                onClick={() => navigate('/login')}
+              <NavDropdown 
+                title={
+                  <div className="d-inline">
+                    <img
+                      src="/static/images/avatar/2.jpg"
+                      alt={user.name}
+                      className="user-avatar"
+                    />
+                  </div>
+                }
+                id="user-dropdown"
               >
-                <BsPerson className="me-1" />
-                Iniciar sesión
-              </Button>
+                <NavDropdown.Item onClick={handleLogout}>
+                  Cerrar sesión
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <LinkContainer to="/login">
+                <Nav.Link>
+                  <BsPerson size={20} className="me-1" />
+                  Iniciar sesión
+                </Nav.Link>
+              </LinkContainer>
             )}
           </Nav>
         </Navbar.Collapse>

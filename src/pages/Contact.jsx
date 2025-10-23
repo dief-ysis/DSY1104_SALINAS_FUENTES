@@ -1,15 +1,8 @@
 import React from 'react';
-import { 
-  Container, 
-  Grid, 
-  Typography, 
-  TextField, 
-  Button, 
-  Box,
-  Paper
-} from '@mui/material';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import '../../css/pages/contact.css';
 
 const Contact = () => {
   const formik = useFormik({

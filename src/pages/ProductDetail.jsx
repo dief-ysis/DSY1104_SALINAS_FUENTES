@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Button, Container, Grid } from '@mui/material';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
 import { products } from '../database/products';
 
@@ -11,39 +11,31 @@ const ProductDetail = () => {
   const product = products.find(p => p.id === parseInt(id));
 
   if (!product) {
-    return <Typography>Producto no encontrado</Typography>;
+    return <p className="text-center">Producto no encontrado</p>;
   }
 
   return (
-    <Container>
-      <Grid container spacing={4} sx={{ mt: 4 }}>
-        <Grid item xs={12} md={6}>
-          <Box
-            component="img"
+    <Container className="mt-4">
+      <Row className="g-4">
+        <Col xs={12} md={6}>
+          <img
             src={product.image}
             alt={product.name}
-            sx={{ width: '100%', height: 'auto' }}
+            className="img-fluid w-100"
           />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            {product.name}
-          </Typography>
-          <Typography variant="h5" color="primary" gutterBottom>
-            ${product.price}
-          </Typography>
-          <Typography variant="body1" paragraph>
-            {product.description}
-          </Typography>
+        </Col>
+        <Col xs={12} md={6}>
+          <h1 className="h2 mb-3">{product.name}</h1>
+          <h2 className="h4 text-primary mb-3">${product.price}</h2>
+          <p className="mb-4">{product.description}</p>
           <Button 
-            variant="contained" 
-            color="primary"
+            variant="primary"
             onClick={() => addToCart(product)}
           >
             Agregar al carrito
           </Button>
-        </Grid>
-      </Grid>
+        </Col>
+      </Row>
     </Container>
   );
 };

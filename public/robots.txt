@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://huertohogar.com/sitemap.xml
+Sitemap: https://dsy-1104-salinas-fuentes.vercel.app/sitemap.xml

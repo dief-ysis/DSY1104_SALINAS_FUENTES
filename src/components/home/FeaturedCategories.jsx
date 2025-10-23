@@ -1,25 +1,73 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { CATEGORIES } from '../../database/categories';
 import './FeaturedCategories.css';
+
+// HH-012: Categorías destacadas con navegación
+const FEATURED_CATEGORIES = [
+  {
+    id: 'frutas',
+    name: 'Frutas Frescas',
+    description: 'Selección de frutas orgánicas de temporada',
+    image: '/assets/images/categories/frutas.jpg',
+    icon: '🍎',
+  },
+  {
+    id: 'verduras',
+    name: 'Verduras Orgánicas',
+    description: 'Verduras cultivadas sin pesticidas',
+    image: '/assets/images/categories/verduras.jpg',
+    icon: '🥬',
+  },
+  {
+    id: 'organicos',
+    name: 'Productos Orgánicos',
+    description: 'Productos naturales certificados',
+    image: '/assets/images/categories/organicos.jpg',
+    icon: '🌱',
+  },
+  {
+    id: 'lacteos',
+    name: 'Lácteos',
+    description: 'Productos lácteos de granja',
+    image: '/assets/images/categories/lacteos.jpg',
+    icon: '🥛',
+  }
+];
 
 export function FeaturedCategories() {
   return (
-    <section className="featured-categories">
+    <section className="featured-categories" aria-labelledby="featured-categories-title">
       <div className="container">
-        <h2>Categorías destacadas</h2>
+        <header className="featured-header">
+          <h2 id="featured-categories-title">Explora nuestras categorías</h2>
+          <p>Encuentra los mejores productos organizados para ti</p>
+        </header>
+        
         <div className="categories-grid">
-          {CATEGORIES.map(category => (
-            <Link 
+          {FEATURED_CATEGORIES.map(category => (
+            <Link
               key={category.id}
-              to={`/productos?cat=${category.id.toLowerCase()}`} 
-              className="category-card"
+              to={`/productos?cat=${category.id}`}
+              className="category-tile"
+              aria-labelledby={`category-title-${category.id}`}
             >
-              <img src={category.image} alt={`${category.name} - ${category.description}`} />
-              <div className="category-overlay">
-                <h3 className="category-title">{category.name}</h3>
-                <p className="category-description">{category.description}</p>
+              <div className="category-image-wrapper">
+                <img
+                  src={category.image}
+                  alt=""
+                  loading="lazy"
+                  className="category-image"
+                />
+                <div className="category-overlay"></div>
               </div>
-              <span className="category-badge">{category.badge}</span>
+              <div className="category-content">
+                <span className="category-icon" aria-hidden="true">{category.icon}</span>
+                <h3 id={`category-title-${category.id}`} className="category-title">{category.name}</h3>
+                <p className="category-description">{category.description}</p>
+                <span className="category-cta" aria-hidden="true">
+                  Explorar →
+                </span>
+              </div>
             </Link>
           ))}
         </div>
@@ -27,3 +75,5 @@ export function FeaturedCategories() {
     </section>
   );
 }
+
+export default FeaturedCategories;

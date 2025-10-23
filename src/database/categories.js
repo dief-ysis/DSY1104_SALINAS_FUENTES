@@ -1,30 +1,17 @@
 export const CATEGORIES = [
   {
-    id: 'FR',
-    name: 'Frutas Frescas',
-    description: 'Deliciosas frutas de temporada seleccionadas',
-    image: '/assets/images/FrutasFrescas.jpg',
-    badge: 'Fresco'
+    id: 1,
+    name: "Verduras",
+    image: "/assets/images/categories/verduras.jpg"
   },
   {
-    id: 'VR',
-    name: 'Verduras Orgánicas',
-    description: 'Verduras cultivadas sin pesticidas',
-    image: '/assets/images/VerdurasOrganicas.jpg',
-    badge: 'Orgánico'
+    id: 2,
+    name: "Frutas",
+    image: "/assets/images/categories/frutas.jpg"
   },
   {
-    id: 'PO',
-    name: 'Productos Orgánicos',
-    description: 'Alimentos naturales y saludables',
-    image: '/assets/images/ProductosOrganicos.webp',
-    badge: 'Natural'
-  },
-  {
-    id: 'PL',
-    name: 'Lácteos',
-    description: 'Lácteos frescos de productores locales',
-    image: '/assets/images/Lacteos.jpg',
-    badge: 'Local'
+    id: 3,
+    name: "Productos Orgánicos",
+    image: "/assets/images/categories/organicos.jpg"
   }
 ];
