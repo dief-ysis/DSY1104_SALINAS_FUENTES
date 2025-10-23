@@ -1,0 +1,20 @@
+:root {
+  /* Colores principales */
+  --color-bg-light: #F7F7F7;
+  --color-primary: #2E8B57;    /* Verde esmeralda */
+  --color-accent: #FFD700;     /* Amarillo oro */
+  --color-brown: #8B4513;      /* Marrón silla de montar */
+  --color-text-dark: #333333;  /* Gris oscuro */
+  --color-text-muted: #666666; /* Gris medio */
+
+  /* Clases utilitarias */
+  .bg-light { background-color: var(--color-bg-light); }
+  .bg-primary { background-color: var(--color-primary); }
+  .bg-accent { background-color: var(--color-accent); }
+  .bg-brown { background-color: var(--color-brown); }
+  
+  .text-dark { color: var(--color-text-dark); }
+  .text-muted { color: var(--color-text-muted); }
+  .text-primary { color: var(--color-primary); }
+  .text-brown { color: var(--color-brown); }
+}
