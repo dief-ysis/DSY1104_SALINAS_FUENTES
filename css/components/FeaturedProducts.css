@@ -1,0 +1,17 @@
+.featured-products {
+  background-color: #f8f9fa;
+}
+
+.product-card {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  height: 200px;
+  object-fit: cover;
+}

@@ -6,7 +6,7 @@ export const products = [
     stock: 150,
     category: 'Frutas Frescas',
     unit: 'kilo',
-    image: '/media/image2.jpeg',
+    image: '/assets/products/fr001.webp',
     description: 'Manzanas Fuji crujientes y dulces, cultivadas en el Valle del Maule. Perfectas para meriendas saludables o como ingrediente en postres. Estas manzanas son conocidas por su textura firme y su sabor equilibrado entre dulce y ácido.',
     origin: 'Valle del Maule'
   },
@@ -17,7 +17,7 @@ export const products = [
     stock: 200,
     category: 'Frutas Frescas',
     unit: 'kilo',
-    image: '/media/image3.jpeg',
+    image: '/assets/products/fr002.jpg',
     description: 'Jugosas y ricas en vitamina C, estas naranjas Valencia son ideales para zumos frescos y refrescantes. Cultivadas en condiciones climáticas óptimas que aseguran su dulzura y jugosidad.',
     origin: 'Región de Valparaíso'
   },
@@ -28,7 +28,7 @@ export const products = [
     stock: 250,
     category: 'Frutas Frescas',
     unit: 'kilo',
-    image: '/media/image4.jpeg',
+    image: '/assets/products/fr003.jpg',
     description: 'Plátanos maduros y dulces, perfectos para el desayuno o como snack energético. Estos plátanos son ricos en potasio y vitaminas, ideales para mantener una dieta equilibrada.',
     origin: 'Región de O\'Higgins'
   },
@@ -39,7 +39,7 @@ export const products = [
     stock: 100,
     category: 'Verduras Orgánicas',
     unit: 'kilo',
-    image: '/media/image5.jpeg',
+    image: '/assets/products/vr001.webp',
     description: 'Zanahorias crujientes cultivadas sin pesticidas en la Región de O\'Higgins. Excelente fuente de vitamina A y fibra, ideales para ensaladas, jugos o como snack saludable.',
     origin: 'Región de O\'Higgins'
   },
@@ -50,7 +50,7 @@ export const products = [
     stock: 80,
     category: 'Verduras Orgánicas',
     unit: 'bolsa',
-    image: '/media/image6.jpeg',
+    image: '/assets/products/vr002.webp',
     description: 'Espinacas frescas y nutritivas, perfectas para ensaladas y batidos verdes. Estas espinacas son cultivadas bajo prácticas orgánicas que garantizan su calidad y valor nutricional.',
     origin: 'Región Metropolitana'
   },
@@ -61,7 +61,7 @@ export const products = [
     stock: 120,
     category: 'Verduras Orgánicas',
     unit: 'kilo',
-    image: '/media/image7.jpeg',
+    image: '/assets/products/vr003.webp',
     description: 'Pimientos rojos, amarillos y verdes, ideales para salteados y platos coloridos. Ricos en antioxidantes y vitaminas, estos pimientos añaden un toque vibrante y saludable a cualquier receta.',
     origin: 'Región de Valparaíso'
   },
@@ -72,7 +72,7 @@ export const products = [
     stock: 50,
     category: 'Productos Orgánicos',
     unit: 'frasco',
-    image: '/media/image8.png',
+    image: '/assets/products/po001.webp',
     description: 'Miel pura y orgánica producida por apicultores locales. Rica en antioxidantes y con un sabor inigualable, perfecta para endulzar de manera natural tus comidas y bebidas.',
     origin: 'Región del Maule'
   },

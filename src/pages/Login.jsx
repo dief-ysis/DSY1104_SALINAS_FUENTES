@@ -1,15 +1,9 @@
 import React from 'react';
-import { 
-  Container, 
-  Box, 
-  TextField, 
-  Button, 
-  Typography,
-  Paper 
-} from '@mui/material';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import '../../css/pages/login.css';
 
 const Login = () => {
   const navigate = useNavigate();

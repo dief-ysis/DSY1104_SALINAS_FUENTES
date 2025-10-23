@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Root from './pages/Root';
+import LoadingSpinner from './components/common/LoadingSpinner';
 
 // Lazy loading de componentes
 const Home = lazy(() => import('./pages/Home'));
@@ -10,8 +11,8 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Login = lazy(() => import('./pages/Login'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
-
-import LoadingSpinner from './components/common/LoadingSpinner';
+const About = lazy(() => import('./pages/About'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 export const router = createBrowserRouter([
   {
@@ -28,27 +29,67 @@ export const router = createBrowserRouter([
       },
       {
         path: 'productos',
-        element: <Products />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Products />
+          </Suspense>
+        )
       },
       {
-        path: 'producto/:id',
-        element: <ProductDetail />
+        path: 'productos/:id',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProductDetail />
+          </Suspense>
+        )
       },
       {
         path: 'blog',
-        element: <Blog />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Blog />
+          </Suspense>
+        )
       },
       {
         path: 'contacto',
-        element: <Contact />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Contact />
+          </Suspense>
+        )
       },
       {
         path: 'carrito',
-        element: <Cart />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Cart />
+          </Suspense>
+        )
+      },
+      {
+        path: 'checkout',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Checkout />
+          </Suspense>
+        )
+      },
+      {
+        path: 'nosotros',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <About />
+          </Suspense>
+        )
       },
       {
         path: 'login',
-        element: <Login />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Login />
+          </Suspense>
+        )
       }
     ]
   }

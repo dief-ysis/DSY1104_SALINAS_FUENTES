@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/tokens.css'
 import '../css/typography.css'
+import '../css/accessibility.css'
 import '../css/base/index.css'
 import { router } from './routes'
 import { CartProvider } from './context/CartContext'

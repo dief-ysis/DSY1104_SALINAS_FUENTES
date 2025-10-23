@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Form, Table, Alert } from 'react-boo
 import { Link } from 'react-router-dom';
 
 export default function Cart() {
-  const { cartItems, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
+  const { cart: cartItems, addItem, removeItem: removeFromCart, updateQuantity, clearCart, getTotal: getTotalPrice } = useCart();
 
   if (cartItems.length === 0) {
     return (
@@ -67,13 +67,33 @@ export default function Cart() {
                       </td>
                       <td>${item.price} CLP/{item.unit}</td>
                       <td>
-                        <Form.Control
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                          style={{ width: '80px' }}
-                          min="1"
-                        />
+                        <div className="d-flex align-items-center">
+                          <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            disabled={item.quantity <= 1}
+                            aria-label="Decrementar cantidad"
+                          >
+                            -
+                          </Button>
+                          <Form.Control
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+                            style={{ width: '60px' }}
+                            min="1"
+                            className="mx-2"
+                          />
+                          <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            aria-label="Incrementar cantidad"
+                          >
+                            +
+                          </Button>
+                        </div>
                       </td>
                       <td>${item.price * item.quantity} CLP</td>
                       <td>

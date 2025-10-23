@@ -1,26 +1,18 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-<<<<<<< HEAD
+import { formatearPrecio } from '../utils/formatters';
 
-const CartContext = createContext();
+export const CartContext = createContext();
 
-export function useCart() {
-  return useContext(CartContext);
-}
+const STORAGE_KEY = 'huertohogar-cart';
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  // Cargar carrito desde localStorage al inicializar
   useEffect(() => {
-    const savedCart = localStorage.getItem('huertohogar-cart');
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
-    }
-  }, []);
-
-  // Guardar carrito en localStorage cuando cambie
-  useEffect(() => {
-    localStorage.setItem('huertohogar-cart', JSON.stringify(cartItems));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (product, quantity = 1) => {
@@ -30,12 +22,22 @@ export function CartProvider({ children }) {
       if (existingItem) {
         return prevItems.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { 
+                ...item, 
+                quantity: item.quantity + quantity,
+                subtotal: (item.quantity + quantity) * item.price 
+              }
             : item
         );
-      } else {
-        return [...prevItems, { ...product, quantity }];
       }
+      return [...prevItems, {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity,
+        subtotal: quantity * product.price
+      }];
     });
   };
 
@@ -51,7 +53,13 @@ export function CartProvider({ children }) {
     
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === productId 
+          ? { 
+              ...item, 
+              quantity,
+              subtotal: quantity * item.price 
+            }
+          : item
       )
     );
   };
@@ -61,11 +69,15 @@ export function CartProvider({ children }) {
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce((total, item) => total + item.subtotal, 0);
   };
 
   const getTotalItems = () => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const formatTotal = () => {
+    return formatearPrecio(getTotalPrice());
   };
 
   const value = {
@@ -75,93 +87,12 @@ export function CartProvider({ children }) {
     updateQuantity,
     clearCart,
     getTotalPrice,
-    getTotalItems
+    getTotalItems,
+    formatTotal
   };
 
   return (
     <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
-=======
-import { formatearPrecio } from '../utils/formatters';
-
-export const CartContext = createContext();
-
-const STORAGE_KEY = 'carrito';
-
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-  }, [cart]);
-
-  const addItem = (item, qty = 1) => {
-    setCart(prevCart => {
-      const existingItem = prevCart.find(i => i.code === item.code);
-      if (existingItem) {
-        return prevCart.map(i => 
-          i.code === item.code 
-            ? { ...i, qty: i.qty + qty, subtotal: (i.qty + qty) * i.price }
-            : i
-        );
-      }
-      return [...prevCart, {
-        code: item.code,
-        name: item.nombre,
-        price: item.precioCLP,
-        qty,
-        subtotal: qty * item.precioCLP
-      }];
-    });
-  };
-
-  const removeItem = (code) => {
-    setCart(prevCart => prevCart.filter(i => i.code !== code));
-  };
-
-  const updateItem = (code, qty) => {
-    setCart(prevCart => {
-      if (qty <= 0) return prevCart.filter(i => i.code !== code);
-      return prevCart.map(i => 
-        i.code === code 
-          ? { ...i, qty, subtotal: qty * i.price }
-          : i
-      );
-    });
-  };
-
-  const clearCart = () => {
-    setCart([]);
-  };
-
-  const getTotal = () => {
-    return cart.reduce((sum, item) => sum + item.subtotal, 0);
-  };
-
-  const getItemCount = () => {
-    return cart.reduce((sum, item) => sum + item.qty, 0);
-  };
-
-  const formatTotal = () => {
-    return formatearPrecio(getTotal());
-  };
-
-  return (
-    <CartContext.Provider value={{
-      cart,
-      addItem,
-      removeItem,
-      updateItem,
-      clearCart,
-      getTotal,
-      getItemCount,
-      formatTotal
-    }}>
       {children}
     </CartContext.Provider>
   );
@@ -173,5 +104,4 @@ export function useCart() {
     throw new Error('useCart debe usarse dentro de CartProvider');
   }
   return context;
->>>>>>> Prueba2-Entrega
 }

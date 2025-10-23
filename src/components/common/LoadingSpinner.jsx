@@ -1,9 +1,9 @@
 import React from 'react';
-import './LoadingSpinner.css';
+import '../../../css/components/common/LoadingSpinner.css';
 
 const LoadingSpinner = () => {
   return (
-    <div className="loading-spinner-container" aria-label="Cargando contenido">
+    <div className="loading-spinner" aria-label="Cargando contenido">
       <div className="loading-spinner"></div>
       <p>Cargando...</p>
     </div>

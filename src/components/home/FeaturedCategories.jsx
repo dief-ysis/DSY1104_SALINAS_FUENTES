@@ -1,29 +1,31 @@
-import { Link } from 'react-router-dom';
-import { CATEGORIES } from '../../database/categories';
-import './FeaturedCategories.css';
+import React from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import '../../../css/components/FeaturedCategories.css';
 
-export function FeaturedCategories() {
+export const FeaturedCategories = ({ categories = [] }) => {
   return (
-    <section className="featured-categories">
-      <div className="container">
-        <h2>Categorías destacadas</h2>
-        <div className="categories-grid">
-          {CATEGORIES.map(category => (
-            <Link 
-              key={category.id}
-              to={`/productos?cat=${category.id.toLowerCase()}`} 
-              className="category-card"
-            >
-              <img src={category.image} alt={`${category.name} - ${category.description}`} />
-              <div className="category-overlay">
-                <h3 className="category-title">{category.name}</h3>
-                <p className="category-description">{category.description}</p>
-              </div>
-              <span className="category-badge">{category.badge}</span>
-            </Link>
+    <section className="featured-categories py-5">
+      <Container>
+        <h2 className="text-center mb-4">Categorías Destacadas</h2>
+        <Row>
+          {categories.map(category => (
+            <Col key={category.id} xs={12} md={4}>
+              <LinkContainer to={{ pathname: '/products', search: `?category=${encodeURIComponent(category.name)}` }}>
+                <Card as="a" href={`/products?category=${encodeURIComponent(category.name)}`} className="category-card h-100">
+                  <Card.Img variant="top" src={category.image} alt={category.name} />
+                  <Card.Body>
+                    <Card.Title>{category.name}</Card.Title>
+                    <Card.Text>{category.description}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </LinkContainer>
+            </Col>
           ))}
-        </div>
-      </div>
+        </Row>
+      </Container>
     </section>
   );
-}
+};
+
+export default FeaturedCategories;

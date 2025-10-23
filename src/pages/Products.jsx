@@ -3,7 +3,7 @@ import { ProductFilters } from '../../components/products/ProductFilters';
 import { Pagination } from '../../components/products/Pagination';
 import { useCart } from '../../context/CartContext';
 import { formatearPrecio } from '../../utils/formatters';
-import './Products.css';
+import '../../css/pages/products.css';
 
 export default function Products() {
   const { products, categories, pagination, filters } = useProducts();
