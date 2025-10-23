@@ -85,19 +85,6 @@ export function Navbar() {
       </div>
     </nav>
   );
-          aria-expanded={isMenuOpen}
-        >
-          <span className="hamburger"></span>
-        </button>
-
-        <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
-          <Link 
-            to="/" 
-            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-            onClick={closeMenu}
-          >
-            Home
-          </Link>
           <Link 
             to="/productos" 
             className={`nav-link ${location.pathname === '/productos' ? 'active' : ''}`}
