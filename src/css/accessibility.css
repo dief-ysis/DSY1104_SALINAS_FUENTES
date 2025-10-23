@@ -1,12 +1,19 @@
-/* Breakpoints */
+/* HH-003: Sistema de breakpoints y accesibilidad WCAG 2.1 */
 :root {
-  /* Breakpoints en variables CSS para referencia en JS si es necesario */
-  --breakpoint-mobile: 480px;
-  --breakpoint-tablet: 768px;
-  --breakpoint-desktop: 769px;
+  /* Breakpoints sistematizados */
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 480px;    /* Móvil */
+  --breakpoint-md: 768px;    /* Tablet */
+  --breakpoint-lg: 769px;    /* Desktop */
+  --breakpoint-xl: 1280px;   /* Wide Desktop */
+
+  /* Colores de accesibilidad */
+  --color-focus: var(--color-primary);
+  --color-error: #dc3545;
+  --color-error-light: rgba(220, 53, 69, 0.1);
 }
 
-/* Estilos base de accesibilidad */
+/* Estilos base de accesibilidad - WCAG 2.1 AA */
 :focus-visible {
   outline: 3px solid var(--color-primary);
   outline-offset: 2px;
@@ -55,15 +62,34 @@ textarea:focus-visible {
 
 /* Estilos para mensajes de error accesibles */
 .error-message {
-  color: #dc3545;
+  color: var(--color-error);
   font-weight: var(--font-weight-semibold);
   padding: 0.5rem;
   margin-top: 0.25rem;
   border-radius: 4px;
+  background-color: var(--color-error-light);
 }
 
 [aria-invalid="true"] {
-  border-color: #dc3545;
+  border-color: var(--color-error);
+  background-color: var(--color-error-light);
+}
+
+/* Indicadores de estado ARIA */
+[aria-busy="true"] {
+  cursor: progress;
+}
+
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Mejoras de accesibilidad para imágenes y SVGs */
+img[alt],
+svg[aria-label] {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Media Queries Base */
