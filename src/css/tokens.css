@@ -1,18 +1,23 @@
 :root {
-  /* Colores principales */
-  --color-white: #F7F7F7;
-  --color-primary: #2E8B57;    /* Verde esmeralda */
+  /* Paleta de colores base - HH-001 */
+  --color-base: #F7F7F7;       /* Color base para fondos claros */
+  --color-primary: #2E8B57;    /* Verde esmeralda para elementos principales */
+  --color-accent: #FFD700;     /* Amarillo oro para acentos y CTAs */
+  --color-brown: #8B4513;      /* Marrón para elementos terciarios */
+  --color-text: #333333;       /* Color principal para textos */
+  --color-text-light: #666666; /* Color secundario para textos */
+
+  /* Variaciones de colores principales */
   --color-primary-light: #3DAE6B;
   --color-primary-dark: #1F5D3A;
-  
-  --color-accent: #FFD700;     /* Amarillo oro */
   --color-accent-light: #FFE44D;
   --color-accent-dark: #B39700;
   
-  --color-brown: #8B4513;      /* Marrón silla de montar */
-  --color-black: #333333;      /* Gris oscuro */
-  --color-gray: #666666;       /* Gris medio */
-  --color-gray-light: #E5E5E5; /* Gris claro para hover */
+  /* Colores de sistema */
+  --color-gray-light: #E5E5E5;
+  --color-white: var(--color-base);
+  --color-black: var(--color-text);
+  --color-gray: var(--color-text-light);
 }
 
 /* Clases utilitarias para fondos */
