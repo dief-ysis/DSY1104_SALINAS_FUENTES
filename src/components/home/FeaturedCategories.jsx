@@ -34,20 +34,20 @@ const FEATURED_CATEGORIES = [
   }
 ];
 
-export function FeaturedCategories() {
+export function FeaturedCategories({ categories = FEATURED_CATEGORIES }) {
   return (
     <section className="featured-categories" aria-labelledby="featured-categories-title">
       <div className="container">
         <header className="featured-header">
-          <h2 id="featured-categories-title">Explora nuestras categorías</h2>
+          <h2 id="featured-categories-title">Categorías Destacadas</h2>
           <p>Encuentra los mejores productos organizados para ti</p>
         </header>
         
         <div className="categories-grid">
-          {FEATURED_CATEGORIES.map(category => (
+          {categories.map(category => (
             <Link
               key={category.id}
-              to={`/productos?cat=${category.id}`}
+              to={`/products?category=${category.name}`}
               className="category-tile"
               aria-labelledby={`category-title-${category.id}`}
             >

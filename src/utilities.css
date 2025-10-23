@@ -1,0 +1,32 @@
+.text-emerald { color: var(--accent-emerald) !important; }
+.text-brown { color: var(--accent-brown) !important; }
+.text-mustard { color: var(--accent-mustard) !important; }
+
+.bg-emerald { background-color: var(--accent-emerald); }
+.bg-brown { background-color: var(--accent-brown); }
+
+.btn-emerald {
+  background-color: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+  color: white;
+}
+
+.btn-emerald:hover {
+  background-color: #267349;
+  border-color: #267349;
+  color: white;
+}
+
+.btn-outline-emerald {
+  color: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+}
+
+.btn-outline-emerald:hover {
+  background-color: var(--accent-emerald);
+  color: white;
+}
+
+.badge.bg-emerald {
+  background-color: var(--accent-emerald) !important;
+}

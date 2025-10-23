@@ -1,14 +1,21 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useNavigation } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
-import { products } from '../database/products';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { product } = useLoaderData();
+  const navigation = useNavigation();
   const { addToCart } = useCart();
-  
-  const product = products.find(p => p.id === parseInt(id));
+
+  if (navigation.state === 'loading') {
+    return (
+      <Container className="text-center mt-5">
+        <LoadingSpinner />
+      </Container>
+    );
+  }
 
   if (!product) {
     return <p className="text-center">Producto no encontrado</p>;

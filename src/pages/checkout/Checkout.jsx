@@ -181,22 +181,22 @@ const Checkout = () => {
               {cart.map((item) => (
                 <div key={item.id} className="d-flex justify-content-between mb-2">
                   <span>{item.quantity}x {item.name}</span>
-                  <span>{formatearPrecio(item.price * item.quantity)}</span>
+                  <span>${formatearPrecio(item.price * item.quantity)}</span>
                 </div>
               ))}
               <hr />
               <div className="d-flex justify-content-between mb-2">
                 <span>Subtotal</span>
-                <span>{formatearPrecio(total)}</span>
+                <span>${formatearPrecio(total)}</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span>Envío</span>
-                <span>{formatearPrecio(3000)}</span>
+                <span>${formatearPrecio(3000)}</span>
               </div>
               <hr />
               <div className="d-flex justify-content-between">
                 <strong>Total</strong>
-                <strong>{formatearPrecio(total + 3000)}</strong>
+                <strong>${formatearPrecio(total + 3000)}</strong>
               </div>
             </Card.Body>
           </Card>

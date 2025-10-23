@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 
 export function Navbar() {
@@ -8,6 +9,7 @@ export function Navbar() {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const { user, logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
     // Actualizar contador del carrito
@@ -23,7 +25,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="navbar" role="navigation" aria-label="Navegación principal">
+    <nav className={`navbar ${isMenuOpen ? 'active' : ''}`} role="navigation" aria-label="Navegación principal">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" aria-label="Ir a inicio">
           <img src="/assets/images/logo.png" alt="Logo de Huerto Hogar" width="40" height="40" />
@@ -33,7 +35,7 @@ export function Navbar() {
           className={`navbar-toggle ${isMenuOpen ? 'active' : ''}`}
           onClick={toggleMenu}
           aria-controls="navbar-menu"
-          aria-label="Menú de navegación"
+          aria-label="Menú"
           aria-expanded={isMenuOpen}>
           <span className="navbar-toggle-icon"></span>
         </button>
@@ -42,13 +44,13 @@ export function Navbar() {
           id="navbar-menu" 
           className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}
         >
-          <nav className="nav-links">
+          <div className="nav-links">
             <Link 
               to="/" 
               className={`nav-link ${isActive('/')}`} 
               onClick={() => setIsMenuOpen(false)}
             >
-              Inicio
+              Home
             </Link>
             <Link 
               to="/productos" 
@@ -62,7 +64,7 @@ export function Navbar() {
               className={`nav-link ${isActive('/blogs')}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Blogs
+              Blog
             </Link>
             <Link 
               to="/contacto" 
@@ -71,17 +73,21 @@ export function Navbar() {
             >
               Contacto
             </Link>
-          </nav>
+          </div>
         </div>
 
-        <Link to="/carrito" className="cart-link" aria-label={`Ver carrito - ${cartCount} productos`}>
-          <span className="cart-icon">🛒</span>
-          {cartCount > 0 && (
-            <span className="cart-badge" aria-hidden="true">
-              {cartCount}
-            </span>
+        <div className="navbar-actions">
+          <Link to="/carrito" className="cart-link" aria-label={`Ver carrito - ${cartCount} productos`}>
+            <span className="cart-icon">🛒</span>
+            <span className="cart-badge" aria-hidden="true">{cartCount}</span>
+          </Link>
+
+          {!isAuthenticated ? (
+            <Link to="/login" className="login-link">Iniciar sesión</Link>
+          ) : (
+            <button className="logout-button" onClick={logout}>Cerrar sesión</button>
           )}
-        </Link>
+        </div>
       </div>
     </nav>
   );

@@ -2,6 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Root from './pages/Root';
 import LoadingSpinner from './components/common/LoadingSpinner';
+import ErrorPage from './components/common/ErrorPage';
+import { productsLoader } from './loaders/products';
+import { productLoader } from './loaders/productLoader';
 
 // Lazy loading de componentes
 const Home = lazy(() => import('./pages/Home'));
@@ -18,6 +21,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -33,7 +37,8 @@ export const router = createBrowserRouter([
           <Suspense fallback={<LoadingSpinner />}>
             <Products />
           </Suspense>
-        )
+        ),
+        loader: productsLoader
       },
       {
         path: 'productos/:id',
@@ -41,7 +46,8 @@ export const router = createBrowserRouter([
           <Suspense fallback={<LoadingSpinner />}>
             <ProductDetail />
           </Suspense>
-        )
+        ),
+        loader: productLoader
       },
       {
         path: 'blog',
@@ -85,15 +91,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'login',
-<<<<<<< HEAD
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <Login />
           </Suspense>
         )
-=======
-        element: <Login />
->>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f
       }
     ]
   }
