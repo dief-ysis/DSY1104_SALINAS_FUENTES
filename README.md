@@ -194,4 +194,8 @@ Para dudas o sugerencias sobre la implementación en React, contactar a:
 - Textos alternativos en imágenes
 - Contraste adecuado
 - Estructura semántica HTML
+<<<<<<< HEAD
 - ARIA labels donde sea necesariox
+=======
+- ARIA labels donde sea necesariox
+>>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { formatearPrecio } from '../utils/formatters';
 
 export const CartContext = createContext();
@@ -13,6 +14,29 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
+=======
+
+const CartContext = createContext();
+
+export function useCart() {
+  return useContext(CartContext);
+}
+
+export function CartProvider({ children }) {
+  const [cartItems, setCartItems] = useState([]);
+
+  // Cargar carrito desde localStorage al inicializar
+  useEffect(() => {
+    const savedCart = localStorage.getItem('huertohogar-cart');
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+  }, []);
+
+  // Guardar carrito en localStorage cuando cambie
+  useEffect(() => {
+    localStorage.setItem('huertohogar-cart', JSON.stringify(cartItems));
+>>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f
   }, [cartItems]);
 
   const addToCart = (product, quantity = 1) => {
@@ -96,6 +120,7 @@ export function CartProvider({ children }) {
       {children}
     </CartContext.Provider>
   );
+<<<<<<< HEAD
 }
 
 export function useCart() {
@@ -104,4 +129,6 @@ export function useCart() {
     throw new Error('useCart debe usarse dentro de CartProvider');
   }
   return context;
+=======
+>>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f
 }

@@ -85,11 +85,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'login',
+<<<<<<< HEAD
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <Login />
           </Suspense>
         )
+=======
+        element: <Login />
+>>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f
       }
     ]
   }

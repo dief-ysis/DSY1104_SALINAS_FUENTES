@@ -23,4 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+<<<<<<< HEAD
 coverage
+=======
+coverage
+>>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f
