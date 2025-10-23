@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/tokens.css'
 import '../css/base/index.css'
-import './css/tokens.css'
 import { router } from './routes'
 import { CartProvider } from './context/CartContext'
 

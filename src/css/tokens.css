@@ -1,20 +1,33 @@
 :root {
   /* Colores principales */
-  --color-bg-light: #F7F7F7;
+  --color-white: #F7F7F7;
   --color-primary: #2E8B57;    /* Verde esmeralda */
-  --color-accent: #FFD700;     /* Amarillo oro */
-  --color-brown: #8B4513;      /* Marrón silla de montar */
-  --color-text-dark: #333333;  /* Gris oscuro */
-  --color-text-muted: #666666; /* Gris medio */
-
-  /* Clases utilitarias */
-  .bg-light { background-color: var(--color-bg-light); }
-  .bg-primary { background-color: var(--color-primary); }
-  .bg-accent { background-color: var(--color-accent); }
-  .bg-brown { background-color: var(--color-brown); }
+  --color-primary-light: #3DAE6B;
+  --color-primary-dark: #1F5D3A;
   
-  .text-dark { color: var(--color-text-dark); }
-  .text-muted { color: var(--color-text-muted); }
-  .text-primary { color: var(--color-primary); }
-  .text-brown { color: var(--color-brown); }
+  --color-accent: #FFD700;     /* Amarillo oro */
+  --color-accent-light: #FFE44D;
+  --color-accent-dark: #B39700;
+  
+  --color-brown: #8B4513;      /* Marrón silla de montar */
+  --color-black: #333333;      /* Gris oscuro */
+  --color-gray: #666666;       /* Gris medio */
+  --color-gray-light: #E5E5E5; /* Gris claro para hover */
 }
+
+/* Clases utilitarias para fondos */
+.bg-white { background-color: var(--color-white); }
+.bg-primary { background-color: var(--color-primary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-brown { background-color: var(--color-brown); }
+.bg-black { background-color: var(--color-black); }
+.bg-gray { background-color: var(--color-gray); }
+.bg-gray-light { background-color: var(--color-gray-light); }
+
+/* Clases utilitarias para texto */
+.text-white { color: var(--color-white); }
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-brown { color: var(--color-brown); }
+.text-black { color: var(--color-black); }
+.text-gray { color: var(--color-gray); }
