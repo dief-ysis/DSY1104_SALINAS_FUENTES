@@ -1,24 +1,31 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Hero.css';
 
 export function Hero() {
   return (
-    <div className="hero">
-      <Container>
-        <div className="hero-content">
-          <h1>Del huerto a tu hogar</h1>
-          <p>Frutas, verduras y productos naturales</p>
-          <Link to="/productos" className="hero-button">Ver catálogo</Link>
-        </div>
-      </Container>
+    <section className="hero" aria-label="Mensaje principal">
+      <div className="hero-content">
+        <h1>Frescura y naturalidad en tu mesa</h1>
+        <p>Descubre nuestra selección de productos orgánicos cultivados con amor y cuidado por el medio ambiente</p>
+        <Link 
+          to="/productos" 
+          className="hero-button"
+          role="button"
+          aria-label="Ver catálogo de productos"
+        >
+          Ver catálogo
+        </Link>
+      </div>
       <img 
         src="/assets/images/hero-bg.jpg"
-        alt="Selección de productos orgánicos frescos"
+        alt=""
         className="hero-bg"
+        aria-hidden="true"
+        loading="eager"
+        fetchpriority="high"
       />
-    </div>
+    </section>
   );
-};
+}
 
