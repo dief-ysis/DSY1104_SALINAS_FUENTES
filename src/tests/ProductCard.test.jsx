@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ProductCard } from '../components/products/ProductCard';
 import { CartContext } from '../context/CartContext';
 
@@ -9,6 +10,16 @@ const mockProduct = {
   price: 1000,
   image: '/assets/products/test.jpg',
   description: 'Descripción de prueba'
+};
+
+const renderProductCard = (cartContextValue) => {
+  return render(
+    <BrowserRouter>
+      <CartContext.Provider value={cartContextValue}>
+        <ProductCard product={mockProduct} />
+      </CartContext.Provider>
+    </BrowserRouter>
+  );
 };
 
 describe('ProductCard Component', () => {
@@ -26,33 +37,31 @@ describe('ProductCard Component', () => {
   });
 
   it('renderiza la información del producto', () => {
-    render(
-      <CartContext.Provider value={cartContextValue}>
-        <ProductCard product={mockProduct} />
-      </CartContext.Provider>
-    );
+    renderProductCard(cartContextValue);
     
+    // Verificar el título y precio
     expect(screen.getByText(mockProduct.name)).toBeInTheDocument();
-    expect(screen.getByText(`$${mockProduct.price}`)).toBeInTheDocument();
+    expect(screen.getByText(`$${mockProduct.price.toLocaleString('es-CL')}`)).toBeInTheDocument();
+    
+    // Verificar la imagen
+    const image = screen.getByAltText(mockProduct.name);
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute('src', mockProduct.image);
+    
+    // Verificar la descripción
+    expect(screen.getByText(mockProduct.description)).toBeInTheDocument();
   });
 
-  it('muestra botón de agregar al carrito', () => {
-    render(
-      <CartContext.Provider value={cartContextValue}>
-        <ProductCard product={mockProduct} />
-      </CartContext.Provider>
-    );
+  it('muestra el botón de agregar al carrito con el estilo de Bootstrap', () => {
+    renderProductCard(cartContextValue);
     
     const addButton = screen.getByRole('button', { name: /agregar al carrito/i });
     expect(addButton).toBeInTheDocument();
+    expect(addButton).toHaveClass('btn', 'btn-success');
   });
 
-  it('maneja el clic en agregar al carrito', () => {
-    render(
-      <CartContext.Provider value={cartContextValue}>
-        <ProductCard product={mockProduct} />
-      </CartContext.Provider>
-    );
+  it('maneja el clic en agregar al carrito y muestra retroalimentación visual', () => {
+    renderProductCard(cartContextValue);
     
     const addButton = screen.getByRole('button', { name: /agregar al carrito/i });
     fireEvent.click(addButton);

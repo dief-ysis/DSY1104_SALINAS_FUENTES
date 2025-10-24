@@ -1,44 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useLoaderData, useNavigation } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useSearchParams } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import { productService } from '../../services/product';
+import LoadingSpinner from '../common/LoadingSpinner';
+import { formatearPrecio } from '../../utils/formatters';
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [searchParams] = useSearchParams();
+  const { products, categories } = useLoaderData();
+  const navigation = useNavigation();
   const { addToCart } = useCart();
   
-  const categoryFilter = searchParams.get('cat');
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [productsData, categoriesData] = await Promise.all([
-          productService.getAllProducts(),
-          productService.getAllCategories()
-        ]);
-        
-        const filteredProducts = categoryFilter
-          ? productsData.filter(product => product.category === categoryFilter)
-          : productsData;
-          
-        setProducts(filteredProducts);
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error('Error loading data:', error);
-      }
-    };
-    loadData();
-  }, [categoryFilter]);
+  const isLoading = navigation.state === 'loading';
 
   const handleAddToCart = (product) => {
     addToCart(product, 1);
     alert(`¡${product.name} agregado al carrito!`);
   };
 
+  if (isLoading) {
+    return <LoadingSpinner data-testid="loading-spinner" />;
+  }
   return (
     <Container>
       <Row className="mb-4">
@@ -82,11 +63,11 @@ export default function Products() {
               <Card.Body className="d-flex flex-column">
                 <Card.Title className="text-emerald">{product.name}</Card.Title>
                 <Card.Text className="text-secondary flex-grow-1">
-                  {product.description.substring(0, 100)}...
+                  {(product.description || '').substring(0, 100)}{product.description ? '...' : ''}
                 </Card.Text>
                 <div className="mt-auto">
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <span className="h5 text-brown mb-0">${product.price} CLP/{product.unit}</span>
+                      <span className="h5 text-brown mb-0">{`$${product.price ?? product.precioCLP ?? 0}`}{product.unit ? ` CLP/${product.unit}` : ''}</span>
                     <Badge bg={product.stock > 50 ? "success" : "warning"}>
                       Stock: {product.stock}
                     </Badge>

@@ -50,14 +50,13 @@ describe('ProductCard', () => {
     renderWithCart(<ProductCard product={noStockProduct} />);
     
     expect(screen.getByText(/agotado/i)).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeDisabled();
+    expect(screen.getByTestId('add-cart-button')).toBeDisabled();
   });
 
   it('displays product link correctly', () => {
     renderWithCart(<ProductCard product={mockProduct} />);
     
-    const productLink = screen.getByRole('link');
-    expect(productLink).toHaveAttribute('href', `/productos/${mockProduct.id}`);
+    expect(screen.getByTestId('detail-button')).toHaveAttribute('href', `/productos/${mockProduct.id}`);
   });
 
   it('renders product image with lazy loading', () => {

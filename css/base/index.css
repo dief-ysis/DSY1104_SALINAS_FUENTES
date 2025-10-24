@@ -1,19 +1,10 @@
 :root {
-<<<<<<< HEAD:css/base/index.css
-  --bg-primary: var(--color-white);
-  --accent-emerald: var(--color-primary);
-  --accent-mustard: var(--color-accent);
-  --accent-brown: var(--color-brown);
-  --text-primary: var(--color-black);
-  --text-secondary: var(--color-gray);
-=======
   --bg-primary: #F7F7F7;
   --accent-emerald: #2E8B57;
   --accent-mustard: #FFD700;
   --accent-brown: #8B4513;
   --text-primary: #333333;
   --text-secondary: #666666;
->>>>>>> 75861351ce7037f81f4a6158a8715c431d29407f:src/index.css
 }
 
 body {
