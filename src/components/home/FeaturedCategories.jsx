@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './FeaturedCategories.css';
+import '../../styles/sections/featured-categories.css';
 
 // HH-012: Categorías destacadas con navegación
 const FEATURED_CATEGORIES = [
@@ -8,33 +8,29 @@ const FEATURED_CATEGORIES = [
     id: 'frutas',
     name: 'Frutas Frescas',
     description: 'Selección de frutas orgánicas de temporada',
-    image: '/assets/images/categories/frutas.jpg',
+    image: '/assets/images/categories/frutas-frescas.svg',
     icon: '🍎',
   },
   {
     id: 'verduras',
-    name: 'Verduras Orgánicas',
+    name: 'Vegetales Verdes',
     description: 'Verduras cultivadas sin pesticidas',
-    image: '/assets/images/categories/verduras.jpg',
+    image: '/assets/images/categories/vegetales-verdes.svg',
     icon: '🥬',
   },
   {
     id: 'organicos',
     name: 'Productos Orgánicos',
     description: 'Productos naturales certificados',
-    image: '/assets/images/categories/organicos.jpg',
+    image: '/assets/images/categories/organicos.svg',
     icon: '🌱',
   },
-  {
-    id: 'lacteos',
-    name: 'Lácteos',
-    description: 'Productos lácteos de granja',
-    image: '/assets/images/categories/lacteos.jpg',
-    icon: '🥛',
-  }
 ];
 
 export function FeaturedCategories({ categories = FEATURED_CATEGORIES }) {
+  // Validar que categories sea un array
+  const categoryList = Array.isArray(categories) ? categories : FEATURED_CATEGORIES;
+
   return (
     <section className="featured-categories" aria-labelledby="featured-categories-title">
       <div className="container">
@@ -44,7 +40,7 @@ export function FeaturedCategories({ categories = FEATURED_CATEGORIES }) {
         </header>
         
         <div className="categories-grid">
-          {categories.map(category => (
+          {categoryList.map(category => (
             <Link
               key={category.id}
               to={`/products?category=${category.name}`}

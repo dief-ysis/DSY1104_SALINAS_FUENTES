@@ -5,17 +5,31 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 import ErrorPage from './components/common/ErrorPage';
 import { productsLoader } from './loaders/products';
 import { productLoader } from './loaders/productLoader';
+import { homeLoader } from './loaders/home';
 
-// Lazy loading de componentes
-const Home = lazy(() => import('./pages/Home'));
-const Products = lazy(() => import('./pages/Products'));
-const Blog = lazy(() => import('./pages/Blog'));
-const Contact = lazy(() => import('./pages/Contact'));
-const Cart = lazy(() => import('./pages/Cart'));
-const Login = lazy(() => import('./pages/Login'));
-const ProductDetail = lazy(() => import('./pages/ProductDetail'));
-const About = lazy(() => import('./pages/About'));
-const Checkout = lazy(() => import('./pages/Checkout'));
+// Lazy loading de componentes - Home
+const Home = lazy(() => import('./pages/home/Home'));
+
+// Lazy loading de componentes - Products
+const Products = lazy(() => import('./pages/products/Products'));
+const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
+const Offers = lazy(() => import('./pages/products/Offers'));
+
+// Lazy loading de componentes - Cart
+const Cart = lazy(() => import('./pages/cart/Cart'));
+const Checkout = lazy(() => import('./pages/cart/Checkout'));
+const PagoExitoso = lazy(() => import('./pages/cart/PagoExitoso'));
+const PagoError = lazy(() => import('./pages/cart/PagoError'));
+
+// Lazy loading de componentes - Auth
+const Login = lazy(() => import('./pages/auth/Login'));
+const Registro = lazy(() => import('./pages/auth/Registro'));
+
+// Lazy loading de componentes - Info
+const About = lazy(() => import('./pages/info/About'));
+const Blog = lazy(() => import('./pages/info/Blog'));
+const DetalleBlog = lazy(() => import('./pages/info/DetalleBlog'));
+const Contact = lazy(() => import('./pages/info/Contact'));
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +43,8 @@ export const router = createBrowserRouter([
           <Suspense fallback={<LoadingSpinner />}>
             <Home />
           </Suspense>
-        )
+        ),
+        loader: homeLoader
       },
       {
         path: 'productos',
@@ -54,6 +69,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <Blog />
+          </Suspense>
+        )
+      },
+      {
+        path: 'blog/:id',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <DetalleBlog />
           </Suspense>
         )
       },
@@ -94,6 +117,30 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <Login />
+          </Suspense>
+        )
+      },
+      {
+        path: 'registro',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Registro />
+          </Suspense>
+        )
+      },
+      {
+        path: 'pago-exitoso',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <PagoExitoso />
+          </Suspense>
+        )
+      },
+      {
+        path: 'pago-error',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <PagoError />
           </Suspense>
         )
       }

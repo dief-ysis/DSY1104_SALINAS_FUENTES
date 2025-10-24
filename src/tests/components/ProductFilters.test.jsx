@@ -45,24 +45,25 @@ describe('ProductFilters Component', () => {
 
   it('muestra el selector de categorías', () => {
     setup();
-    expect(screen.getByLabelText(/categoría/i)).toBeInTheDocument();
+    const categorySelect = screen.getByLabelText(/Filtrar por categoría/i);
+    expect(categorySelect).toBeInTheDocument();
   });
 
   it('actualiza la categoría al seleccionar una opción', () => {
     setup();
-    const categorySelect = screen.getByLabelText(/categoría/i);
+    const categorySelect = screen.getByLabelText(/Filtrar por categoría/i);
     fireEvent.change(categorySelect, { target: { value: 'FR' } });
     expect(mockFilters.setCategory).toHaveBeenCalledWith('FR');
   });
 
   it('muestra el selector de ordenamiento', () => {
     setup();
-    expect(screen.getByLabelText(/ordenar productos/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Ordenar productos/i)).toBeInTheDocument();
   });
 
   it('actualiza el ordenamiento al seleccionar una opción', () => {
     setup();
-    const sortSelect = screen.getByLabelText(/ordenar productos/i);
+    const sortSelect = screen.getByLabelText(/Ordenar productos/i);
     fireEvent.change(sortSelect, { target: { value: 'precio-asc' } });
     expect(mockFilters.setSortBy).toHaveBeenCalledWith('precio');
     expect(mockFilters.setSortOrder).toHaveBeenCalledWith('asc');

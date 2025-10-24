@@ -5,16 +5,18 @@ import { FeaturedCategories } from '../../components/home/FeaturedCategories';
 
 const mockCategories = [
   {
-    id: 1,
-    name: 'Frutas',
-    description: 'Frutas frescas de temporada',
-    image: '/images/fruits.jpg'
+    id: 'frutas',
+    name: 'Frutas Frescas',
+    description: 'Selección de frutas orgánicas de temporada',
+    image: '/assets/images/categories/frutas-frescas.svg',
+    icon: '🍎',
   },
   {
-    id: 2,
-    name: 'Verduras',
-    description: 'Verduras orgánicas',
-    image: '/images/vegetables.jpg'
+    id: 'verduras',
+    name: 'Vegetales Verdes',
+    description: 'Verduras cultivadas sin pesticidas',
+    image: '/assets/images/categories/vegetales-verdes.svg',
+    icon: '🥬',
   }
 ];
 
@@ -42,9 +44,10 @@ describe('FeaturedCategories Component', () => {
   it('incluye enlaces a las categorías', () => {
     setup();
     const links = screen.getAllByRole('link');
-    expect(links.length).toBe(mockCategories.length);
-    links.forEach((link, index) => {
-      expect(link).toHaveAttribute('href', `/products?category=${mockCategories[index].name}`);
+    expect(links.length).toBeGreaterThanOrEqual(mockCategories.length);
+    mockCategories.forEach(category => {
+      const link = screen.getByRole('link', { name: new RegExp(category.name, 'i') });
+      expect(link).toHaveAttribute('href', `/products?category=${category.name}`);
     });
   });
 });

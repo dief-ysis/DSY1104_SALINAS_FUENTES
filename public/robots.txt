@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://dsy-1104-salinas-fuentes.vercel.app/sitemap.xml

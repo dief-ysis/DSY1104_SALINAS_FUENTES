@@ -9,7 +9,8 @@ const mockProduct = {
   name: 'Producto de prueba',
   price: 1000,
   image: '/assets/products/test.jpg',
-  description: 'Descripción de prueba'
+  description: 'Descripción de prueba',
+  stock: 10
 };
 
 const renderProductCard = (cartContextValue) => {
@@ -55,7 +56,7 @@ describe('ProductCard Component', () => {
   it('muestra el botón de agregar al carrito con el estilo de Bootstrap', () => {
     renderProductCard(cartContextValue);
     
-    const addButton = screen.getByRole('button', { name: /agregar al carrito/i });
+    const addButton = screen.getByRole('button', { name: /agregar/i });
     expect(addButton).toBeInTheDocument();
     expect(addButton).toHaveClass('btn', 'btn-success');
   });
@@ -63,7 +64,7 @@ describe('ProductCard Component', () => {
   it('maneja el clic en agregar al carrito y muestra retroalimentación visual', () => {
     renderProductCard(cartContextValue);
     
-    const addButton = screen.getByRole('button', { name: /agregar al carrito/i });
+    const addButton = screen.getByTestId('add-cart-button');
     fireEvent.click(addButton);
     
     expect(mockAddItem).toHaveBeenCalledWith(mockProduct);

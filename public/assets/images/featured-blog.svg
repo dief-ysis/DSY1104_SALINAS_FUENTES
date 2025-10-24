@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#F7F7F7"/>
+  
+  <!-- Blog Header Background -->
+  <rect width="600" height="150" fill="#2E8B57"/>
+  
+  <!-- Blog Image -->
+  <rect x="20" y="20" width="560" height="110" rx="5" fill="#E8F5E9"/>
+  
+  <!-- Blog header text -->
+  <text x="50" y="80" font-family="Playfair Display, serif" font-size="28" font-weight="bold" fill="#2E8B57">Guía de Cultivo Orgánico</text>
+  
+  <!-- Divider -->
+  <rect x="50" y="160" width="500" height="2" fill="#FFD700"/>
+  
+  <!-- Meta information -->
+  <text x="50" y="190" font-family="Montserrat, sans-serif" font-size="12" fill="#999">Por: Juan García</text>
+  <text x="50" y="210" font-family="Montserrat, sans-serif" font-size="12" fill="#999">📅 23 de Octubre, 2025</text>
+  <text x="50" y="230" font-family="Montserrat, sans-serif" font-size="12" fill="#999">⏱️ 5 min lectura</text>
+  <text x="50" y="250" font-family="Montserrat, sans-serif" font-size="12" fill="#999">🏷️ Agricultura, Consejos</text>
+  
+  <!-- Content preview -->
+  <text x="50" y="290" font-family="Montserrat, sans-serif" font-size="13" fill="#333">
+    Aprende los secretos del cultivo orgánico para obtener productos frescos
+  </text>
+  <text x="50" y="310" font-family="Montserrat, sans-serif" font-size="13" fill="#333">
+    y saludables en tu propio huerto. En este artículo te compartiremos las
+  </text>
+  <text x="50" y="330" font-family="Montserrat, sans-serif" font-size="13" fill="#333">
+    mejores prácticas y técnicas probadas por agricultores experientes...
+  </text>
+  
+  <!-- Read more button -->
+  <rect x="50" y="350" width="150" height="35" rx="17" fill="#2E8B57"/>
+  <text x="125" y="372" font-family="Montserrat, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#FFF">Leer Artículo</text>
+</svg>

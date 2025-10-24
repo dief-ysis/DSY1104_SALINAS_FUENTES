@@ -123,13 +123,7 @@ class ProductService {
   }
 
   delay(ms) {
-    return new Promise(resolve => {
-      if (typeof jest !== 'undefined') {
-        setTimeout(resolve, ms);
-      } else {
-        setTimeout(resolve, ms);
-      }
-    });
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 

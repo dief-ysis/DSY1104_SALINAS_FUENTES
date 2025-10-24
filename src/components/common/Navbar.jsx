@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
-import './Navbar.css';
+import '../../styles/layout/navbar.css';
 
 export function Navbar() {
   const { getItemCount } = useCart();
@@ -60,8 +60,8 @@ export function Navbar() {
               Productos
             </Link>
             <Link 
-              to="/blogs" 
-              className={`nav-link ${isActive('/blogs')}`}
+              to="/blog" 
+              className={`nav-link ${isActive('/blog')}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Blog

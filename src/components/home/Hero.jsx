@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import './Hero.css';
+import '../../styles/sections/hero.css';
 
 function Hero() {
   return (
-    <section className="hero-section" aria-label="Sección principal de la página">
+    <section className="hero-section" style={{backgroundImage: `url('/assets/images/hero.svg')`}} aria-label="Sección principal de la página">
+      <div className="hero-overlay"></div>
       <div className="hero-badge">Fresco · Local · Responsable</div>
       <div className="hero-content">
         <motion.div
@@ -60,8 +61,8 @@ function Hero() {
           transition={{ duration: 1, ease: 'easeOut' }}
         >
           <img 
-            src="/assets/images/hero-bowl.jpg"
-            alt="Bowl de ensalada fresca y saludable"
+            src="/assets/images/hero.svg"
+            alt="Frutas y verduras frescas"
             loading="eager"
             fetchpriority="high"
           />

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
-import { Hero } from '../components/home/Hero';
+import Hero from '../components/home/Hero';
 
 describe('Hero Component', () => {
   it('renderiza el título principal', () => {
@@ -30,7 +30,7 @@ describe('Hero Component', () => {
         <Hero />
       </MemoryRouter>
     );
-    const linkElement = screen.getByRole('link', { name: /Ver catálogo/i });
+    const linkElement = screen.getByRole('link', { name: /Ver productos/i });
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', '/productos');
   });

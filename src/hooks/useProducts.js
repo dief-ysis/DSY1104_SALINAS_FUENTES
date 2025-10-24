@@ -38,25 +38,28 @@ export function useProducts() {
       .filter(product => {
         if (!product) return false;
         
-        const nombre = product.nombre || '';
-        const descripcion = product.descripcion || '';
-        const categoriaId = product.categoriaId || '';
+        // Usar propiedades normalizadas que vienen del service
+        const name = product.name || product.nombre || '';
+        const description = product.description || product.descripcion || '';
+        const category = product.category || product.categoriaId || '';
         
         const matchesFilter = filter === '' || 
-          nombre.toLowerCase().includes(filter.toLowerCase()) ||
-          descripcion.toLowerCase().includes(filter.toLowerCase());
+          name.toLowerCase().includes(filter.toLowerCase()) ||
+          description.toLowerCase().includes(filter.toLowerCase());
         
         const matchesCategory = category === '' || 
-          categoriaId.toLowerCase() === category.toLowerCase();
+          category.toLowerCase() === category.toLowerCase();
         
         return matchesFilter && matchesCategory;
       })
       .sort((a, b) => {
         const factor = sortOrder === 'asc' ? 1 : -1;
-        if (sortBy === 'precio') {
-          return (a.precioCLP - b.precioCLP) * factor;
+        if (sortBy === 'precio' || sortBy === 'price') {
+          return (a.price - b.price) * factor;
         }
-        return a[sortBy].localeCompare(b[sortBy]) * factor;
+        const aValue = a[sortBy] || a.name || '';
+        const bValue = b[sortBy] || b.name || '';
+        return String(aValue).localeCompare(String(bValue)) * factor;
       });
   }, [products, filter, category, sortBy, sortOrder]);
 

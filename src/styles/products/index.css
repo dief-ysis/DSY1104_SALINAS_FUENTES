@@ -1,0 +1,9 @@
+/* ===================================
+   PRODUCTS - Estilos de Productos
+   =================================== */
+
+@import './product-card.css';
+@import './products.css';
+@import './product-filters.css';
+@import './pagination.css';
+@import './product-detail.css';

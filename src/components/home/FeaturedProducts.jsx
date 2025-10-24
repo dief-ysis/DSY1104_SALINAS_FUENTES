@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import '../../../css/components/FeaturedProducts.css';
 
 const formatPrice = (price) => {
   return new Intl.NumberFormat('es-CL', {

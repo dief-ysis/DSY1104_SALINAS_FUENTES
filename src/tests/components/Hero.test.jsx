@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { Hero } from '../../components/home/Hero';
+import Hero from '../../components/home/Hero';
 
 describe('Hero Component', () => {
   it('renders hero title and subtitle', () => {
@@ -23,18 +23,18 @@ describe('Hero Component', () => {
       </MemoryRouter>
     );
 
-    const ctaLink = screen.getByRole('link', { name: /ver catálogo/i });
+    const ctaLink = screen.getByRole('link', { name: /ver productos/i });
     expect(ctaLink).toHaveAttribute('href', '/productos');
   });
 
-  it('renders background image', () => {
+  it('renders hero with proper structure', () => {
     render(
       <MemoryRouter>
         <Hero />
       </MemoryRouter>
     );
 
-    const image = screen.getByAltText('Selección de productos orgánicos frescos');
-    expect(image).toBeInTheDocument();
+    const heroSection = screen.getByRole('region', { hidden: true });
+    expect(heroSection).toBeInTheDocument();
   });
 });

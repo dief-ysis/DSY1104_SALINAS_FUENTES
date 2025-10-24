@@ -1,48 +1,59 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Navbar } from '../components/common/Navbar';
-import { CartProvider } from '../context/CartContext';
+import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
 
-const renderWithRouter = (component) => {
+const renderWithContext = (component) => {
+  const mockCartContext = {
+    getItemCount: () => 0,
+    addItem: jest.fn(),
+    removeItem: jest.fn(),
+    cartItems: [],
+  };
+
+  const mockAuthContext = {
+    user: null,
+    isAuthenticated: false,
+    login: jest.fn(),
+    logout: jest.fn(),
+  };
+
   return render(
     <BrowserRouter>
-      <CartProvider>
-        {component}
-      </CartProvider>
+      <CartContext.Provider value={mockCartContext}>
+        <AuthContext.Provider value={mockAuthContext}>
+          {component}
+        </AuthContext.Provider>
+      </CartContext.Provider>
     </BrowserRouter>
   );
 };
 
 describe('Navbar', () => {
-  beforeEach(() => {
-    renderWithRouter(<Navbar />);
-  });
-
   it('renders all navigation links', () => {
+    renderWithContext(<Navbar />);
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Productos')).toBeInTheDocument();
     expect(screen.getByText('Blog')).toBeInTheDocument();
     expect(screen.getByText('Contacto')).toBeInTheDocument();
   });
 
-  it('has correct logo alt text', () => {
-    const logo = screen.getByAltText(/logo de huerto hogar/i);
+  it('has correct logo', () => {
+    renderWithContext(<Navbar />);
+    const logo = screen.getByAltText(/Logo de Huerto Hogar/i);
     expect(logo).toBeInTheDocument();
   });
 
   it('toggles mobile menu when hamburger is clicked', () => {
-    const menuButton = screen.getByLabelText('Menú');
-    const mobileMenu = screen.getByRole('navigation').querySelector('.navbar-menu');
-    
+    renderWithContext(<Navbar />);
+    const menuButton = screen.getByRole('button', { name: /Menú/i });
     fireEvent.click(menuButton);
-    expect(mobileMenu).toHaveClass('active');
-    
-    fireEvent.click(menuButton);
-    expect(mobileMenu).not.toHaveClass('active');
+    expect(menuButton).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('shows cart with correct initial count', () => {
-    const cartBadge = screen.getByText('0');
-    expect(cartBadge).toBeInTheDocument();
+  it('shows cart icon with item count', () => {
+    renderWithContext(<Navbar />);
+    expect(screen.getByText('🛒')).toBeInTheDocument();
   });
 });

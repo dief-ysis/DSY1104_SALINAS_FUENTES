@@ -1,0 +1,25 @@
+/* ===================================
+   ESTILOS GLOBALES - CENTRO ÚNICO
+   Estructura: 7 carpetas organizadas
+   =================================== */
+
+/* 1. FOUNDATION - Variables y Tokens */
+@import './foundation/index.css';
+
+/* 2. BASE - Estilos fundamentales */
+@import './base/index.css';
+
+/* 3. COMPONENTS - Componentes UI reutilizables */
+@import './components/index.css';
+
+/* 4. LAYOUT - Navegación y estructura */
+@import './layout/index.css';
+
+/* 5. SECTIONS - Secciones de página */
+@import './sections/index.css';
+
+/* 6. PRODUCTS - Estilos de productos */
+@import './products/index.css';
+
+/* 7. PAGES - Estilos de páginas */
+@import './pages/index.css';

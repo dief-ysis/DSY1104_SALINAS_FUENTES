@@ -26,8 +26,16 @@ export default function ProductDetail() {
   }, [id]);
 
   const handleAddToCart = () => {
+    if (quantity < 1) {
+      alert('La cantidad debe ser al menos 1');
+      return;
+    }
+    if (quantity > product.stock) {
+      alert('No hay suficiente stock disponible');
+      return;
+    }
     addToCart(product, quantity);
-    alert(`¡${quantity} ${product.unit}(s) de ${product.name} agregado(s) al carrito!`);
+    alert(`¡${quantity} ${product.unit || 'unidades'} de ${product.name} agregado(s) al carrito!`);
   };
 
   if (loading) {
@@ -75,9 +83,9 @@ export default function ProductDetail() {
               </Card.Text>
               
               <div className="product-info mb-4">
-                <p><strong>Precio:</strong> <span className="h4 text-brown">${product.price} CLP/{product.unit}</span></p>
-                <p><strong>Stock disponible:</strong> {product.stock} {product.unit}s</p>
-                <p><strong>Origen:</strong> {product.origin}</p>
+                <p><strong>Precio:</strong> <span className="h4 text-brown">${product.price || product.precioCLP} CLP/{product.unit || 'kg'}</span></p>
+                <p><strong>Stock disponible:</strong> {product.stock} {product.unit || 'unidades'}</p>
+                <p><strong>Origen:</strong> {product.origin || 'No especificado'}</p>
               </div>
 
               {product.stock > 0 ? (
