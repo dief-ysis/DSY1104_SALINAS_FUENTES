@@ -5,5 +5,7 @@
 @import './product-card.css';
 @import './products.css';
 @import './product-filters.css';
-@import './pagination.css';
+/* DEPRECATED: Pagination now uses Bootstrap .pagination and .page-link */
+/* @import './pagination.css'; */
 @import './product-detail.css';
+

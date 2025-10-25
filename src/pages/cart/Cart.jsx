@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Table, Button, Row, Col } from 'react-bootstrap';
 import { useCart } from '../../context/CartContext';
+import '../../styles/pages/cart-pages.css';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -37,7 +38,7 @@ const Cart = () => {
                   <img 
                     src={item.image} 
                     alt={item.name}
-                    style={{ width: 50, marginRight: 16 }}
+                    className="cart-image"
                   />
                   <span>{item.name}</span>
                 </div>

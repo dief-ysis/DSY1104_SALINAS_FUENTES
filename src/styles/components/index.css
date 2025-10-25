@@ -2,6 +2,8 @@
    COMPONENTS - UI Reutilizable
    =================================== */
 
-@import './buttons.css';
+/* DEPRECATED: Buttons now use Bootstrap .btn, .btn-primary, etc. */
+/* @import './buttons.css'; */
 @import './cards.css';
 @import './forms.css';
+

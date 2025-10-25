@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import '../../styles/pages/cart-pages.css';
 
 const PagoExitoso = () => {
   const navigate = useNavigate();
@@ -42,31 +43,22 @@ const PagoExitoso = () => {
     <Container className="mt-5 mb-5">
       {/* Animación de éxito */}
       <Row className="mb-4">
-        <Col xs={12} className="text-center">
+        <Col xs={12} className="text-center pago-header-success">
           <img 
             src="/assets/images/payment-success.svg" 
             alt="Pago exitoso" 
-            style={{ maxWidth: '300px', width: '100%', marginBottom: '20px' }}
           />
-          <h1 style={{ color: '#28a745', marginBottom: '10px' }}>
-            ¡Compra Exitosa!
-          </h1>
-          <p className="text-muted mb-4">
-            Tu pedido ha sido confirmado correctamente
-          </p>
+          <h1>¡Compra Exitosa!</h1>
+          <p className="text-muted">Tu pedido ha sido confirmado correctamente</p>
         </Col>
       </Row>
 
       {/* Número de orden prominente */}
       <Row className="mb-4">
         <Col xs={12} md={8} className="mx-auto">
-          <Card className="border-success mb-4">
-            <Card.Body className="text-center" style={{ padding: '30px' }}>
-              <p className="text-muted mb-2">Número de Orden</p>
-              <h2 style={{ color: '#2E8B57', fontSize: '28px', fontWeight: 'bold' }}>
-                {orderNumber}
-              </h2>
-            </Card.Body>
+          <Card className="order-number-box">
+            <p className="text-muted">Número de Orden</p>
+            <h2>{orderNumber}</h2>
           </Card>
         </Col>
       </Row>
@@ -74,19 +66,19 @@ const PagoExitoso = () => {
       {/* Información de la compra */}
       <Row className="mb-4">
         <Col xs={12} md={8} className="mx-auto">
-          <Card className="mb-4">
-            <Card.Header style={{ backgroundColor: '#f8f9fa', borderBottom: '2px solid #28a745' }}>
+          <Card>
+            <Card.Header className="pago-success-card-header">
               <h5 className="mb-0">📋 Resumen de tu Compra</h5>
             </Card.Header>
             <Card.Body>
               <Row className="mb-3">
                 <Col xs={6}>
                   <p className="text-muted mb-1">Cantidad de productos</p>
-                  <p style={{ fontSize: '18px', fontWeight: 'bold' }}>{itemCount} {itemCount === 1 ? 'producto' : 'productos'}</p>
+                  <p className="value">{itemCount} {itemCount === 1 ? 'producto' : 'productos'}</p>
                 </Col>
                 <Col xs={6}>
                   <p className="text-muted mb-1">Total a pagar</p>
-                  <p style={{ fontSize: '18px', fontWeight: 'bold', color: '#28a745' }}>
+                  <p className="value" style={{ color: '#28a745' }}>
                     ${totalAmount?.toLocaleString('es-CL')} CLP
                   </p>
                 </Col>
@@ -112,9 +104,9 @@ const PagoExitoso = () => {
       {/* Información de confirmación */}
       <Row className="mb-4">
         <Col xs={12} md={8} className="mx-auto">
-          <Card style={{ backgroundColor: '#e8f5e9', borderLeft: '4px solid #28a745' }}>
+          <Card className="confirmation-box">
             <Card.Body>
-              <h5 style={{ color: '#2E8B57', marginBottom: '12px' }}>✉️ Confirmación Enviada</h5>
+              <h5>✉️ Confirmación Enviada</h5>
               <p className="mb-0">
                 Hemos enviado un correo de confirmación a <strong>{customerEmail}</strong> con los detalles de tu compra y seguimiento del pedido.
               </p>
@@ -126,64 +118,28 @@ const PagoExitoso = () => {
       {/* Siguientes pasos */}
       <Row className="mb-5">
         <Col xs={12} md={8} className="mx-auto">
-          <h5 style={{ color: '#2E8B57', marginBottom: '15px' }}>📦 Siguientes Pasos</h5>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <div style={{
-                backgroundColor: '#28a745',
-                color: 'white',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                1
-              </div>
-              <div>
-                <p className="mb-1"><strong>Confirmar datos</strong></p>
+          <div className="next-steps">
+            <h5>📦 Siguientes Pasos</h5>
+            <div className="step-item">
+              <div className="step-number">1</div>
+              <div className="step-content">
+                <p><strong>Confirmar datos</strong></p>
                 <p className="text-muted small mb-0">Revisa tu correo para confirmar los datos de entrega</p>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <div style={{
-                backgroundColor: '#28a745',
-                color: 'white',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                2
-              </div>
-              <div>
-                <p className="mb-1"><strong>Preparación del pedido</strong></p>
+            <div className="step-item">
+              <div className="step-number">2</div>
+              <div className="step-content">
+                <p><strong>Preparación del pedido</strong></p>
                 <p className="text-muted small mb-0">Nuestro equipo preparará tu pedido en las próximas 24 horas</p>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <div style={{
-                backgroundColor: '#28a745',
-                color: 'white',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                3
-              </div>
-              <div>
-                <p className="mb-1"><strong>Entrega</strong></p>
+            <div className="step-item">
+              <div className="step-number">3</div>
+              <div className="step-content">
+                <p><strong>Entrega</strong></p>
                 <p className="text-muted small mb-0">Recibirás tu pedido en la fecha estimada</p>
               </div>
             </div>
@@ -194,12 +150,11 @@ const PagoExitoso = () => {
       {/* Botones de acción */}
       <Row>
         <Col xs={12} md={8} className="mx-auto">
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div className="action-buttons">
             <Button
               variant="success"
               size="lg"
               onClick={() => navigate('/')}
-              style={{ minWidth: '180px' }}
             >
               Volver a Home
             </Button>
@@ -207,7 +162,6 @@ const PagoExitoso = () => {
               variant="outline-success"
               size="lg"
               onClick={() => navigate('/productos')}
-              style={{ minWidth: '180px' }}
             >
               Seguir comprando
             </Button>

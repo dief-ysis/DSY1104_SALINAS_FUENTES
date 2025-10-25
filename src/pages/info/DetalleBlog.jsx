@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import '../../styles/pages/info-pages.css';
 
 const blogsData = [
   {

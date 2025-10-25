@@ -1,8 +1,7 @@
 .product-detail-image {
   width: 100%;
-  height: auto;
-  max-height: 500px;
-  object-fit: contain;
+  height: 400px;
+  object-fit: cover;
   border-radius: 8px;
 }
 
@@ -81,4 +80,9 @@
 .btn-primary:disabled {
   background-color: #ccc;
   border-color: #ccc;
+}
+
+/* Quantity Input Styling */
+.quantity-input {
+  width: 100px;
 }

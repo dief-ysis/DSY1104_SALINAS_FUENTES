@@ -1,7 +1,4 @@
-.contact-card {
-  border: none;
-  border-radius: 8px;
-}
+/* Contact page custom styling */
 
 .contact-info p {
   font-size: 1.1rem;
@@ -11,20 +8,4 @@
 .contact-card h2,
 .contact-card h3 {
   color: var(--color-primary);
-  font-weight: 600;
-}
-
-.form-control:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
 }

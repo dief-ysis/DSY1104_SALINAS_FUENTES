@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../../styles/pages/info-pages.css';
 
 const blogs = [
   {
@@ -63,10 +64,8 @@ const Blog = () => {
     <Container className="py-5">
       <Row className="mb-5">
         <Col xs={12} className="text-center">
-          <h1 style={{ color: '#2E8B57', marginBottom: '10px', fontSize: '2.5rem', fontWeight: 'bold' }}>
-            📖 Blog HuertoHogar
-          </h1>
-          <p className="text-muted mb-0">
+          <h1 className="blog-title">📖 Blog HuertoHogar</h1>
+          <p className="blog-subtitle">
             Aprende más sobre agricultura orgánica, sostenibilidad y vida saludable
           </p>
         </Col>
@@ -75,23 +74,11 @@ const Blog = () => {
       <Row className="g-4">
         {blogs.map((blog) => (
           <Col xs={12} md={6} key={blog.id} className="mb-4">
-            <Card className="h-100 shadow-sm" style={{ 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              cursor: 'pointer'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-            }}
-            >
+            <Card className="blog-card h-100 shadow-sm">
               <Card.Img 
                 variant="top" 
                 src={blog.image}
-                style={{ height: '250px', objectFit: 'cover' }}
+                className="blog-image"
                 alt={blog.title}
               />
               <Card.Body className="d-flex flex-column">
@@ -99,18 +86,18 @@ const Blog = () => {
                   <small className="text-muted me-2">
                     📅 {new Date(blog.date).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })}
                   </small>
-                  <small style={{ backgroundColor: '#e8f5e9', color: '#2E8B57', padding: '4px 8px', borderRadius: '4px' }}>
+                  <small className="blog-category">
                     {blog.category}
                   </small>
                 </div>
-                <Card.Title className="mb-3" style={{ color: '#2E8B57', fontSize: '1.3rem' }}>
+                <Card.Title className="mb-3 blog-card-title">
                   {blog.title}
                 </Card.Title>
                 <Card.Text className="text-muted mb-3">
                   {blog.excerpt}
                 </Card.Text>
                 <div className="mt-auto">
-                  <div className="mb-3 d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666' }}>
+                  <div className="mb-3 d-flex justify-content-between blog-meta">
                     <span>✍️ {blog.author}</span>
                     <span>⏱️ {blog.readTime} min lectura</span>
                   </div>
@@ -118,8 +105,7 @@ const Blog = () => {
                     as={Link}
                     to={`/blog/${blog.id}`}
                     variant="success"
-                    className="w-100"
-                    style={{ backgroundColor: '#2E8B57', borderColor: '#2E8B57' }}
+                    className="w-100 blog-button"
                   >
                     Leer más →
                   </Button>

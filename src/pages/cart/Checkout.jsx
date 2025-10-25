@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import '../../styles/pages/cart-pages.css';
 
 const Checkout = () => {
   const { cart, getTotal, clearCart } = useCart();

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import '../../styles/pages/auth-pages.css';
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -88,7 +89,7 @@ const Registro = () => {
       
       // Redirigir después de 2 segundos
       setTimeout(() => {
-        navigate('/login', { state: { registroExitoso: true, email: formData.email } });
+        navigate('/', { state: { registroExitoso: true, email: formData.email } });
       }, 2000);
     }
   };
@@ -99,7 +100,7 @@ const Registro = () => {
         <Col xs={12} md={8} lg={6} className="mx-auto">
           <Card className="shadow-sm">
             <Card.Body className="p-4">
-              <h1 style={{ color: '#2E8B57', marginBottom: '30px', fontSize: '2rem', textAlign: 'center', fontWeight: 'bold' }}>
+              <h1 className="auth-title">
                 🌱 Crear Cuenta
               </h1>
 
@@ -116,7 +117,7 @@ const Registro = () => {
               <Form onSubmit={handleSubmit}>
                 {/* Nombre */}
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#2E8B57', fontWeight: 'bold' }}>
+                  <Form.Label className="auth-label">
                     Nombre Completo
                   </Form.Label>
                   <Form.Control
@@ -126,14 +127,10 @@ const Registro = () => {
                     onChange={handleChange}
                     placeholder="Tu nombre completo"
                     isInvalid={!!errors.nombre}
-                    style={{
-                      borderColor: errors.nombre ? '#dc3545' : undefined,
-                      borderRadius: '6px',
-                      padding: '10px 12px'
-                    }}
+                    className="auth-input"
                   />
                   {errors.nombre && (
-                    <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+                    <Form.Control.Feedback type="invalid" className="form-feedback-block">
                       {errors.nombre}
                     </Form.Control.Feedback>
                   )}
@@ -141,7 +138,7 @@ const Registro = () => {
 
                 {/* Email */}
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#2E8B57', fontWeight: 'bold' }}>
+                  <Form.Label className="auth-label">
                     Correo Electrónico
                   </Form.Label>
                   <Form.Control
@@ -151,14 +148,10 @@ const Registro = () => {
                     onChange={handleChange}
                     placeholder="tu@email.com"
                     isInvalid={!!errors.email}
-                    style={{
-                      borderColor: errors.email ? '#dc3545' : undefined,
-                      borderRadius: '6px',
-                      padding: '10px 12px'
-                    }}
+                    className="auth-input"
                   />
                   {errors.email && (
-                    <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+                    <Form.Control.Feedback type="invalid" className="form-feedback-block">
                       {errors.email}
                     </Form.Control.Feedback>
                   )}
@@ -166,10 +159,10 @@ const Registro = () => {
 
                 {/* Contraseña */}
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#2E8B57', fontWeight: 'bold' }}>
+                  <Form.Label className="auth-label">
                     Contraseña
                   </Form.Label>
-                  <div style={{ position: 'relative' }}>
+                  <div className="password-input-container">
                     <Form.Control
                       type={showPassword ? 'text' : 'password'}
                       name="password"
@@ -177,33 +170,19 @@ const Registro = () => {
                       onChange={handleChange}
                       placeholder="Mínimo 8 caracteres"
                       isInvalid={!!errors.password}
-                      style={{
-                        borderColor: errors.password ? '#dc3545' : undefined,
-                        borderRadius: '6px',
-                        padding: '10px 12px',
-                        paddingRight: '40px'
-                      }}
+                      className="auth-input"
+                      style={{ paddingRight: '40px' }}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      style={{
-                        position: 'absolute',
-                        right: '12px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '1.2rem',
-                        padding: 0
-                      }}
+                      className="password-toggle-btn"
                     >
                       {showPassword ? '👁️‍🗨️' : '👁️'}
                     </button>
                   </div>
                   {errors.password && (
-                    <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+                    <Form.Control.Feedback type="invalid" className="form-feedback-block">
                       {errors.password}
                     </Form.Control.Feedback>
                   )}
@@ -214,7 +193,7 @@ const Registro = () => {
 
                 {/* Confirmar Contraseña */}
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#2E8B57', fontWeight: 'bold' }}>
+                  <Form.Label className="auth-label">
                     Confirmar Contraseña
                   </Form.Label>
                   <Form.Control
@@ -224,14 +203,10 @@ const Registro = () => {
                     onChange={handleChange}
                     placeholder="Repite tu contraseña"
                     isInvalid={!!errors.confirmPassword}
-                    style={{
-                      borderColor: errors.confirmPassword ? '#dc3545' : undefined,
-                      borderRadius: '6px',
-                      padding: '10px 12px'
-                    }}
+                    className="auth-input"
                   />
                   {errors.confirmPassword && (
-                    <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+                    <Form.Control.Feedback type="invalid" className="form-feedback-block">
                       {errors.confirmPassword}
                     </Form.Control.Feedback>
                   )}
@@ -247,11 +222,11 @@ const Registro = () => {
                     label={
                       <span>
                         Acepto los{' '}
-                        <Link to="#" style={{ color: '#2E8B57' }}>
+                        <Link to="#" className="auth-link">
                           términos y condiciones
                         </Link>
                         {' '}y la{' '}
-                        <Link to="#" style={{ color: '#2E8B57' }}>
+                        <Link to="#" className="auth-link">
                           política de privacidad
                         </Link>
                       </span>
@@ -259,7 +234,7 @@ const Registro = () => {
                     isInvalid={!!errors.aceptaTerminos}
                   />
                   {errors.aceptaTerminos && (
-                    <div style={{ color: '#dc3545', fontSize: '0.875rem', marginTop: '4px' }}>
+                    <div className="form-feedback-block">
                       {errors.aceptaTerminos}
                     </div>
                   )}
@@ -268,14 +243,7 @@ const Registro = () => {
                 {/* Botón de envío */}
                 <Button
                   type="submit"
-                  className="w-100 mb-3"
-                  style={{
-                    backgroundColor: '#2E8B57',
-                    borderColor: '#2E8B57',
-                    padding: '10px 12px',
-                    fontSize: '1rem',
-                    fontWeight: 'bold'
-                  }}
+                  className="w-100 mb-3 auth-btn-submit"
                 >
                   Crear Cuenta
                 </Button>
@@ -285,7 +253,7 @@ const Registro = () => {
               <div className="text-center">
                 <p className="text-muted mb-0">
                   ¿Ya tienes cuenta?{' '}
-                  <Link to="/login" style={{ color: '#2E8B57', fontWeight: 'bold' }}>
+                  <Link to="/" className="auth-link" style={{ fontWeight: 'bold' }}>
                     Inicia sesión aquí
                   </Link>
                 </p>
@@ -295,13 +263,8 @@ const Registro = () => {
               <hr className="my-4" />
 
               {/* Información adicional */}
-              <div style={{ 
-                backgroundColor: '#f0f8f0',
-                padding: '15px',
-                borderRadius: '6px',
-                borderLeft: '4px solid #2E8B57'
-              }}>
-                <p style={{ fontSize: '0.9rem', marginBottom: '0' }}>
+              <div className="privacy-box">
+                <p>
                   <strong>🔒 Tu privacidad es importante</strong><br/>
                   Tus datos serán protegidos con encriptación de máximo nivel. No compartiremos tu información con terceros.
                 </p>

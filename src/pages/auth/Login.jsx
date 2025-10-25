@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
+import '../../styles/pages/auth-pages.css';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function Login() {
         <Col xs={12} md={8} lg={6} className="mx-auto">
           <Card className="shadow-sm">
             <Card.Body className="p-4">
-              <h1 style={{ color: '#2E8B57', marginBottom: '30px', fontSize: '2rem', textAlign: 'center', fontWeight: 'bold' }}>
+              <h1 className="auth-title">
                 🌱 Iniciar Sesión
               </h1>
 
@@ -73,43 +74,30 @@ export default function Login() {
 
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#2E8B57', fontWeight: 'bold' }}>Correo Electrónico</Form.Label>
+                  <Form.Label className="auth-label">Correo Electrónico</Form.Label>
                   <Form.Control 
                     name="email" 
                     type="email" 
                     aria-label="email"
                     placeholder="tu@email.com"
-                    style={{
-                      borderRadius: '6px',
-                      padding: '10px 12px'
-                    }}
+                    className="auth-input"
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-4">
-                  <Form.Label style={{ color: '#2E8B57', fontWeight: 'bold' }}>Contraseña</Form.Label>
+                  <Form.Label className="auth-label">Contraseña</Form.Label>
                   <Form.Control 
                     name="password" 
                     type="password" 
                     aria-label="contraseña"
                     placeholder="Tu contraseña"
-                    style={{
-                      borderRadius: '6px',
-                      padding: '10px 12px'
-                    }}
+                    className="auth-input"
                   />
                 </Form.Group>
 
                 <Button 
                   type="submit" 
-                  className="w-100 mb-3"
-                  style={{
-                    backgroundColor: '#2E8B57',
-                    borderColor: '#2E8B57',
-                    padding: '10px 12px',
-                    fontSize: '1rem',
-                    fontWeight: 'bold'
-                  }}
+                  className="w-100 mb-3 auth-btn-submit"
                   disabled={loading}
                 >
                   {loading ? 'Cargando...' : 'Iniciar Sesión'}
@@ -129,7 +117,7 @@ export default function Login() {
 
               <div className="text-center mt-3">
                 <small className="text-muted">
-                  <Link to="#" style={{ color: '#2E8B57' }}>
+                  <Link to="#" className="auth-link">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </small>
@@ -137,14 +125,8 @@ export default function Login() {
             </Card.Body>
           </Card>
 
-          <div style={{ 
-            backgroundColor: '#f0f8f0',
-            padding: '15px',
-            borderRadius: '6px',
-            borderLeft: '4px solid #2E8B57',
-            marginTop: '20px'
-          }}>
-            <p style={{ fontSize: '0.9rem', marginBottom: '0' }}>
+          <div className="demo-account-box">
+            <p>
               <strong>💡 Cuenta de Prueba</strong><br/>
               Email: demo@huerthogar.cl<br/>
               Contraseña: Demo1234

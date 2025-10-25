@@ -1,35 +1,9 @@
-.blog-card {
-  transition: transform 0.3s ease;
-  border: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+/* Blog custom styling */
 
 .blog-card:hover {
   transform: translateY(-5px);
 }
 
-.blog-card .card-img-top {
-  height: 200px;
-  object-fit: cover;
-}
-
-.blog-card .card-title {
-  color: var(--color-primary);
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.blog-card .card-text {
-  color: #666;
-  line-height: 1.6;
-}
-
-.blog-card .card-footer {
-  background-color: transparent;
-  border-top: 1px solid rgba(0,0,0,0.1);
-}
-
 h1 {
   color: var(--color-primary);
-  font-weight: 700;
 }

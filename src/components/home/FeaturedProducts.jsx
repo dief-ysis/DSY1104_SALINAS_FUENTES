@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 
@@ -29,53 +29,58 @@ const FeaturedProducts = ({ products = [] }) => {
   }
 
   return (
-    <section className="featured-products" aria-labelledby="featured-products-title">
+    <section className="py-5 bg-light" aria-labelledby="featured-products-title">
       <Container>
-        <header className="featured-header">
-          <h2 id="featured-products-title">Productos Destacados</h2>
-          <p>Descubre nuestra selección especial de productos orgánicos</p>
-        </header>
-
-        <div className="products-grid">
-          {featuredProducts.map(product => (
-            <Link 
-              key={product.id}
-              to={`/productos/${product.id}`}
-              className="product-card"
-              aria-labelledby={`product-title-${product.id}`}
-            >
-              <div className="product-image">
-                <img 
-                  src={product.image} 
-                  alt=""
-                  loading="lazy"
-                />
-                {product.badge && (
-                  <span className="product-badge">{product.badge}</span>
-                )}
-              </div>
-              <div className="product-content">
-                <div className="product-category">{product.category}</div>
-                <h3 id={`product-title-${product.id}`} className="product-title">
-                  {product.name}
-                </h3>
-                <div className="product-meta">
-                  <span className="product-price">
-                    {formatPrice(product.price)}
-                  </span>
-                  <button
-                    type="button"
-                    className="add-to-cart-btn"
-                    onClick={(e) => handleAddToCart(product, e)}
-                    aria-label={`Añadir ${product.name} al carrito`}
-                  >
-                    Añadir
-                  </button>
-                </div>
-              </div>
-            </Link>
-          ))}
+        <div className="text-center mb-5">
+          <h2 id="featured-products-title" className="mb-2">Productos Destacados</h2>
+          <p className="text-muted">Descubre nuestra selección especial de productos orgánicos</p>
         </div>
+
+        <Row className="g-4">
+          {featuredProducts.map(product => (
+            <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
+              <Link 
+                to={`/productos/${product.id}`}
+                className="text-decoration-none"
+                aria-labelledby={`product-title-${product.id}`}
+              >
+                <div className="card h-100 featured-card">
+                  <div className="position-relative overflow-hidden" style={{ height: '200px' }}>
+                    <img 
+                      src={product.image} 
+                      alt=""
+                      loading="lazy"
+                      className="card-img-top h-100 w-100"
+                      style={{ objectFit: 'cover' }}
+                    />
+                    {product.badge && (
+                      <span className="position-absolute top-0 start-0 badge bg-danger m-2">{product.badge}</span>
+                    )}
+                  </div>
+                  <div className="card-body d-flex flex-column">
+                    <small className="text-muted">{product.category}</small>
+                    <h5 id={`product-title-${product.id}`} className="card-title mt-2">
+                      {product.name}
+                    </h5>
+                    <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
+                      <span className="fw-bold text-success">
+                        {formatPrice(product.price)}
+                      </span>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-success"
+                        onClick={(e) => handleAddToCart(product, e)}
+                        aria-label={`Añadir ${product.name} al carrito`}
+                      >
+                        Añadir
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </Col>
+          ))}
+        </Row>
       </Container>
     </section>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import '../../styles/pages/info-pages.css';
 
 const About = () => {
   const values = [
@@ -58,10 +59,8 @@ const About = () => {
       {/* Hero Section */}
       <Row className="mb-5">
         <Col xs={12} className="text-center">
-          <h1 style={{ color: '#2E8B57', marginBottom: '20px', fontSize: '2.5rem', fontWeight: 'bold' }}>
-            🌱 Sobre HuertoHogar
-          </h1>
-          <p className="text-muted mb-0" style={{ fontSize: '1.1rem' }}>
+          <h1 className="about-title">🌱 Sobre HuertoHogar</h1>
+          <p className="text-muted mb-0 about-subtitle">
             Conectando lo fresco y natural directamente del campo a tu mesa
           </p>
         </Col>
@@ -69,16 +68,14 @@ const About = () => {
 
       {/* Historia */}
       <Row className="mb-5">
-        <Col xs={12} md={6} className="mb-4 mb-md-0">
-          <h2 style={{ color: '#2E8B57', marginBottom: '20px', fontSize: '2rem', fontWeight: 'bold' }}>
-            📖 Nuestra Historia
-          </h2>
-          <p style={{ fontSize: '1.05rem', lineHeight: '1.8', color: '#333' }}>
+        <Col xs={12} md={6} className="mb-4 mb-md-0 history-section">
+          <h2>📖 Nuestra Historia</h2>
+          <p className="history-text">
             HuertoHogar nació en 2020 con la visión de transformar la manera en que los chilenos acceden a productos frescos y orgánicos. 
             Cansados de intermediarios innecesarios y productos de baja calidad, un grupo de agricultores apasionados decidió crear 
             una plataforma directa que conectara sus cosechas con familias conscientes.
           </p>
-          <p style={{ fontSize: '1.05rem', lineHeight: '1.8', color: '#333' }}>
+          <p className="history-text">
             Lo que comenzó como una pequeña iniciativa de 5 agricultores ha crecido a más de 50 productores asociados, 
             sirviendo a miles de familias en todo el país. Cada producto que enviamos representa nuestro compromiso con la excelencia, 
             sostenibilidad y el trato justo a nuestros agricultores.
@@ -88,13 +85,7 @@ const About = () => {
           <img 
             src="/assets/images/about-history.svg" 
             alt="Huerto Hogar - Productos Orgánicos" 
-            style={{
-              width: '100%',
-              borderRadius: '12px',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-              objectFit: 'cover',
-              height: '350px'
-            }}
+            className="history-image"
           />
         </Col>
       </Row>
@@ -102,12 +93,10 @@ const About = () => {
       {/* Misión y Visión */}
       <Row className="mb-5">
         <Col xs={12} md={6} className="mb-4 mb-md-0">
-          <Card style={{ backgroundColor: '#e8f5e9', borderLeft: '4px solid #2E8B57', height: '100%' }}>
+          <Card className="mission-card">
             <Card.Body>
-              <h3 style={{ color: '#2E8B57', marginBottom: '15px', fontSize: '1.5rem', fontWeight: 'bold' }}>
-                🎯 Nuestra Misión
-              </h3>
-              <p style={{ fontSize: '1.05rem', lineHeight: '1.8', color: '#333', marginBottom: 0 }}>
+              <h3>🎯 Nuestra Misión</h3>
+              <p className="mission-text">
                 Proporcionar productos agrícolas frescos, garantizando sabor auténtico, fomentando la conexión entre consumidores 
                 y agricultores, y promoviendo una alimentación saludable y sostenible que beneficie a nuestras familias y al planeta.
               </p>
@@ -115,12 +104,10 @@ const About = () => {
           </Card>
         </Col>
         <Col xs={12} md={6}>
-          <Card style={{ backgroundColor: '#f0f8f0', borderLeft: '4px solid #FFD700', height: '100%' }}>
+          <Card className="vision-card">
             <Card.Body>
-              <h3 style={{ color: '#2E8B57', marginBottom: '15px', fontSize: '1.5rem', fontWeight: 'bold' }}>
-                🚀 Nuestra Visión
-              </h3>
-              <p style={{ fontSize: '1.05rem', lineHeight: '1.8', color: '#333', marginBottom: 0 }}>
+              <h3>🚀 Nuestra Visión</h3>
+              <p className="vision-text">
                 Ser la plataforma líder en distribución de productos frescos y naturales en Chile, revolucionando el concepto de compra 
                 consciente, estableciendo un nuevo estándar de calidad, y siendo referente en sostenibilidad y responsabilidad social.
               </p>
@@ -132,42 +119,18 @@ const About = () => {
       {/* Valores */}
       <Row className="mb-5">
         <Col xs={12} className="mb-4">
-          <h2 style={{ color: '#2E8B57', marginBottom: '30px', fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', borderBottom: '2px solid #FFD700', paddingBottom: '15px' }}>
-            💎 Nuestros Valores
-          </h2>
+          <h2 className="values-section-title">💎 Nuestros Valores</h2>
         </Col>
       </Row>
 
       <Row className="g-4 mb-5">
         {values.map((value, index) => (
           <Col xs={12} sm={6} md={4} key={index}>
-            <Card 
-              style={{
-                backgroundColor: '#f8f9fa',
-                border: 'none',
-                borderTop: '3px solid #2E8B57',
-                height: '100%',
-                transition: 'transform 0.2s, box-shadow 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
+            <Card className="value-card">
               <Card.Body>
-                <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
-                  {value.icon}
-                </div>
-                <h5 style={{ color: '#2E8B57', marginBottom: '10px', fontWeight: 'bold' }}>
-                  {value.title}
-                </h5>
-                <p style={{ fontSize: '0.95rem', color: '#666', marginBottom: 0 }}>
-                  {value.description}
-                </p>
+                <div className="value-icon">{value.icon}</div>
+                <h5 className="value-title">{value.title}</h5>
+                <p className="value-description">{value.description}</p>
               </Card.Body>
             </Card>
           </Col>
@@ -177,58 +140,40 @@ const About = () => {
       {/* Estadísticas */}
       <Row className="mb-5">
         <Col xs={12} className="mb-4">
-          <h2 style={{ color: '#2E8B57', marginBottom: '30px', fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', borderBottom: '2px solid #FFD700', paddingBottom: '15px' }}>
-            📊 Nuestros Números
-          </h2>
+          <h2 className="stats-section-title">📊 Nuestros Números</h2>
         </Col>
       </Row>
 
       <Row className="g-3 mb-5">
         <Col xs={12} sm={6} md={3}>
-          <Card className="text-center" style={{ backgroundColor: '#e8f5e9', border: 'none' }}>
+          <Card className="text-center stat-card">
             <Card.Body>
-              <h3 style={{ color: '#28a745', fontSize: '2.5rem', fontWeight: 'bold', margin: 0 }}>
-                50+
-              </h3>
-              <p style={{ color: '#2E8B57', marginBottom: 0, fontWeight: 'bold' }}>
-                Agricultores Asociados
-              </p>
+              <h3 className="stat-number green">50+</h3>
+              <p className="stat-label">Agricultores Asociados</p>
             </Card.Body>
           </Card>
         </Col>
         <Col xs={12} sm={6} md={3}>
-          <Card className="text-center" style={{ backgroundColor: '#fff3e0', border: 'none' }}>
+          <Card className="text-center stat-card orange">
             <Card.Body>
-              <h3 style={{ color: '#ff9800', fontSize: '2.5rem', fontWeight: 'bold', margin: 0 }}>
-                7
-              </h3>
-              <p style={{ color: '#2E8B57', marginBottom: 0, fontWeight: 'bold' }}>
-                Productos Frescos
-              </p>
+              <h3 className="stat-number orange">7</h3>
+              <p className="stat-label">Productos Frescos</p>
             </Card.Body>
           </Card>
         </Col>
         <Col xs={12} sm={6} md={3}>
-          <Card className="text-center" style={{ backgroundColor: '#f0f8f0', border: 'none' }}>
+          <Card className="text-center stat-card light">
             <Card.Body>
-              <h3 style={{ color: '#2E8B57', fontSize: '2.5rem', fontWeight: 'bold', margin: 0 }}>
-                3
-              </h3>
-              <p style={{ color: '#2E8B57', marginBottom: 0, fontWeight: 'bold' }}>
-                Categorías
-              </p>
+              <h3 className="stat-number dark-green">3</h3>
+              <p className="stat-label">Categorías</p>
             </Card.Body>
           </Card>
         </Col>
         <Col xs={12} sm={6} md={3}>
-          <Card className="text-center" style={{ backgroundColor: '#ffe8e8', border: 'none' }}>
+          <Card className="text-center stat-card red">
             <Card.Body>
-              <h3 style={{ color: '#dc3545', fontSize: '2.5rem', fontWeight: 'bold', margin: 0 }}>
-                100%
-              </h3>
-              <p style={{ color: '#2E8B57', marginBottom: 0, fontWeight: 'bold' }}>
-                Orgánico
-              </p>
+              <h3 className="stat-number red">100%</h3>
+              <p className="stat-label">Orgánico</p>
             </Card.Body>
           </Card>
         </Col>
@@ -237,42 +182,19 @@ const About = () => {
       {/* Equipo */}
       <Row className="mb-5">
         <Col xs={12} className="mb-4">
-          <h2 style={{ color: '#2E8B57', marginBottom: '30px', fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', borderBottom: '2px solid #FFD700', paddingBottom: '15px' }}>
-            👥 Nuestro Equipo
-          </h2>
+          <h2 className="team-section-title">👥 Nuestro Equipo</h2>
         </Col>
       </Row>
 
       <Row className="g-4 mb-5">
         {team.map((member, index) => (
           <Col xs={12} md={4} key={index}>
-            <Card style={{ backgroundColor: '#f8f9fa', border: 'none', height: '100%' }}>
+            <Card className="team-card">
               <Card.Body className="text-center">
-                <div 
-                  style={{
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: '50%',
-                    backgroundColor: '#2E8B57',
-                    margin: '0 auto 15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '3rem',
-                    color: 'white'
-                  }}
-                >
-                  {member.name.charAt(0)}
-                </div>
-                <h5 style={{ color: '#2E8B57', marginBottom: '5px', fontWeight: 'bold' }}>
-                  {member.name}
-                </h5>
-                <p style={{ color: '#FFD700', marginBottom: '10px', fontWeight: 'bold', fontSize: '0.9rem' }}>
-                  {member.role}
-                </p>
-                <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: 0 }}>
-                  {member.bio}
-                </p>
+                <div className="team-avatar">{member.name.charAt(0)}</div>
+                <h5 className="team-name">{member.name}</h5>
+                <p className="team-role">{member.role}</p>
+                <p className="team-bio">{member.bio}</p>
               </Card.Body>
             </Card>
           </Col>
@@ -282,12 +204,10 @@ const About = () => {
       {/* Compromiso final */}
       <Row>
         <Col xs={12} md={10} className="mx-auto">
-          <Card style={{ backgroundColor: '#e8f5e9', borderLeft: '6px solid #28a745' }}>
+          <Card className="commitment-box">
             <Card.Body className="text-center p-5">
-              <h3 style={{ color: '#2E8B57', marginBottom: '15px', fontSize: '1.5rem', fontWeight: 'bold' }}>
-                🌍 Nuestro Compromiso
-              </h3>
-              <p style={{ fontSize: '1.05rem', lineHeight: '1.8', color: '#333', marginBottom: 0 }}>
+              <h3 className="commitment-title">🌍 Nuestro Compromiso</h3>
+              <p className="commitment-text">
                 Cada día trabajamos para garantizar que en tu mesa lleguen productos frescos, saludables y sostenibles. 
                 Nos comprometeemos a apoyar a agricultores locales, proteger el medio ambiente y ofrecer la mejor experiencia de compra. 
                 Eres parte de una comunidad que cree en la diferencia.

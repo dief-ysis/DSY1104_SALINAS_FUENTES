@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import '../../styles/pages/cart-pages.css';
 
 const PagoError = () => {
   const navigate = useNavigate();
@@ -56,52 +57,37 @@ const PagoError = () => {
     <Container className="mt-5 mb-5">
       {/* Imagen de error */}
       <Row className="mb-4">
-        <Col xs={12} className="text-center">
+        <Col xs={12} className="pago-header-error">
           <img 
             src="/assets/images/payment-error.svg" 
             alt="Pago con error" 
-            style={{ maxWidth: '300px', width: '100%', marginBottom: '20px' }}
           />
-          <h1 style={{ color: '#dc3545', marginBottom: '10px' }}>
-            {errorInfo.title}
-          </h1>
-          <p className="text-muted mb-4">
-            {errorInfo.message}
-          </p>
+          <h1>{errorInfo.title}</h1>
+          <p className="text-muted">{errorInfo.message}</p>
         </Col>
       </Row>
 
       {/* Información del error */}
       <Row className="mb-4">
         <Col xs={12} md={8} className="mx-auto">
-          <Card className="border-danger mb-4">
-            <Card.Body style={{ padding: '30px' }}>
+          <Card className="error-box">
+            <Card.Body>
               <Row className="mb-3">
                 <Col xs={12} md={6}>
                   <p className="text-muted mb-1">Código de Error</p>
-                  <p style={{ fontSize: '18px', fontWeight: 'bold', color: '#dc3545' }}>
-                    {errorInfo.emoji} {errorReason || 'UNKNOWN_ERROR'}
+                  <p className="error-code">
+                    <span className="error-code-emoji">{errorInfo.emoji}</span>
+                    {errorReason || 'UNKNOWN_ERROR'}
                   </p>
                 </Col>
                 <Col xs={12} md={6}>
                   <p className="text-muted mb-1">ID de Transacción</p>
-                  <p style={{ fontSize: '14px', fontFamily: 'monospace' }}>
-                    {orderId}
-                  </p>
+                  <p className="error-transaction-id">{orderId}</p>
                 </Col>
               </Row>
 
-              <div 
-                style={{
-                  backgroundColor: '#ffe8e8',
-                  borderLeft: '4px solid #dc3545',
-                  padding: '12px',
-                  borderRadius: '4px'
-                }}
-              >
-                <p className="mb-0">
-                  <strong>Razón del error:</strong> {errorMessage}
-                </p>
+              <div className="error-reason-box">
+                <p><strong>Razón del error:</strong> {errorMessage}</p>
               </div>
             </Card.Body>
           </Card>
@@ -111,45 +97,25 @@ const PagoError = () => {
       {/* Recomendaciones */}
       <Row className="mb-4">
         <Col xs={12} md={8} className="mx-auto">
-          <h5 style={{ color: '#dc3545', marginBottom: '15px' }}>🔧 Recomendaciones</h5>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ 
-              padding: '12px 15px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '6px',
-              borderLeft: '4px solid #dc3545'
-            }}>
-              <p className="mb-1"><strong>✓ Verifica tus datos</strong></p>
+          <div className="recommendations">
+            <h5>🔧 Recomendaciones</h5>
+            <div className="recommendation-item">
+              <p><strong>✓ Verifica tus datos</strong></p>
               <p className="text-muted small mb-0">Asegúrate de que todos los datos de tu tarjeta sean correctos</p>
             </div>
 
-            <div style={{ 
-              padding: '12px 15px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '6px',
-              borderLeft: '4px solid #dc3545'
-            }}>
-              <p className="mb-1"><strong>✓ Intenta con otro medio de pago</strong></p>
+            <div className="recommendation-item">
+              <p><strong>✓ Intenta con otro medio de pago</strong></p>
               <p className="text-muted small mb-0">Usa una tarjeta diferente o un método de pago alternativo</p>
             </div>
 
-            <div style={{ 
-              padding: '12px 15px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '6px',
-              borderLeft: '4px solid #dc3545'
-            }}>
-              <p className="mb-1"><strong>✓ Contacta con tu banco</strong></p>
+            <div className="recommendation-item">
+              <p><strong>✓ Contacta con tu banco</strong></p>
               <p className="text-muted small mb-0">Verifica con tu entidad financiera si hay restricciones en tu cuenta</p>
             </div>
 
-            <div style={{ 
-              padding: '12px 15px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '6px',
-              borderLeft: '4px solid #dc3545'
-            }}>
-              <p className="mb-1"><strong>✓ Contáctanos</strong></p>
+            <div className="recommendation-item">
+              <p><strong>✓ Contáctanos</strong></p>
               <p className="text-muted small mb-0">Si el problema persiste, nuestro equipo de soporte está disponible para ayudarte</p>
             </div>
           </div>
@@ -159,9 +125,9 @@ const PagoError = () => {
       {/* Información de soporte */}
       <Row className="mb-5">
         <Col xs={12} md={8} className="mx-auto">
-          <Card style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
+          <Card className="support-box">
             <Card.Body>
-              <h6 style={{ color: '#856404', marginBottom: '8px' }}>📞 ¿Necesitas ayuda?</h6>
+              <h6 className="support-title">📞 ¿Necesitas ayuda?</h6>
               <p className="mb-2">Puedes contactarnos directamente:</p>
               <ul className="mb-0" style={{ fontSize: '0.95rem' }}>
                 <li>📧 Email: <strong>soporte@huerthogar.cl</strong></li>
@@ -176,12 +142,11 @@ const PagoError = () => {
       {/* Botones de acción */}
       <Row>
         <Col xs={12} md={8} className="mx-auto">
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', flexDirection: 'column' }}>
+          <div className="action-buttons">
             <Button
               variant="danger"
               size="lg"
               onClick={() => navigate('/checkout')}
-              style={{ width: '100%' }}
             >
               🔄 Reintentar Pago
             </Button>
@@ -189,7 +154,6 @@ const PagoError = () => {
               variant="outline-secondary"
               size="lg"
               onClick={() => navigate('/carrito')}
-              style={{ width: '100%' }}
             >
               Volver al Carrito
             </Button>
@@ -197,7 +161,6 @@ const PagoError = () => {
               variant="outline-primary"
               size="lg"
               onClick={() => navigate('/contacto')}
-              style={{ width: '100%' }}
             >
               Contactar Soporte
             </Button>
@@ -205,7 +168,6 @@ const PagoError = () => {
               variant="light"
               size="lg"
               onClick={() => navigate('/')}
-              style={{ width: '100%' }}
             >
               Volver a Home
             </Button>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import '../../styles/pages/info-pages.css';
 
 const Contact = () => {
   const formik = useFormik({

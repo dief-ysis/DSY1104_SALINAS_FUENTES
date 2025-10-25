@@ -41,14 +41,14 @@ export function useProducts() {
         // Usar propiedades normalizadas que vienen del service
         const name = product.name || product.nombre || '';
         const description = product.description || product.descripcion || '';
-        const category = product.category || product.categoriaId || '';
+        const productCategory = product.category || product.categoriaId || '';
         
         const matchesFilter = filter === '' || 
           name.toLowerCase().includes(filter.toLowerCase()) ||
           description.toLowerCase().includes(filter.toLowerCase());
         
         const matchesCategory = category === '' || 
-          category.toLowerCase() === category.toLowerCase();
+          productCategory.toLowerCase() === category.toLowerCase();
         
         return matchesFilter && matchesCategory;
       })

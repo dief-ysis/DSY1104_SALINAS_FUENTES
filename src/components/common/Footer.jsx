@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../../styles/layout/footer.css';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -20,37 +21,27 @@ const Footer = () => {
   };
 
   return (
-    <footer style={{ backgroundColor: '#2E8B57', color: 'white', marginTop: '60px' }}>
+    <footer className="footer bg-success text-white mt-5">
       <Container className="py-5">
         <Row className="mb-5">
           {/* Columna 1: Información de la empresa */}
           <Col xs={12} md={4} className="mb-4 mb-md-0">
             <div className="mb-3">
-              <h5 style={{ fontWeight: 'bold', marginBottom: '15px', fontSize: '1.2rem' }}>
-                🌱 HuertoHogar
-              </h5>
-              <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
+              <h5 className="footer-title">🌱 HuertoHogar</h5>
+              <p className="footer-text">
                 Fresco, local y responsable. Llevamos productos orgánicos de calidad directamente desde el campo a tu mesa.
               </p>
             </div>
             
             {/* Redes Sociales */}
             <div>
-              <h6 style={{ fontWeight: 'bold', marginBottom: '10px' }}>Síguenos</h6>
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <h6 className="footer-subtitle">Síguenos</h6>
+              <div className="footer-social">
                 <a 
                   href="https://instagram.com" 
                   target="_blank" 
                   rel="noreferrer"
-                  style={{
-                    color: 'white',
-                    fontSize: '1.3rem',
-                    transition: 'transform 0.2s',
-                    cursor: 'pointer',
-                    textDecoration: 'none'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  className="footer-social-link"
                 >
                   📷
                 </a>
@@ -58,15 +49,7 @@ const Footer = () => {
                   href="https://facebook.com" 
                   target="_blank" 
                   rel="noreferrer"
-                  style={{
-                    color: 'white',
-                    fontSize: '1.3rem',
-                    transition: 'transform 0.2s',
-                    cursor: 'pointer',
-                    textDecoration: 'none'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  className="footer-social-link"
                 >
                   👍
                 </a>
@@ -74,15 +57,7 @@ const Footer = () => {
                   href="https://twitter.com" 
                   target="_blank" 
                   rel="noreferrer"
-                  style={{
-                    color: 'white',
-                    fontSize: '1.3rem',
-                    transition: 'transform 0.2s',
-                    cursor: 'pointer',
-                    textDecoration: 'none'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  className="footer-social-link"
                 >
                   🐦
                 </a>
@@ -92,23 +67,21 @@ const Footer = () => {
 
           {/* Columna 2: Contacto e Información */}
           <Col xs={12} md={4} className="mb-4 mb-md-0">
-            <h5 style={{ fontWeight: 'bold', marginBottom: '15px', fontSize: '1.1rem' }}>
-              📞 Contáctanos
-            </h5>
-            <div style={{ fontSize: '0.95rem', lineHeight: '1.8' }}>
-              <p style={{ marginBottom: '8px' }}>
+            <h5 className="footer-title">📞 Contáctanos</h5>
+            <div className="footer-contact">
+              <p>
                 <strong>📍 Dirección:</strong><br/>
                 Av. Vicuña Mackenna 4917, San Joaquín
               </p>
-              <p style={{ marginBottom: '8px' }}>
-                <strong>� Teléfono:</strong><br/>
+              <p>
+                <strong>☎️ Teléfono:</strong><br/>
                 +56 9 1234 5678
               </p>
-              <p style={{ marginBottom: '8px' }}>
+              <p>
                 <strong>📧 Email:</strong><br/>
                 contacto@huertohogar.cl
               </p>
-              <p style={{ marginBottom: '0' }}>
+              <p>
                 <strong>🕒 Horario:</strong><br/>
                 Lunes-Viernes: 9:00-18:00 hrs<br/>
                 Sábado: 9:00-14:00 hrs
@@ -118,51 +91,35 @@ const Footer = () => {
 
           {/* Columna 3: Newsletter */}
           <Col xs={12} md={4}>
-            <h5 style={{ fontWeight: 'bold', marginBottom: '15px', fontSize: '1.1rem' }}>
-              📧 Newsletter
-            </h5>
-            <p style={{ fontSize: '0.95rem', marginBottom: '12px' }}>
+            <h5 className="footer-title">📧 Newsletter</h5>
+            <p className="footer-text small mb-3">
               Suscríbete para recibir ofertas especiales y consejos de agricultura orgánica
             </p>
             
             {showSuccess && (
-              <Alert variant="success" style={{ padding: '8px 12px', marginBottom: '12px', fontSize: '0.9rem' }}>
+              <Alert variant="success" className="footer-alert">
                 ✓ Suscripción exitosa
               </Alert>
             )}
             {showError && (
-              <Alert variant="danger" style={{ padding: '8px 12px', marginBottom: '12px', fontSize: '0.9rem' }}>
+              <Alert variant="danger" className="footer-alert">
                 ✗ Email inválido
               </Alert>
             )}
             
             <Form onSubmit={handleNewsletterSubmit}>
-              <Form.Group style={{ marginBottom: '10px' }}>
+              <Form.Group className="mb-2">
                 <Form.Control
                   type="email"
                   placeholder="Tu correo"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  style={{
-                    borderRadius: '4px',
-                    padding: '8px 12px',
-                    border: 'none',
-                    backgroundColor: 'white',
-                    color: '#333'
-                  }}
+                  className="footer-input"
                 />
               </Form.Group>
               <Button
                 type="submit"
-                style={{
-                  width: '100%',
-                  backgroundColor: '#FFD700',
-                  color: '#2E8B57',
-                  border: 'none',
-                  fontWeight: 'bold',
-                  borderRadius: '4px',
-                  padding: '8px 12px'
-                }}
+                className="footer-btn-subscribe w-100"
               >
                 Suscribirse
               </Button>
@@ -173,29 +130,27 @@ const Footer = () => {
         {/* Separador */}
         <Row>
           <Col xs={12}>
-            <hr style={{ borderColor: 'rgba(255, 255, 255, 0.3)', margin: '30px 0' }} />
+            <hr className="footer-divider" />
           </Col>
         </Row>
 
         {/* Links útiles */}
         <Row className="mb-4">
           <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-            <h6 style={{ fontWeight: 'bold', marginBottom: '12px', fontSize: '0.95rem' }}>
-              Compra
-            </h6>
-            <div style={{ fontSize: '0.9rem', lineHeight: '1.8' }}>
-              <p style={{ margin: 0 }}>
-                <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+            <h6 className="footer-subtitle">Compra</h6>
+            <div className="footer-links">
+              <p className="m-0">
+                <Link to="/" className="footer-link">
                   Inicio
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="/productos" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="/productos" className="footer-link">
                   Productos
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="/ofertas" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="/ofertas" className="footer-link">
                   Ofertas
                 </Link>
               </p>
@@ -203,22 +158,20 @@ const Footer = () => {
           </Col>
 
           <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-            <h6 style={{ fontWeight: 'bold', marginBottom: '12px', fontSize: '0.95rem' }}>
-              Información
-            </h6>
-            <div style={{ fontSize: '0.9rem', lineHeight: '1.8' }}>
-              <p style={{ margin: 0 }}>
-                <Link to="/about" style={{ color: 'white', textDecoration: 'none' }}>
+            <h6 className="footer-subtitle">Información</h6>
+            <div className="footer-links">
+              <p className="m-0">
+                <Link to="/about" className="footer-link">
                   Nosotros
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="/blog" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="/blog" className="footer-link">
                   Blog
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="/contacto" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="/contacto" className="footer-link">
                   Contacto
                 </Link>
               </p>
@@ -226,22 +179,20 @@ const Footer = () => {
           </Col>
 
           <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-            <h6 style={{ fontWeight: 'bold', marginBottom: '12px', fontSize: '0.95rem' }}>
-              Mi Cuenta
-            </h6>
-            <div style={{ fontSize: '0.9rem', lineHeight: '1.8' }}>
-              <p style={{ margin: 0 }}>
-                <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
+            <h6 className="footer-subtitle">Mi Cuenta</h6>
+            <div className="footer-links">
+              <p className="m-0">
+                <Link to="/" className="footer-link">
                   Iniciar Sesión
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="/registro" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="/registro" className="footer-link">
                   Registrarse
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="/carrito" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="/carrito" className="footer-link">
                   Mi Carrito
                 </Link>
               </p>
@@ -249,22 +200,20 @@ const Footer = () => {
           </Col>
 
           <Col xs={12} sm={6} md={3}>
-            <h6 style={{ fontWeight: 'bold', marginBottom: '12px', fontSize: '0.95rem' }}>
-              Legal
-            </h6>
-            <div style={{ fontSize: '0.9rem', lineHeight: '1.8' }}>
-              <p style={{ margin: 0 }}>
-                <Link to="#" style={{ color: 'white', textDecoration: 'none' }}>
+            <h6 className="footer-subtitle">Legal</h6>
+            <div className="footer-links">
+              <p className="m-0">
+                <Link to="#" className="footer-link">
                   Privacidad
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="#" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="#" className="footer-link">
                   Términos
                 </Link>
               </p>
-              <p style={{ margin: 0 }}>
-                <Link to="#" style={{ color: 'white', textDecoration: 'none' }}>
+              <p className="m-0">
+                <Link to="#" className="footer-link">
                   Devoluciones
                 </Link>
               </p>
@@ -274,8 +223,8 @@ const Footer = () => {
 
         {/* Copyright */}
         <Row>
-          <Col xs={12} className="text-center" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.3)', paddingTop: '20px' }}>
-            <p style={{ fontSize: '0.9rem', marginBottom: '0', opacity: 0.9 }}>
+          <Col xs={12} className="text-center footer-copyright">
+            <p className="mb-0">
               © 2025 HuertoHogar. Todos los derechos reservados. 🌱
             </p>
           </Col>

@@ -6,6 +6,9 @@
 /* 1. FOUNDATION - Variables y Tokens */
 @import './foundation/index.css';
 
+/* 1.5 CUSTOM UTILITIES - Estilos consolidados */
+@import './custom-utilities.css';
+
 /* 2. BASE - Estilos fundamentales */
 @import './base/index.css';
 

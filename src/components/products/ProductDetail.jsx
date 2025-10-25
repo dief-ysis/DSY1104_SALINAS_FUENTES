@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Badge, Button, Form, Spinner } from 'react-bootstrap';
 import { useCart } from '../../context/CartContext';
 import { productService } from '../../services/product';
+import '../../styles/products/product-detail.css';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -63,8 +64,8 @@ export default function ProductDetail() {
           <Card>
             <Card.Img 
               variant="top" 
-              src={product.image} 
-              style={{ height: '400px', objectFit: 'cover' }}
+              src={product.image}
+              className="product-detail-image"
               onError={(e) => {
                 e.target.src = 'https://via.placeholder.com/400x400?text=Imagen+No+Disponible';
               }}
@@ -98,7 +99,7 @@ export default function ProductDetail() {
                       onChange={(e) => setQuantity(parseInt(e.target.value))}
                       min="1"
                       max={product.stock}
-                      style={{ width: '100px' }}
+                      className="quantity-input"
                     />
                   </Form.Group>
                   <Button variant="emerald" size="lg" onClick={handleAddToCart}>

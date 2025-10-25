@@ -1,50 +1,12 @@
-.form-group {
-  margin-bottom: var(--spacing-md);
-}
-
-.form-label {
-  display: block;
-  margin-bottom: var(--spacing-xs);
-  font-weight: 500;
-}
-
-.form-input {
-  width: 100%;
-  padding: var(--spacing-sm);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-base);
-  transition: border-color var(--transition-normal);
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-}
+/* Form custom styling - Bootstrap handles most form classes */
 
 .form-input::placeholder {
   color: var(--color-text-lighter);
 }
 
-/* Form Validation */
-.form-input.is-invalid {
-  border-color: red;
-}
-
+/* Form Error custom styling */
 .form-error {
   color: red;
   font-size: var(--text-sm);
   margin-top: var(--spacing-xs);
-}
-
-/* Form Grid */
-.form-grid {
-  display: grid;
-  gap: var(--spacing-md);
-}
-
-@media (min-width: 768px) {
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }

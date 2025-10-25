@@ -91,7 +91,7 @@ export const products = [
     stock: 50,
     unit: 'frasco de 500g',
     origin: 'Apicultores Locales de Chile',
-    image: '/assets/products/miel.png ',
+    image: '/assets/products/miel.png',
     practices: 'Certificación Orgánica - Apicultura responsable y sostenible',
     recipes: ['Endulzante natural para té', 'Desayunos saludables', 'Postres gourmet', 'Mascarillas naturales']
   }

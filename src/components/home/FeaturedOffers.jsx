@@ -13,29 +13,23 @@ export default function FeaturedOffers({ offers }) {
   const displayOffers = offers.slice(0, 4);
 
   return (
-    <section className="featured-offers">
+    <section className="py-5">
       <Container>
-        <Row className="mb-4">
-          <Col xs={12}>
-            <div className="featured-offers-header">
-              <h2 className="featured-offers-title">
-                🎉 Ofertas Especiales
-              </h2>
-              <p className="featured-offers-subtitle">
-                Aprovecha nuestras mejores ofertas en productos frescos de HuertoHogar
-              </p>
-            </div>
-          </Col>
-        </Row>
+        <div className="text-center mb-5">
+          <h2 className="mb-2">🎉 Ofertas Especiales</h2>
+          <p className="text-muted">
+            Aprovecha nuestras mejores ofertas en productos frescos de HuertoHogar
+          </p>
+        </div>
 
-        <Row className="g-4 mb-4">
+        <Row className="g-4 mb-5">
           {displayOffers.map((offer) => (
             <Col key={offer.id} xs={12} sm={6} md={4} lg={3}>
-              <div className="offer-card-wrapper">
+              <div className="position-relative offer-card-wrapper">
                 {/* Badge de descuento */}
                 {offer.discount && (
-                  <div className="discount-badge">
-                    <div className="discount-value">-{offer.discount}%</div>
+                  <div className="position-absolute top-0 start-0 badge bg-danger rounded-circle discount-badge">
+                    -{offer.discount}%
                   </div>
                 )}
                 <ProductCard product={offer} />
@@ -51,7 +45,6 @@ export default function FeaturedOffers({ offers }) {
               to="/ofertas"
               variant="success"
               size="lg"
-              className="view-all-offers-btn"
             >
               Ver Todas las Ofertas →
             </Button>

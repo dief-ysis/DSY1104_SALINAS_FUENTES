@@ -3,13 +3,14 @@ import { Card, Button, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { formatearPrecio } from '../../utils/formatters';
+import '../../styles/products/product-card.css';
 
 export function ProductCard({ product }) {
   const { addItem } = useCart();
   const { id, nombre, precioCLP, imagen, stock = 0, descripcion, name, price, description, image, origin, practices } = product;
   const productName = nombre || name || '';
   const desc = descripcion || description || '';
-  const productImage = imagen || image || '';
+  const productImage = image || imagen || '';
   const parsedPrice = typeof precioCLP === 'string' ? parseFloat(precioCLP) : (precioCLP || price || 0);
   const isOutOfStock = stock <= 0;
   
@@ -24,51 +25,32 @@ export function ProductCard({ product }) {
 
   return (
     <Card 
-      className="h-100 shadow-sm" 
+      className={`h-100 shadow-sm product-card ${isOrganic ? 'organic' : ''}`}
       role="article"
-      style={{ 
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        borderTop: isOrganic ? '3px solid #28a745' : 'none'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-      }}
     >
       {/* Badge de Orgánico */}
       {isOrganic && (
         <Badge 
           bg="success" 
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            zIndex: 10,
-            padding: '6px 10px',
-            fontSize: '0.8rem'
-          }}
+          className="product-card-badge"
         >
           🌿 Orgánico
         </Badge>
       )}
 
       <Link to={`/productos/${id}`} className="text-decoration-none">
-        <img 
-          variant="top" 
-          src={productImage}
-          alt={productName}
-          loading="lazy"
-          className="img-fluid"
-          style={{ height: '200px', objectFit: 'cover', display: 'block', width: '100%' }}
-        />
+        <div className="product-image-container">
+          <img 
+            src={productImage}
+            alt={productName}
+            loading="lazy"
+            className="img-fluid product-card-image"
+          />
+        </div>
       </Link>
       <Card.Body className="d-flex flex-column p-3">
         <Link to={`/productos/${id}`} className="text-decoration-none">
-          <Card.Title className="text-dark mb-2" style={{ fontSize: '1rem', minHeight: '2.2em' }}>
+          <Card.Title className="text-dark mb-2 product-card-title">
             {productName}
           </Card.Title>
         </Link>
@@ -82,12 +64,12 @@ export function ProductCard({ product }) {
 
         {/* Prácticas */}
         {practices && (
-          <small className="text-muted d-block mb-2" style={{ fontSize: '0.8rem' }}>
+          <small className="text-muted d-block mb-2 product-card-practices">
             <strong>🌱</strong> {practices.substring(0, 50)}{practices.length > 50 ? '...' : ''}
           </small>
         )}
 
-        <Card.Text className="text-muted mb-3" style={{ fontSize: '0.9rem', minHeight: '2.1em' }}>
+        <Card.Text className="text-muted mb-3 product-card-description">
           {desc && desc.length > 60 
             ? `${desc.substring(0, 60)}...` 
             : desc}
@@ -95,25 +77,14 @@ export function ProductCard({ product }) {
 
         {/* Barra de stock visual */}
         {stock > 0 && (
-          <div style={{ marginBottom: '10px' }}>
+          <div className="mb-3">
             <small className="text-muted d-block mb-1">
               Stock: {stock}
             </small>
-            <div 
-              style={{
-                backgroundColor: '#e9ecef',
-                height: '6px',
-                borderRadius: '3px',
-                overflow: 'hidden'
-              }}
-            >
+            <div className="stock-bar-container">
               <div 
-                style={{
-                  backgroundColor: stock > 20 ? '#28a745' : stock > 5 ? '#ffc107' : '#dc3545',
-                  height: '100%',
-                  width: `${Math.min((stock / 100) * 100, 100)}%`,
-                  transition: 'width 0.3s ease'
-                }}
+                className={`stock-bar-fill ${stock > 20 ? 'stock-high' : stock > 5 ? 'stock-medium' : 'stock-low'}`}
+                style={{ width: `${Math.min((stock / 100) * 100, 100)}%` }}
               ></div>
             </div>
           </div>
@@ -121,7 +92,7 @@ export function ProductCard({ product }) {
 
         <div className="mt-auto">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <span className="h5 text-success mb-0" style={{ fontSize: '1.2rem' }}>
+            <span className="h5 text-success mb-0 product-card-price">
               {formatearPrecio(parsedPrice)}
             </span>
             <Badge bg={stock > 0 ? 'warning' : 'danger'}>

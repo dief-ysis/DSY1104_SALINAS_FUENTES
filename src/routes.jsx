@@ -41,6 +41,14 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <Suspense fallback={<LoadingSpinner />}>
+            <Login />
+          </Suspense>
+        )
+      },
+      {
+        path: 'home',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
             <Home />
           </Suspense>
         ),
@@ -109,14 +117,6 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <About />
-          </Suspense>
-        )
-      },
-      {
-        path: 'login',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Login />
           </Suspense>
         )
       },

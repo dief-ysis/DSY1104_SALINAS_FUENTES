@@ -39,19 +39,19 @@ export default function Home() {
         {
           id: 'cat1',
           name: 'Frutas Frescas',
-          image: '/assets/images/categories/frutas-frescas.svg',
+          image: '/assets/images/categories/frutas-frescas.jpg',
           description: 'Frutas frescas de temporada'
         },
         {
           id: 'cat2',
           name: 'Verduras Orgánicas',
-          image: '/assets/images/categories/vegetales-verdes.svg',
+          image: '/assets/images/categories/vegetales-verdes.png',
           description: 'Verduras cultivadas sin pesticidas'
         },
         {
           id: 'cat3',
           name: 'Productos Orgánicos',
-          image: '/assets/images/categories/organicos.svg',
+          image: '/assets/images/categories/organicos.webp',
           description: 'Todos nuestros productos certificados'
         }
       ];

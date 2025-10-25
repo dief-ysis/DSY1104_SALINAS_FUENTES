@@ -3,7 +3,7 @@ import { useProducts } from '../../hooks/useProducts';
 import { Pagination } from '../../components/products/Pagination';
 import { useCart } from '../../context/CartContext';
 import { formatearPrecio } from '../../utils/formatters';
-import '../../styles/pages/products-page.css';
+import './products.css';
 
 export default function Products() {
   const { products, categories, pagination, filters, loading } = useProducts();
@@ -28,23 +28,24 @@ export default function Products() {
   }, [filters]);
 
   return (
-    <div className="products-page">
+    <div className="py-5 bg-light">
       <div className="container">
-        <div className="products-filters">
-          <div className="filter-tags">
-            {['Frutas', 'Verduras', 'Orgánicos', 'Lácteos'].map(cat => (
+        {/* Filtros */}
+        <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+          <div className="d-flex gap-2 flex-wrap">
+            {categories.map(cat => (
               <button
-                key={cat}
-                className={`filter-tag ${filters.category === cat ? 'active' : ''}`}
-                onClick={() => handleCategoryClick(cat)}
-                aria-pressed={filters.category === cat}
+                key={cat.id}
+                className={`btn btn-outline-primary rounded-pill ${filters.category === cat.id ? 'active' : ''}`}
+                onClick={() => handleCategoryClick(cat.id)}
+                aria-pressed={filters.category === cat.id}
               >
-                {cat}
+                {cat.name}
               </button>
             ))}
           </div>
           <button 
-            className="clear-filters"
+            className="btn btn-warning"
             onClick={handleClearFilters}
             disabled={!filters.category && !filters.filter}
           >
@@ -52,19 +53,20 @@ export default function Products() {
           </button>
         </div>
 
-        <div className="search-sort-container">
-          <div className="search-bar">
+        {/* Búsqueda y Ordenamiento */}
+        <div className="row mb-4 gap-2">
+          <div className="col-md">
             <input 
               type="text" 
               placeholder="Buscar por nombre o código..."
-              className="search-input"
+              className="form-control"
               value={filters.filter}
               onChange={(e) => filters.setFilter(e.target.value)}
             />
           </div>
-          <div className="sort-buttons">
+          <div className="col-auto">
             <button 
-              className={`sort-button ${filters.sortBy === 'precio' ? 'active' : ''}`}
+              className={`btn btn-outline-secondary ${filters.sortBy === 'precio' ? 'btn-outline-primary' : ''}`}
               onClick={() => handleSort('price')}
             >
               Precio {filters.sortOrder === 'asc' ? '↑' : '↓'}
@@ -72,48 +74,52 @@ export default function Products() {
           </div>
         </div>
 
-        <div className="products-grid">
-          {loading ? (
-            <div className="loading-state">
-              Cargando productos...
-            </div>
-          ) : products.length === 0 ? (
-            <div className="no-products">
-              No se encontraron productos que coincidan con tu búsqueda.
-            </div>
-          ) : (
-            products.map(product => (
-              <article key={product.id} className="product-card">
-                <span className="category-badge">{product.category}</span>
-                <div className="product-image">
-                  <img 
-                    src={product.imagen} 
-                    alt={product.nombre}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="product-content">
-                  <h3 className="product-title">{product.nombre}</h3>
-                  <p className="product-description">{product.descripcion}</p>
-                  <div className="product-footer">
-                    <div className="price-container">
-                      <span className="price">${formatearPrecio(product.precioCLP)}</span>
-                      <span className="unit">/ kg</span>
-                    </div>
-                    <button
-                      className="add-button"
-                      onClick={() => addItem(product)}
-                      disabled={product.stock === 0}
-                      aria-label="Agregar al carrito"
-                    >
-                      +
-                    </button>
+        {/* Grid de productos */}
+        {loading ? (
+          <div className="alert alert-info text-center">
+            Cargando productos...
+          </div>
+        ) : products.length === 0 ? (
+          <div className="alert alert-warning text-center">
+            No se encontraron productos que coincidan con tu búsqueda.
+          </div>
+        ) : (
+          <div className="row g-4 mb-5">
+            {products.map(product => (
+              <div key={product.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+                <article className="card h-100 product-card">
+                  <div className="position-relative product-image-container">
+                    <span className="position-absolute top-0 start-0 badge bg-warning text-dark m-2">{product.category}</span>
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      loading="lazy"
+                      className="card-img-top product-image"
+                    />
                   </div>
-                </div>
-              </article>
-            ))
-          )}
-        </div>
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text small text-muted flex-grow-1">{product.description}</p>
+                    <div className="d-flex justify-content-between align-items-center mt-auto">
+                      <div>
+                        <span className="fw-bold text-success">${formatearPrecio(product.price)}</span>
+                        <span className="text-muted ms-1">/ {product.unit}</span>
+                      </div>
+                      <button
+                        className="btn btn-sm btn-success"
+                        onClick={() => addItem(product)}
+                        disabled={product.stock === 0}
+                        aria-label="Agregar al carrito"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            ))}
+          </div>
+        )}
 
         <Pagination
           currentPage={pagination.currentPage}
