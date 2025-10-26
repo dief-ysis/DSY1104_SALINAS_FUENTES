@@ -1,8 +1,11 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/info-pages.css';
 
 const About = () => {
+  useScrollToTop();
+
   const values = [
     {
       icon: '🌱',

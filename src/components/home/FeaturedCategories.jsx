@@ -44,7 +44,7 @@ export function FeaturedCategories({ categories = FEATURED_CATEGORIES }) {
           {categoryList.map(category => (
             <Col key={category.id} xs={12} md={6} lg={4}>
               <Link
-                to={`/products?category=${category.name}`}
+                to={`/productos?category=${category.id}`}
                 className="text-decoration-none"
                 aria-labelledby={`category-title-${category.id}`}
               >

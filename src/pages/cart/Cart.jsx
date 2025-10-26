@@ -1,9 +1,14 @@
 import React from 'react';
 import { Container, Table, Button, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/cart-pages.css';
 
 const Cart = () => {
+  useScrollToTop();
+  const navigate = useNavigate();
+
   const { cart, removeFromCart, updateQuantity } = useCart();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -88,10 +93,7 @@ const Cart = () => {
           <Button
             variant="primary"
             size="lg"
-            onClick={() => {
-              // Implementar checkout
-              alert('¡Gracias por tu compra!');
-            }}
+            onClick={() => navigate('/checkout')}
           >
             Proceder al pago
           </Button>

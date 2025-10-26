@@ -1,9 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { formatearPrecio } from '../utils/formatters';
 
 const CartContext = createContext();
 
 const STORAGE_KEY = 'huertohogar-cart';
+const STOCK_KEY = 'huertohogar-stock';
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
@@ -94,6 +95,28 @@ export function CartProvider({ children }) {
     setCartItems([]);
   };
 
+  const processPayment = () => {
+    // Reducir stock de los productos en el carrito
+    if (cartItems.length > 0) {
+      const updatedStock = cartItems.reduce((acc, item) => {
+        acc[item.id] = (item.stock || 0) - item.quantity;
+        return acc;
+      }, {});
+      
+      // Guardar el stock actualizado en localStorage
+      const existingStock = JSON.parse(localStorage.getItem(STOCK_KEY) || '{}');
+      const newStock = { ...existingStock, ...updatedStock };
+      localStorage.setItem(STOCK_KEY, JSON.stringify(newStock));
+    }
+    clearCart();
+  };
+
+  const getReducedStock = (productId, originalStock) => {
+    const stock = JSON.parse(localStorage.getItem(STOCK_KEY) || '{}');
+    const reduction = stock[productId] || 0;
+    return Math.max(0, originalStock - reduction);
+  };
+
   const getTotalPrice = () => {
     const total = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     return formatearPrecio(total);
@@ -110,45 +133,51 @@ export function CartProvider({ children }) {
 
   // Normalizar la forma expuesta como `cart` para que los tests que esperan campos
   // como `code`, `qty` o `quantity` funcionen correctamente.
-  const exposedCart = cartItems.map(item => {
-    const qty = item.quantity ?? item.qty ?? 1;
-    const obj = {
-      code: item.code ?? item.id,
-      name: item.name,
-      price: item.price,
-      qty,
-      subtotal: item.subtotal ?? (item.price * qty)
-    };
+  const exposedCart = useMemo(() => {
+    return cartItems.map(item => {
+      const qty = item.quantity ?? item.qty ?? 1;
+      const obj = {
+        code: item.code ?? item.id,
+        name: item.name,
+        price: item.price,
+        qty,
+        subtotal: item.subtotal ?? (item.price * qty)
+      };
 
-    // Añadir campos adicionales como no-enumerables para que los tests que
-    // leen las propiedades directamente puedan acceder a ellos, pero sin
-    // romper comparaciones estrictas que esperan solo las claves enumerables.
-    if (item.id !== undefined) Object.defineProperty(obj, 'id', { value: item.id, enumerable: false });
-    if (item.image !== undefined) Object.defineProperty(obj, 'image', { value: item.image, enumerable: false });
-    if (item.description !== undefined) Object.defineProperty(obj, 'description', { value: item.description, enumerable: false });
-    Object.defineProperty(obj, 'quantity', { value: qty, enumerable: false });
+      // Añadir campos adicionales como no-enumerables para que los tests que
+      // leen las propiedades directamente puedan acceder a ellos, pero sin
+      // romper comparaciones estrictas que esperan solo las claves enumerables.
+      if (item.id !== undefined) Object.defineProperty(obj, 'id', { value: item.id, enumerable: false });
+      if (item.image !== undefined) Object.defineProperty(obj, 'image', { value: item.image, enumerable: false });
+      if (item.description !== undefined) Object.defineProperty(obj, 'description', { value: item.description, enumerable: false });
+      Object.defineProperty(obj, 'quantity', { value: qty, enumerable: false });
 
-    return obj;
-  });
+      return obj;
+    });
+  }, [cartItems]);
 
   // Exponer la API con nombres compatibles con los tests existentes
-  const value = {
-    // nombres internos
-    cartItems,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getTotalPrice,
-    getTotalItems,
-    formatTotal,
-    // aliases esperados por los tests y componentes
-    cart: exposedCart,
-    addItem: addToCart,
-    removeItem: removeFromCart,
-    getTotal: getTotalPrice,
-    getItemCount: getTotalItems,
-  };
+  const value = useMemo(() => {
+    return {
+      // nombres internos
+      cartItems,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+      processPayment,
+      getReducedStock,
+      getTotalPrice,
+      getTotalItems,
+      formatTotal,
+      // aliases esperados por los tests y componentes
+      cart: exposedCart,
+      addItem: addToCart,
+      removeItem: removeFromCart,
+      getTotal: getTotalPrice,
+      getItemCount: getTotalItems,
+    };
+  }, [cartItems, exposedCart]);
 
   return (
     <CartContext.Provider value={value}>

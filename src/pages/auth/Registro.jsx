@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/auth-pages.css';
 
 const Registro = () => {
+  useScrollToTop();
+  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nombre: '',

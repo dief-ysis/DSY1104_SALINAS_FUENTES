@@ -161,11 +161,6 @@ const Footer = () => {
             <h6 className="footer-subtitle">Información</h6>
             <div className="footer-links">
               <p className="m-0">
-                <Link to="/about" className="footer-link">
-                  Nosotros
-                </Link>
-              </p>
-              <p className="m-0">
                 <Link to="/blog" className="footer-link">
                   Blog
                 </Link>

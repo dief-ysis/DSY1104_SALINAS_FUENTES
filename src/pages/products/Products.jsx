@@ -1,11 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useProducts } from '../../hooks/useProducts';
 import { Pagination } from '../../components/products/Pagination';
 import { useCart } from '../../context/CartContext';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import { formatearPrecio } from '../../utils/formatters';
 import './products.css';
 
 export default function Products() {
+  useScrollToTop();
+
   const { products, categories, pagination, filters, loading } = useProducts();
   const { addItem } = useCart();
 

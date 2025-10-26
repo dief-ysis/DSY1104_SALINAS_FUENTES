@@ -2,9 +2,12 @@ import React from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/info-pages.css';
 
 const Contact = () => {
+  useScrollToTop();
+
   const formik = useFormik({
     initialValues: {
       name: '',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/info-pages.css';
 
 const blogs = [
@@ -60,6 +61,8 @@ const blogs = [
 ];
 
 const Blog = () => {
+  useScrollToTop();
+
   return (
     <Container className="py-5">
       <Row className="mb-5">

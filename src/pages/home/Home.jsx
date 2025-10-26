@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import Hero from '../../components/home/Hero';
 import FeaturedProducts from '../../components/home/FeaturedProducts';
 import FeaturedCategories from '../../components/home/FeaturedCategories';
@@ -7,6 +8,8 @@ import FeaturedOffers from '../../components/home/FeaturedOffers';
 import '../../styles/pages/home-page.css';
 
 export default function Home() {
+  useScrollToTop();
+  
   const loaderData = useLoaderData() || {};
   const { featuredProducts = [], stats = {} } = loaderData;
 

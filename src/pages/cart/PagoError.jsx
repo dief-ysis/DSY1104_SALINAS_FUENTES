@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/cart-pages.css';
 
 const PagoError = () => {
+  useScrollToTop();
+
   const navigate = useNavigate();
   const location = useLocation();
   const [showDetails, setShowDetails] = useState(false);

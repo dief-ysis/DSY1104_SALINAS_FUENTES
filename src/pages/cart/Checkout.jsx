@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import '../../styles/pages/cart-pages.css';
 
 const Checkout = () => {
-  const { cart, getTotal, clearCart } = useCart();
+  const { cart, getTotal, processPayment } = useCart();
   const navigate = useNavigate();
   const [orderPlaced, setOrderPlaced] = useState(false);
+
+  useScrollToTop();
+
+  // Verificar si el carrito está vacío después del pago
+  useEffect(() => {
+    if (orderPlaced && cart.length === 0) {
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000);
+    }
+  }, [cart, orderPlaced, navigate]);
 
   if (cart.length === 0 && !orderPlaced) {
     return (
@@ -50,19 +62,15 @@ const Checkout = () => {
     onSubmit: async (values) => {
       try {
         console.log('Pedido enviado:', values);
+        processPayment(); // Procesa el pago y reduce stock PRIMERO
         setOrderPlaced(true);
-        clearCart();
-        
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
       } catch (error) {
         console.error('Error:', error);
       }
     },
   });
 
-  if (orderPlaced) {
+  if (orderPlaced && cart.length === 0) {
     return (
       <Container className="checkout-success">
         <div className="success-message">

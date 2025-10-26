@@ -73,6 +73,14 @@ export const router = createBrowserRouter([
         loader: productLoader
       },
       {
+        path: 'ofertas',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Offers />
+          </Suspense>
+        )
+      },
+      {
         path: 'blog',
         element: (
           <Suspense fallback={<LoadingSpinner />}>

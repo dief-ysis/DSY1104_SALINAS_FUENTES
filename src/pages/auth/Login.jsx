@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
+import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import '../../styles/pages/auth-pages.css';
 
 export default function Login() {
@@ -11,6 +12,8 @@ export default function Login() {
   const { login, loading, error } = auth || {};
   const [registroExitoso, setRegistroExitoso] = useState(false);
   const [emailRegistro, setEmailRegistro] = useState('');
+
+  useScrollToTop();
 
   useEffect(() => {
     if (location.state?.registroExitoso) {

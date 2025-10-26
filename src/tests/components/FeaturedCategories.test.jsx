@@ -47,7 +47,7 @@ describe('FeaturedCategories Component', () => {
     expect(links.length).toBeGreaterThanOrEqual(mockCategories.length);
     mockCategories.forEach(category => {
       const link = screen.getByRole('link', { name: new RegExp(category.name, 'i') });
-      expect(link).toHaveAttribute('href', `/products?category=${category.name}`);
+      expect(link).toHaveAttribute('href', `/productos?category=${category.id}`);
     });
   });
 });
