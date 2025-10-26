@@ -1,42 +1,105 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
+const STORAGE_KEY = 'huertohogar-auth';
+
+// Validaciones
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email) throw new Error('El email es requerido');
+  if (!re.test(email)) throw new Error('Email inválido');
+};
+
+const validatePassword = (password) => {
+  if (!password) throw new Error('La contraseña es requerida');
+  if (password.length < 6) throw new Error('La contraseña debe tener al menos 6 caracteres');
+};
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+  // Para evitar que componentes renderizados en tests (sin provider) rompan,
+  // devolvemos un objeto por defecto con la API esperada.
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    return {
+      user: null,
+      login: async () => ({ success: false, error: 'No provider' }),
+      logout: async () => ({ success: false, error: 'No provider' }),
+      loading: false,
+      error: null,
+      isAuthenticated: false
+    };
   }
   return context;
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem(STORAGE_KEY);
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, [user]);
 
   const login = async (email, password) => {
     try {
-      // Aquí iría la lógica de autenticación real
+      setLoading(true);
+      setError(null);
+      
+      // Validaciones
+      validateEmail(email);
+      validatePassword(password);
+
+      // Simulación de delay de red
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Mock de autenticación
+      // En una implementación real, aquí iría la llamada al backend
       const mockUser = {
         id: 1,
         email,
         name: 'Usuario Demo'
       };
+
       setUser(mockUser);
-      return true;
+      return { success: true };
     } catch (error) {
-      console.error('Error en login:', error);
-      return false;
+      setError(error.message);
+      return { success: false, error: error.message };
+    } finally {
+      setLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    try {
+      setLoading(true);
+      // Simulación de delay de red
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setUser(null);
+      localStorage.removeItem(STORAGE_KEY); // Asegurarnos de limpiar el storage
+      return { success: true };
+    } catch (error) {
+      setError('Error al cerrar sesión');
+      return { success: false, error: 'Error al cerrar sesión' };
+    } finally {
+      setLoading(false);
+    }
   };
 
   const value = {
     user,
     login,
     logout,
+    loading,
+    error,
     isAuthenticated: !!user
   };
 

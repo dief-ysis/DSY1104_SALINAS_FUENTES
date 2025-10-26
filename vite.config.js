@@ -1,16 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
-import viteCompression from 'vite-plugin-compression'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 3000
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './test/setup.js',
   }
 })

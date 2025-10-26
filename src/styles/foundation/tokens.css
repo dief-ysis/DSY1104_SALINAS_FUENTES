@@ -1,0 +1,73 @@
+:root {
+  /* Sistema de Colores */
+  --color-primary: #2E8B57;      /* Verde principal */
+  --color-primary-light: #3DA56A;
+  --color-primary-dark: #1F5E3B;
+  
+  --color-accent: #FFD700;       /* Amarillo acento */
+  --color-accent-light: #FFE44D;
+  --color-accent-dark: #CCA900;
+  
+  /* Neutros */
+  --color-background: #FFFFFF;
+  --color-surface: #F8F9FA;
+  --color-border: #E9ECEF;
+  
+  /* Texto */
+  --color-text-primary: #2D3436;
+  --color-text-secondary: #636E72;
+  --color-text-disabled: #B2BEC3;
+  
+  /* Espaciado */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-xxl: 3rem;     /* 48px */
+  
+  /* Tipografía */
+  --font-family-display: 'Playfair Display', serif;
+  --font-family-body: 'Montserrat', system-ui, -apple-system, sans-serif;
+  
+  --font-size-xs: 0.75rem;   /* 12px */
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-md: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;  /* 18px */
+  --font-size-xl: 1.5rem;    /* 24px */
+  --font-size-2xl: 2rem;     /* 32px */
+  --font-size-3xl: 3rem;     /* 48px */
+  
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Bordes */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  --border-radius-full: 9999px;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  /* Transiciones */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  /* Z-index */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal: 1040;
+  --z-index-popover: 1050;
+  --z-index-tooltip: 1060;
+  
+  /* Container */
+  --container-max-width: 1200px;
+  --container-padding: var(--space-md);
+}

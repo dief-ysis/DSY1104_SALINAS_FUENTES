@@ -1,0 +1,56 @@
+/* Carrito de Compras */
+.carrito-table-modern {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.carrito-qty-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.carrito-totales-table {
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-top: var(--spacing-xl);
+}
+
+/* Responsive Cart */
+@media (max-width: 768px) {
+  .carrito-table-modern {
+    display: block;
+  }
+  
+  .carrito-qty-wrapper {
+    flex-direction: column;
+  }
+}
+
+/* Cart Actions */
+.carrito-btn-principal {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+}
+
+.carrito-btn-principal:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Cart Summary */
+.carrito-resumen-modern {
+  background: var(--color-bg-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}

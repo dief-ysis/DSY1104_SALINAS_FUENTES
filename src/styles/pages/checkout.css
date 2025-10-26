@@ -1,0 +1,63 @@
+.checkout-page {
+  padding: 2rem 0;
+  min-height: 80vh;
+}
+
+.checkout-empty {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.checkout-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+}
+
+.success-message {
+  text-align: center;
+  padding: 3rem;
+  background: #e8f5e9;
+  border-radius: 1rem;
+  border: 2px solid #4CAF50;
+}
+
+.success-message h2 {
+  color: #4CAF50;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.success-message p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.order-id {
+  font-size: 1.3rem;
+  color: #2e7d32;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.sticky-top {
+  border: 2px solid #f0f0f0;
+  top: 2rem;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-top: 1rem;
+}

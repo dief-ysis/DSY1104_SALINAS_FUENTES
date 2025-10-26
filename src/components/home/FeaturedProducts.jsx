@@ -1,61 +1,95 @@
+import React, { useMemo } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import { getFeaturedProducts } from '../../database/products';
-import { formatearPrecio } from '../../utils/formatters';
-import './FeaturedProducts.css';
+import { getProductImage } from '../../utils/imageUtils';
+import '../../pages/products/products.css';
+import '../../styles/products/product-card.css';
 
-export function FeaturedProducts() {
-  const { addItem } = useCart();
-  const productos = getFeaturedProducts();
+const formatPrice = (price) => {
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP'
+  }).format(price);
+};
+
+const FeaturedProducts = ({ products = [] }) => {
+  const { addToCart } = useCart();
+  
+  const featuredProducts = useMemo(() => {
+    return products
+      .filter(product => product.destacado || product.rating >= 4)
+      .slice(0, 6);
+  }, [products]);
+
+  const handleAddToCart = (product, e) => {
+    e.preventDefault();
+    addToCart(product, 1);
+  };
+
+  if (featuredProducts.length === 0) {
+    return null;
+  }
 
   return (
-    <section className="featured-products container">
-      <div className="section-header">
-        <h2 className="section-title">Productos destacados</h2>
-        <p className="section-subtitle">
-          Descubre nuestra selección de productos frescos y orgánicos
-        </p>
-      </div>
-      <div className="product-grid">
-        {productos.map(producto => (
-          <div key={producto.code} className="product-card" tabIndex="0">
-            <div className="product-image">
-              <img src={producto.imagen} alt={`Imagen de producto: ${producto.nombre}`} />
-              {producto.oferta && <span className="product-badge">Oferta</span>}
-            </div>
-            <div className="product-content">
-              <h3 className="product-title">{producto.nombre}</h3>
-              <div className="product-price">{formatearPrecio(producto.precioCLP)}</div>
-              <p className="product-description">
-                {producto.descripcion || 'Producto fresco y natural de nuestra selección.'}
-              </p>
-            </div>
-            <div className="product-footer">
-              <button 
-                className="add-to-cart"
-                onClick={() => addItem(producto)}
-                aria-label={`Añadir ${producto.nombre} al carrito`}
+    <section className="py-5 bg-light" aria-labelledby="featured-products-title">
+      <Container>
+        <div className="text-center mb-5">
+          <h2 id="featured-products-title" className="mb-2">Productos Destacados</h2>
+          <p className="text-muted">Descubre nuestra selección especial de productos orgánicos</p>
+        </div>
+
+        <Row className="g-4">
+          {featuredProducts.map(product => (
+            <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
+              <Link 
+                to={`/productos/${product.id}`}
+                className="text-decoration-none"
+                aria-labelledby={`product-title-${product.id}`}
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
-                  <path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                Añadir al carrito
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+                <div className="card h-100 product-card featured-card">
+                  <div className="product-image-container" style={{ height: '200px' }}>
+                    <img 
+                      src={getProductImage(product.image, product.category)} 
+                      alt=""
+                      loading="lazy"
+                      className="card-img-top product-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = getProductImage('', product.category);
+                      }}
+                    />
+                    {product.badge && (
+                      <span className="position-absolute top-0 start-0 badge bg-danger m-2">{product.badge}</span>
+                    )}
+                  </div>
+                  <div className="card-body d-flex flex-column">
+                    <small className="text-muted">{product.category}</small>
+                    <h5 id={`product-title-${product.id}`} className="card-title mt-2">
+                      {product.name}
+                    </h5>
+                    <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
+                      <span className="fw-bold text-success">
+                        {formatPrice(product.price)}
+                      </span>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-success"
+                        onClick={(e) => handleAddToCart(product, e)}
+                        aria-label={`Añadir ${product.name} al carrito`}
+                      >
+                        Añadir
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </section>
   );
-}
+};
+
+export default FeaturedProducts;
