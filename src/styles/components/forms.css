@@ -1,0 +1,12 @@
+/* Form custom styling - Bootstrap handles most form classes */
+
+.form-input::placeholder {
+  color: var(--color-text-lighter);
+}
+
+/* Form Error custom styling */
+.form-error {
+  color: red;
+  font-size: var(--text-sm);
+  margin-top: var(--spacing-xs);
+}

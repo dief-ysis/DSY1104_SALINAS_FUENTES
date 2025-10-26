@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0FFF0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E8F5E9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="600" height="300" fill="url(#cardGrad)"/>
+  
+  <!-- Special Offer Badge -->
+  <circle cx="550" cy="30" r="35" fill="#FF4500"/>
+  <text x="550" y="35" font-family="Montserrat, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#FFF">-30%</text>
+  
+  <!-- Product Image Area -->
+  <rect x="50" y="20" width="250" height="250" rx="10" fill="#FFF" stroke="#2E8B57" stroke-width="2"/>
+  
+  <!-- Organic lettuce illustration -->
+  <g transform="translate(175, 100)">
+    <!-- Lettuce leaves -->
+    <path d="M -30 0 Q -40 -30 -20 -40 Q 0 -35 10 -40 Q 30 -30 20 0 Q 10 30 0 35 Q -10 30 -30 0" fill="#7CFC00"/>
+    <path d="M -25 10 Q -35 -10 -15 -20 Q 5 -15 15 -20 Q 25 -10 15 15" fill="#90EE90" opacity="0.8"/>
+    <path d="M -20 5 Q -28 -5 -10 -15 Q 10 -10 20 -15 Q 22 5 10 20" fill="#7CFC00" opacity="0.9"/>
+  </g>
+  
+  <!-- Product info -->
+  <text x="340" y="60" font-family="Montserrat, sans-serif" font-size="20" font-weight="bold" fill="#2E8B57">Lechuga</text>
+  <text x="340" y="85" font-family="Montserrat, sans-serif" font-size="14" fill="#666">Orgánica Premium</text>
+  <text x="340" y="105" font-family="Montserrat, sans-serif" font-size="12" fill="#999">📍 Chillan, Ñuble</text>
+  <text x="340" y="125" font-family="Montserrat, sans-serif" font-size="12" fill="#999">🌱 Cultivo Ecológico</text>
+  
+  <!-- Rating -->
+  <text x="340" y="155" font-family="Montserrat, sans-serif" font-size="14" fill="#FFD700">★★★★★</text>
+  
+  <!-- Stock bar -->
+  <rect x="340" y="170" width="200" height="8" rx="4" fill="#E0E0E0"/>
+  <rect x="340" y="170" width="150" height="8" rx="4" fill="#2E8B57"/>
+  <text x="340" y="195" font-family="Montserrat, sans-serif" font-size="12" fill="#666">12 disponibles</text>
+  
+  <!-- Price -->
+  <text x="340" y="230" font-family="Montserrat, sans-serif" font-size="24" font-weight="bold" fill="#2E8B57">$2.990</text>
+  <text x="430" y="230" font-family="Montserrat, sans-serif" font-size="16" fill="#999"><s>$4.290</s></text>
+  
+  <!-- Button -->
+  <rect x="340" y="250" width="200" height="35" rx="17" fill="#2E8B57"/>
+  <text x="440" y="272" font-family="Montserrat, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#FFF">Agregar al Carrito</text>
+</svg>

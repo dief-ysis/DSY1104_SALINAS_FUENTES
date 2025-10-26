@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F7F7F7"/>
+  
+  <!-- Error icon background -->
+  <circle cx="200" cy="120" r="60" fill="#FF4500" opacity="0.1"/>
+  <circle cx="200" cy="120" r="50" fill="#FF4500" opacity="0.2"/>
+  
+  <!-- X mark -->
+  <line x1="170" y1="90" x2="230" y2="150" stroke="#FF4500" stroke-width="8" stroke-linecap="round"/>
+  <line x1="230" y1="90" x2="170" y2="150" stroke="#FF4500" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Error message -->
+  <text x="200" y="200" font-family="Montserrat, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#FF4500">Error en el Pago</text>
+  <text x="200" y="230" font-family="Montserrat, sans-serif" font-size="14" text-anchor="middle" fill="#666">Por favor, verifica tus datos</text>
+  <text x="200" y="250" font-family="Montserrat, sans-serif" font-size="14" text-anchor="middle" fill="#666">e intenta de nuevo</text>
+  
+  <!-- Retry button area -->
+  <rect x="100" y="260" width="200" height="30" rx="5" fill="#FF4500" opacity="0.1"/>
+  <text x="200" y="281" font-family="Montserrat, sans-serif" font-size="12" text-anchor="middle" fill="#FF4500">Reintentar Pago</text>
+</svg>

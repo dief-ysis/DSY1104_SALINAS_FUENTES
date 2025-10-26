@@ -1,0 +1,11 @@
+/* Contact page custom styling */
+
+.contact-info p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.contact-card h2,
+.contact-card h3 {
+  color: var(--color-primary);
+}
