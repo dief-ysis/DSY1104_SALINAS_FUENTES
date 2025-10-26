@@ -31,7 +31,14 @@
   color: var(--accent-brown);
 }
 
-/* Bootstrap Row/Col handles grid layouts for products and categories */
+/* Grid layouts */
+.products-grid,
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
 
 /* Animaciones */
 .fade-in {
@@ -47,4 +54,15 @@
   }
 }
 
-/* Responsive - handled by Bootstrap grid breakpoints */
+/* Responsive */
+@media (max-width: 768px) {
+  .home section {
+    margin-bottom: 2rem;
+  }
+
+  .products-grid,
+  .categories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+}

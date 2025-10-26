@@ -40,7 +40,6 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   object-fit: cover;
   height: 350px;
-  /* REFACTORED: .image-fit-cover pattern - can be migrated to utility class */
 }
 
 .mission-card {
