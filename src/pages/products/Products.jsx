@@ -3,6 +3,7 @@ import { useProducts } from '../../hooks/useProducts';
 import { Pagination } from '../../components/products/Pagination';
 import { useCart } from '../../context/CartContext';
 import { formatearPrecio } from '../../utils/formatters';
+import { getProductImage } from '../../utils/imageUtils';
 import './products.css';
 
 export default function Products() {
@@ -91,10 +92,14 @@ export default function Products() {
                   <div className="position-relative product-image-container">
                     <span className="position-absolute top-0 start-0 badge bg-warning text-dark m-2">{product.category}</span>
                     <img 
-                      src={product.image} 
+                      src={getProductImage(product.image, product.category)} 
                       alt={product.name}
                       loading="lazy"
                       className="card-img-top product-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = getProductImage('', product.category);
+                      }}
                     />
                   </div>
                   <div className="card-body d-flex flex-column">

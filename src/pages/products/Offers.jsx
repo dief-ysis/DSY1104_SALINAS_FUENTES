@@ -24,8 +24,8 @@ const Offers = () => {
     );
   }
   
-  // Filtrar productos que tienen descuento
-  const offerProducts = products.filter(product => product.price < 2000);
+  // Filtrar productos que están en oferta
+  const offerProducts = products.filter(product => product.onSale);
 
   return (
     <Container className="py-5">

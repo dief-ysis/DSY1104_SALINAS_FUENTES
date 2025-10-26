@@ -26,10 +26,10 @@ export default function FeaturedOffers({ offers }) {
           {displayOffers.map((offer) => (
             <Col key={offer.id} xs={12} sm={6} md={4} lg={3}>
               <div className="position-relative offer-card-wrapper">
-                {/* Badge de descuento */}
-                {offer.discount && (
+                {/* Badge de descuento (usar campos normalizados onSale / discountPercentage) */}
+                {offer.onSale && (
                   <div className="position-absolute top-0 start-0 badge bg-danger rounded-circle discount-badge">
-                    -{offer.discount}%
+                    -{offer.discountPercentage}%
                   </div>
                 )}
                 <ProductCard product={offer} />

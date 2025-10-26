@@ -1,33 +1,106 @@
-/* Estilos mínimos para la página de productos */
+/**
+ * products.css
+ * Cambios realizados:
+ * 1. Añadida estructura de contenedor responsiva:
+ *    - .products-page: contenedor principal con padding y fondo
+ *    - .products-container: ancho máximo y centrado
+ * 
+ * 2. Mejoras en imágenes de productos:
+ *    - Altura responsiva: 140px (móvil) → 180px (tablet) → 240px (desktop)
+ *    - object-fit: cover para mejor visualización
+ *    - Transición suave al hacer hover
+ * 
+ * 3. Ajustes responsivos:
+ *    - Padding reducido en móviles (0.5rem)
+ *    - Alturas de imagen ajustadas por breakpoint
+ *    - Espaciado consistente en todos los viewports
+ */
 
+.products-page {
+  padding: 1.25rem;
+  background: var(--bs-light);
+}
+
+.products-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Contenedor de imagen mejorado */
 .product-image-container {
   width: 100%;
   overflow: hidden;
-  height: 200px;
+  height: 240px;
+  border-radius: 8px 8px 0 0;
+  background: #f8f9fa;
+  position: relative;
 }
 
+/* Estilos de imagen optimizados */
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  background-color: #f8f9fa;
   transition: transform 0.3s ease;
 }
 
+/* Estilos de tarjeta y efectos hover */
 .product-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: none;
+  background: var(--bs-white);
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12) !important;
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.05);
+  transform: scale(1.04);
+}
+
+/* Estilos de texto y títulos */
+.products-page .section-title {
+  color: #0f172a;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.products-page .filters-row {
+  margin-bottom: 1rem;
 }
 
 .btn.active {
   background-color: var(--bs-primary);
   color: white;
+}
+
+/* Reglas responsivas por breakpoint */
+@media (max-width: 576px) {
+  .product-image-container {
+    height: 140px;
+  }
+
+  .products-page {
+    padding: 0.5rem;
+  }
+
+  .products-container {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .product-image-container {
+    height: 180px;
+  }
+}
+
+@media (min-width: 992px) {
+  .product-image-container {
+    height: 240px;
+  }
 }

@@ -16,17 +16,17 @@ export default function Home() {
       return [
         {
           id: 'FR001',
-          nombre: 'Manzanas Fuji',
-          precioCLP: 1200,
+          name: 'Manzanas Fuji',
+          price: 1200,
           image: '/assets/products/manzana.jpg',
-          categoria: 'Frutas Frescas'
+          category: 'Frutas Frescas'
         },
         {
           id: 'VR001',
-          nombre: 'Zanahorias Orgánicas',
-          precioCLP: 900,
+          name: 'Zanahorias Orgánicas',
+          price: 900,
           image: '/assets/products/zanahoria.jpg',
-          categoria: 'Verduras Orgánicas'
+          category: 'Verduras Orgánicas'
         }
       ];
     }

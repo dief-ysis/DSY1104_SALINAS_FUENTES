@@ -143,6 +143,15 @@ export const router = createBrowserRouter([
             <PagoError />
           </Suspense>
         )
+      },
+      {
+        path: 'ofertas',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Offers />
+          </Suspense>
+        ),
+        loader: productsLoader
       }
     ]
   }

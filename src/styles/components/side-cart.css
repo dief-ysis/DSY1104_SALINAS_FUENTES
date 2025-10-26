@@ -1,0 +1,34 @@
+/**
+ * side-cart.css
+ * Estilos para el carrito lateral
+ * - Diseño del contenedor del carrito
+ * - Estilos para los items del carrito
+ * - Manejo del scroll cuando hay muchos productos
+ * - Footer fijo con el total y botones de acción
+ */
+
+.cart-item {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1rem;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-image {
+  border-radius: 8px;
+}
+
+.cart-items {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+}
+
+.cart-footer {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
