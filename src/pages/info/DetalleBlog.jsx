@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import { useScrollToTop } from '../../hooks/useScrollToTop.js';
+
 import '../../styles/pages/info-pages.css';
 
 const blogsData = [
@@ -62,7 +62,6 @@ const blogsData = [
 ];
 
 const DetalleBlog = () => {
-  useScrollToTop();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -264,7 +263,7 @@ const DetalleBlog = () => {
       {/* Botones de acción */}
       <Row>
         <Col xs={12} className="text-center">
-          <div className="d-flex gap-3 justify-content-center flex-wrap">
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button 
               variant="success"
               onClick={() => navigate('/blog')}

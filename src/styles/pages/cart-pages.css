@@ -23,7 +23,6 @@
   justify-content: center;
   min-height: 400px;
   padding: 2rem;
-  /* REFACTORED: .flex-center pattern - can be migrated to utility class */
 }
 
 .checkout-success {
@@ -32,7 +31,7 @@
   justify-content: center;
   min-height: 400px;
   padding: 2rem;
-  /* REFACTORED: .flex-center pattern - can be migrated to utility class */
+}
 }
 
 .success-message {
