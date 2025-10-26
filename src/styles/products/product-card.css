@@ -9,6 +9,35 @@
   flex-direction: column;
   background: var(--bs-white);
   color: var(--bs-body-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Contenedor de imagen específico para tarjetas */
+.product-card .product-image-container {
+  width: 100%;
+  overflow: hidden;
+  height: 240px;
+  border-radius: 8px 8px 0 0;
+  background: #f8f9fa;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Imagen de producto en tarjetas */
+.product-card .product-image,
+.product-card .card-img-top.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background-color: #f8f9fa;
+  transition: transform 0.3s ease;
+  padding: 8px;
+  border-radius: 8px 8px 0 0;
 }
 
 .product-card.organic {
@@ -18,6 +47,11 @@
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-card:hover .product-image,
+.product-card:hover .card-img-top.product-image {
+  transform: scale(1.05);
 }
 
 /* Card body with padding */
@@ -51,8 +85,12 @@
 .product-card-image {
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
+  padding: 8px;
+  background-color: #f8f9fa;
+  transition: transform 0.3s ease;
 }
 
 /* Text styling */
@@ -155,4 +193,50 @@
 
 .stock-bar-fill.stock-low {
   background-color: #dc3545; /* Red: stock <= 5 */
+}
+
+/* Featured cards - altura ajustada para la home */
+.featured-card .product-image-container {
+  height: 200px !important;
+}
+
+/* Responsive ajustes para imágenes de producto */
+@media (max-width: 576px) {
+  .featured-card .product-image-container {
+    height: 160px !important;
+  }
+  .product-card .product-image-container {
+    height: 180px;
+  }
+  
+  .product-card .product-image,
+  .product-card .card-img-top.product-image {
+    padding: 6px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .product-card .product-image-container {
+    height: 200px;
+  }
+  
+  .featured-card .product-image-container {
+    height: 180px !important;
+  }
+  
+  .product-card .product-image,
+  .product-card .card-img-top.product-image {
+    padding: 8px;
+  }
+}
+
+@media (min-width: 992px) {
+  .product-card .product-image-container {
+    height: 240px;
+  }
+  
+  .product-card .product-image,
+  .product-card .card-img-top.product-image {
+    padding: 8px;
+  }
 }

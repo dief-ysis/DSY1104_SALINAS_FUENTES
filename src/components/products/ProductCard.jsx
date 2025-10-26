@@ -65,7 +65,7 @@ export function ProductCard({ product }) {
             src={getProductImage(productImage, category)}
             alt={productName}
             loading="lazy"
-            className="img-fluid product-card-image"
+            className="card-img-top product-image"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = getProductImage('', category);

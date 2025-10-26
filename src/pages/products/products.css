@@ -1,193 +1,110 @@
-/**/* Estilos mínimos para la página de productos */
+﻿/* products.css - Estilos para la página de productos */
 
- * products.css
+.products-page {
+  padding: 1.25rem;
+  background: var(--bs-light);
+}
 
- * Cambios realizados:.product-image-container {
-
- * 1. Añadida estructura de contenedor responsiva:  width: 100%;
-
- *    - .products-page: contenedor principal con padding y fondo  overflow: hidden;
-
- *    - .products-container: ancho máximo y centrado  aspect-ratio: 1;
-
- *   min-height: 200px;
-
- * 2. Mejoras en imágenes de productos:  max-height: 300px;
-
- *    - Altura responsiva: 140px (móvil) → 180px (tablet) → 240px (desktop)  display: flex;
-
- *    - object-fit: cover para mejor visualización  align-items: center;
-
- *    - Transición suave al hacer hover  justify-content: center;
-
- *   background-color: #f8f9fa;
-
- * 3. Ajustes responsivos:  position: relative;
-
- *    - Padding reducido en móviles (0.5rem)}
-
- *    - Alturas de imagen ajustadas por breakpoint
-
- *    - Espaciado consistente en todos los viewports.product-image {
-
- */  width: 100%;
-
-  height: 100%;
-
-.products-page {  object-fit: contain;
-
-  padding: 1.25rem;  object-position: center;
-
-  background: var(--bs-light);  transition: transform 0.3s ease;
-
-}  padding: 12px;
-
-  max-width: 100%;
-
-.products-container {  max-height: 100%;
-
-  max-width: 1200px;}
-
+.products-container {
+  max-width: 1200px;
   margin: 0 auto;
+}
 
-}.product-card {
-
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-/* Contenedor de imagen mejorado */  border: none;
-
-.product-image-container {}
-
+/* Contenedor de imagen de producto */
+.product-image-container {
   width: 100%;
-
-  overflow: hidden;.product-card:hover {
-
-  height: 240px;  transform: translateY(-5px);
-
-  border-radius: 8px 8px 0 0;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-
-  background: #f8f9fa;}
-
+  overflow: hidden;
+  height: 240px;
+  border-radius: 8px 8px 0 0;
+  background: #f8f9fa;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-}.product-card:hover .product-image {
+/* Imagen de producto - Bootstrap card-img-top + product-image */
+.product-image,
+.card-img-top.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background-color: #f8f9fa;
+  transition: transform 0.3s ease;
+  padding: 8px;
+  border-radius: 8px 8px 0 0;
+}
 
+/* Tarjeta de producto */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  background: var(--bs-white);
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12) !important;
+}
+
+.product-card:hover .product-image,
+.product-card:hover .card-img-top.product-image {
   transform: scale(1.05);
+}
 
-/* Estilos de imagen optimizados */}
+/* Títulos */
+.products-page .section-title {
+  color: #0f172a;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
 
-.product-image {
-
-  width: 100%;/* Badge styling for product category */
-
-  height: 100%;.product-image-container .badge {
-
-  object-fit: cover;  z-index: 20;
-
-  display: block;  font-weight: 600;
-
-  background-color: #f8f9fa;  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-  transition: transform 0.3s ease;}
-
+.products-page .filters-row {
+  margin-bottom: 1rem;
 }
 
 .btn.active {
-
-/* Estilos de tarjeta y efectos hover */  background-color: var(--bs-primary);
-
-.product-card {  color: white;
-
-  transition: transform 0.3s ease, box-shadow 0.3s ease;}
-
-  border: none;
-
-  background: var(--bs-white);/* Responsive adjustments */
-
-}@media (max-width: 768px) {
-
-  .product-image-container {
-
-.product-card:hover {    aspect-ratio: 1;
-
-  transform: translateY(-5px);    min-height: 150px;
-
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12) !important;    max-height: 250px;
-
-}  }
-
-
-
-.product-card:hover .product-image {  .product-image {
-
-  transform: scale(1.04);    padding: 10px;
-
-}  }
-
+  background-color: #4caf50;
+  color: white;
 }
 
-/* Estilos de texto y títulos */
-
-.products-page .section-title {@media (min-width: 769px) and (max-width: 1024px) {
-
-  color: #0f172a;  .product-image-container {
-
-  margin-bottom: 1rem;    aspect-ratio: 1;
-
-  font-weight: 600;    min-height: 180px;
-
-}    max-height: 280px;
-
+/* Responsive */
+@media (max-width: 576px) {
+  .product-image-container {
+    height: 180px;
+  }
+  
+  .product-image,
+  .card-img-top.product-image {
+    padding: 6px;
   }
 
-.products-page .filters-row {
-
-  margin-bottom: 1rem;  .product-image {
-
-}    padding: 10px;
-
-  }
-
-.btn.active {}
-
-  background-color: #4caf50;
-
-  color: white;@media (min-width: 1025px) {
-
-}  .product-image-container {
-
-    aspect-ratio: 1;
-
-/* Reglas responsivas por breakpoint */    min-height: 220px;
-
-@media (max-width: 576px) {    max-height: 320px;
-
-  .product-image-container {  }
-
-    height: 140px;
-
-  }  .product-image {
-
-    padding: 12px;
-
-  .products-page {  }
-
-    padding: 0.5rem;}
-  }
-
-  .products-container {
-    padding: 0 0.5rem;
+  .products-page {
+    padding: 0.75rem;
   }
 }
 
 @media (min-width: 577px) and (max-width: 991px) {
   .product-image-container {
-    height: 180px;
+    height: 200px;
+  }
+  
+  .product-image,
+  .card-img-top.product-image {
+    padding: 8px;
   }
 }
 
 @media (min-width: 992px) {
   .product-image-container {
     height: 240px;
+  }
+  
+  .product-image,
+  .card-img-top.product-image {
+    padding: 8px;
   }
 }
