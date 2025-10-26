@@ -12,7 +12,7 @@ const Home = lazy(() => import('./pages/home/Home'));
 
 // Lazy loading de componentes - Products
 const Products = lazy(() => import('./pages/products/Products'));
-const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
+const ProductDetail = lazy(() => import('./pages/products/productDetail'));
 const Offers = lazy(() => import('./pages/products/Offers'));
 
 // Lazy loading de componentes - Cart

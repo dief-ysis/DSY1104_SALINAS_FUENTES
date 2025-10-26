@@ -35,13 +35,13 @@ export function SideCart({ show, handleClose }) {
                 <div key={item.id} className="cart-item mb-3">
                   <div className="d-flex align-items-center">
                     <img
-                      src={getProductImage(item.image)}
+                      src={getProductImage(item.image, item.category)}
                       alt={item.name}
                       className="cart-item-image me-3"
                       style={{ width: '60px', height: '60px', objectFit: 'cover' }}
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = getProductImage();
+                        e.target.src = getProductImage('', item.category);
                       }}
                     />
                     <div className="flex-grow-1">

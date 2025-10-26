@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Badge, Button, Form, Spinner } from 'react-bootstrap';
 import { useCart } from '../../context/CartContext';
 import { productService } from '../../services/product';
+import { getProductImage } from '../../utils/imageUtils';
 import '../../styles/products/product-detail.css';
 
 export default function ProductDetail() {
@@ -65,10 +66,11 @@ export default function ProductDetail() {
           <Card>
             <Card.Img 
               variant="top" 
-              src={product.image}
+              src={getProductImage(product.image, product.category)}
               className="product-detail-image"
               onError={(e) => {
-                e.target.src = 'https://via.placeholder.com/400x400?text=Imagen+No+Disponible';
+                e.target.onerror = null;
+                e.target.src = getProductImage('', product.category);
               }}
             />
           </Card>

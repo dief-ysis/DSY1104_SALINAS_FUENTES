@@ -112,6 +112,8 @@ class ProductService {
       unidad: product.unit,
       origen: product.origin,
       imagen: product.image,
+      onSale: product.onSale || false,
+      discountPercentage: product.discountPercentage || 0,
       // Propiedades en inglés para compatibilidad
       name: product.name,
       price: product.price,

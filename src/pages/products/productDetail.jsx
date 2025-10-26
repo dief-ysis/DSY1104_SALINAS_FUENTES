@@ -3,6 +3,7 @@ import { useLoaderData, useNavigation } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useCart } from '../../context/CartContext';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { getProductImage } from '../../utils/imageUtils';
 
 const ProductDetail = () => {
 
@@ -27,10 +28,14 @@ const ProductDetail = () => {
       <Row className="g-4 mb-5">
         <Col xs={12} md={6}>
           <img
-            src={product.image}
+            src={getProductImage(product.image, product.category)}
             alt={product.name}
             className="img-fluid w-100"
             style={{ borderRadius: '8px', objectFit: 'cover', maxHeight: '500px' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = getProductImage('', product.category);
+            }}
           />
         </Col>
         <Col xs={12} md={6}>

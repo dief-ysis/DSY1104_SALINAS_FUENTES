@@ -3,15 +3,36 @@ import { Card, Button, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { formatearPrecio } from '../../utils/formatters';
+import { getProductImage } from '../../utils/imageUtils';
 import '../../styles/products/product-card.css';
+
+// Helper function to calculate discounted price
+function calculateDiscountedPrice(price, discountPercentage) {
+  if (!discountPercentage) return price;
+  return price * (1 - discountPercentage / 100);
+}
 
 export function ProductCard({ product }) {
   const { addItem } = useCart();
-  const { id, nombre, precioCLP, imagen, stock = 0, descripcion, name, price, description, image, origin, practices } = product;
-  const productName = nombre || name || '';
-  const desc = descripcion || description || '';
-  const productImage = image || imagen || '';
-  const parsedPrice = typeof precioCLP === 'string' ? parseFloat(precioCLP) : (precioCLP || price || 0);
+  // Usar propiedades normalizadas que devuelve productService.normalizeProduct
+  const {
+    id,
+    name,
+    price,
+    image,
+    stock = 0,
+    description,
+    origin,
+    practices,
+    category,
+    onSale,
+    discountPercentage
+  } = product;
+
+  const productName = name || '';
+  const desc = description || '';
+  const productImage = image || '';
+  const parsedPrice = Number(price || 0);
   const isOutOfStock = stock <= 0;
   
   // Verificar si es orgánico
@@ -28,24 +49,27 @@ export function ProductCard({ product }) {
       className={`h-100 shadow-sm product-card ${isOrganic ? 'organic' : ''}`}
       role="article"
     >
+      {/* Badge de Orgánico */}
+      {isOrganic && (
+        <Badge 
+          bg="success" 
+          className="product-card-badge"
+        >
+          🌿 Orgánico
+        </Badge>
+      )}
+
       <Link to={`/productos/${id}`} className="text-decoration-none">
         <div className="product-image-container">
-          {/* Badge positioned absolutely over the image */}
-          {isOrganic && (
-            <Badge 
-              bg="warning" 
-              className="position-absolute top-0 start-0 product-card-badge"
-              text="dark"
-            >
-              🌿 Orgánico
-            </Badge>
-          )}
-          
           <img 
-            src={productImage}
+            src={getProductImage(productImage, category)}
             alt={productName}
             loading="lazy"
             className="img-fluid product-card-image"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = getProductImage('', category);
+            }}
           />
         </div>
       </Link>
@@ -93,9 +117,26 @@ export function ProductCard({ product }) {
 
         <div className="mt-auto">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <span className="h5 text-success mb-0 product-card-price">
-              {formatearPrecio(parsedPrice)}
-            </span>
+            <div>
+              {onSale ? (
+                <>
+                  <span className="h5 text-success mb-0 product-card-price">
+                    {formatearPrecio(calculateDiscountedPrice(parsedPrice, discountPercentage))}
+                  </span>
+                  <br/>
+                  <small className="text-decoration-line-through text-muted">
+                    {formatearPrecio(parsedPrice)}
+                  </small>
+                  <Badge bg="danger" className="ms-2">
+                    -{discountPercentage}%
+                  </Badge>
+                </>
+              ) : (
+                <span className="h5 text-success mb-0 product-card-price">
+                  {formatearPrecio(parsedPrice)}
+                </span>
+              )}
+            </div>
             <Badge bg={stock > 0 ? 'warning' : 'danger'}>
               {stock > 0 ? `${stock} disp.` : 'Agotado'}
             </Badge>

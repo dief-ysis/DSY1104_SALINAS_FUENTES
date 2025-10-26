@@ -1,3 +1,16 @@
+/**
+ * FeaturedCategories.jsx
+ * Cambios realizados:
+ * 1. Corregida la ruta de navegación:
+ *    - Cambiado '/products' por '/productos' para coincidir con routes.jsx
+ *    - Asegura que los links de "Explorar" funcionen correctamente
+ * 
+ * 2. Mantenida la estructura responsiva con Bootstrap:
+ *    - xs={12}: una columna en móvil
+ *    - md={6}: dos columnas en tablet
+ *    - lg={4}: tres columnas en desktop
+ */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -44,7 +57,7 @@ export function FeaturedCategories({ categories = FEATURED_CATEGORIES }) {
           {categoryList.map(category => (
             <Col key={category.id} xs={12} md={6} lg={4}>
               <Link
-                to={`/productos?category=${category.id}`}
+                to={`/productos?category=${encodeURIComponent(category.name)}`}
                 className="text-decoration-none"
                 aria-labelledby={`category-title-${category.id}`}
               >

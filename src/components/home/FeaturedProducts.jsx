@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { getProductImage } from '../../utils/imageUtils';
 
 const formatPrice = (price) => {
   return new Intl.NumberFormat('es-CL', {
@@ -47,11 +48,15 @@ const FeaturedProducts = ({ products = [] }) => {
                 <div className="card h-100 featured-card">
                   <div className="position-relative overflow-hidden" style={{ height: '200px' }}>
                     <img 
-                      src={product.image} 
+                      src={getProductImage(product.image, product.category)} 
                       alt=""
                       loading="lazy"
                       className="card-img-top h-100 w-100"
                       style={{ objectFit: 'contain', objectPosition: 'center', padding: '8px' }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = getProductImage('', product.category);
+                      }}
                     />
                     {product.badge && (
                       <span className="position-absolute top-0 start-0 badge bg-danger m-2">{product.badge}</span>

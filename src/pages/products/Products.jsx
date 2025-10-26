@@ -1,14 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useProducts } from '../../hooks/useProducts';
 import { Pagination } from '../../components/products/Pagination';
 import { useCart } from '../../context/CartContext';
-import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import { formatearPrecio } from '../../utils/formatters';
+import { getProductImage } from '../../utils/imageUtils';
 import './products.css';
 
 export default function Products() {
-  useScrollToTop();
-
   const { products, categories, pagination, filters, loading } = useProducts();
   const { addItem } = useCart();
 
@@ -93,11 +91,15 @@ export default function Products() {
                 <article className="card h-100 product-card">
                   <div className="position-relative product-image-container">
                     <span className="position-absolute top-0 start-0 badge bg-warning text-dark m-2">{product.category}</span>
-                    <img 
-                      src={product.image} 
+                    <img
+                      src={getProductImage(product.image, product.category)} 
                       alt={product.name}
                       loading="lazy"
                       className="card-img-top product-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = getProductImage('', product.category);
+                      }}
                     />
                   </div>
                   <div className="card-body d-flex flex-column">

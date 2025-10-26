@@ -3,6 +3,7 @@ import { Container, Table, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useScrollToTop } from '../../hooks/useScrollToTop.js';
+import { getProductImage } from '../../utils/imageUtils';
 import '../../styles/pages/cart-pages.css';
 
 const Cart = () => {
@@ -41,9 +42,13 @@ const Cart = () => {
               <td>
                 <div className="d-flex align-items-center">
                   <img 
-                    src={item.image} 
+                    src={getProductImage(item.image, item.category)} 
                     alt={item.name}
                     className="cart-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = getProductImage('', item.category);
+                    }}
                   />
                   <span>{item.name}</span>
                 </div>
