@@ -51,7 +51,7 @@ const FeaturedProducts = ({ products = [] }) => {
                       alt=""
                       loading="lazy"
                       className="card-img-top h-100 w-100"
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'contain', objectPosition: 'center', padding: '8px' }}
                     />
                     {product.badge && (
                       <span className="position-absolute top-0 start-0 badge bg-danger m-2">{product.badge}</span>

@@ -82,3 +82,64 @@
 .pointer {
   cursor: pointer;
 }
+
+/* ===============================================
+   FLEXBOX & GRID CONSOLIDATION
+   Bootstrap native classes should be used in JSX,
+   but these are kept for legacy CSS that can't be updated
+   =============================================== */
+
+/* Legacy Flex - Use d-flex, d-flex flex-column etc in JSX */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gap utilities */
+.gap-sm { gap: var(--space-sm, 0.5rem); }
+.gap-md { gap: var(--space-md, 1rem); }
+.gap-lg { gap: var(--space-lg, 1.5rem); }
+.gap-xl { gap: var(--space-xl, 2rem); }
+
+/* IMAGE STYLING - Consolidated */
+.image-fit-contain {
+  object-fit: contain;
+  object-position: center;
+  padding: 8px;
+}
+
+.image-fit-cover {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* TRANSFORM EFFECTS - Consolidated from duplicates */
+.hover-scale-up {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale-up:hover {
+  transform: scale(1.05);
+}
+
+.hover-translate-up {
+  transition: transform 0.2s ease;
+}
+
+.hover-translate-up:hover {
+  transform: translateY(-4px);
+}

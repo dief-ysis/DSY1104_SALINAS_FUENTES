@@ -28,18 +28,19 @@ export function ProductCard({ product }) {
       className={`h-100 shadow-sm product-card ${isOrganic ? 'organic' : ''}`}
       role="article"
     >
-      {/* Badge de Orgánico */}
-      {isOrganic && (
-        <Badge 
-          bg="success" 
-          className="product-card-badge"
-        >
-          🌿 Orgánico
-        </Badge>
-      )}
-
       <Link to={`/productos/${id}`} className="text-decoration-none">
         <div className="product-image-container">
+          {/* Badge positioned absolutely over the image */}
+          {isOrganic && (
+            <Badge 
+              bg="warning" 
+              className="position-absolute top-0 start-0 product-card-badge"
+              text="dark"
+            >
+              🌿 Orgánico
+            </Badge>
+          )}
+          
           <img 
             src={productImage}
             alt={productName}

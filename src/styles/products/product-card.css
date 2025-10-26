@@ -26,31 +26,76 @@
 
 /* Badge for organic products */
 .product-card-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
-  padding: 6px 10px;
-  font-size: 0.8rem;
+  z-index: 20;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 8px;
+  border-radius: 6px;
 }
 
-/* Image container */
+/* Image container - refactored to use .flex-center utility */
 .product-image-container {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 1;
+  min-height: 200px;
+  max-height: 300px;
   overflow: hidden;
+  background-color: #f8f9fa;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa;
 }
 
 /* Image styling */
 .product-card-image {
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
+  padding: 12px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Responsive image sizes */
+@media (max-width: 768px) {
+  .product-image-container {
+    aspect-ratio: 1;
+    min-height: 150px;
+    max-height: 250px;
+  }
+
+  .product-card-image {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .product-image-container {
+    aspect-ratio: 1;
+    min-height: 180px;
+    max-height: 280px;
+  }
+
+  .product-card-image {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .product-image-container {
+    aspect-ratio: 1;
+    min-height: 220px;
+    max-height: 320px;
+  }
+
+  .product-card-image {
+    padding: 12px;
+  }
 }
 
 /* Text styling */
@@ -97,6 +142,7 @@
   overflow: hidden;
   margin-bottom: 10px;
 }
+
 
 /* Stock bar fill with status colors */
 .stock-bar-fill {

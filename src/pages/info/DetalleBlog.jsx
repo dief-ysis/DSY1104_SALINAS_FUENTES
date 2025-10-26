@@ -264,7 +264,7 @@ const DetalleBlog = () => {
       {/* Botones de acción */}
       <Row>
         <Col xs={12} className="text-center">
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className="d-flex gap-3 justify-content-center flex-wrap">
             <Button 
               variant="success"
               onClick={() => navigate('/blog')}
