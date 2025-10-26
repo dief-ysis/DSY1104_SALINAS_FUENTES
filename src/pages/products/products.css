@@ -1,88 +1,193 @@
-/* Estilos mínimos para la página de productos */
+/**/* Estilos mínimos para la página de productos */
 
-.product-image-container {
+ * products.css
+
+ * Cambios realizados:.product-image-container {
+
+ * 1. Añadida estructura de contenedor responsiva:  width: 100%;
+
+ *    - .products-page: contenedor principal con padding y fondo  overflow: hidden;
+
+ *    - .products-container: ancho máximo y centrado  aspect-ratio: 1;
+
+ *   min-height: 200px;
+
+ * 2. Mejoras en imágenes de productos:  max-height: 300px;
+
+ *    - Altura responsiva: 140px (móvil) → 180px (tablet) → 240px (desktop)  display: flex;
+
+ *    - object-fit: cover para mejor visualización  align-items: center;
+
+ *    - Transición suave al hacer hover  justify-content: center;
+
+ *   background-color: #f8f9fa;
+
+ * 3. Ajustes responsivos:  position: relative;
+
+ *    - Padding reducido en móviles (0.5rem)}
+
+ *    - Alturas de imagen ajustadas por breakpoint
+
+ *    - Espaciado consistente en todos los viewports.product-image {
+
+ */  width: 100%;
+
+  height: 100%;
+
+.products-page {  object-fit: contain;
+
+  padding: 1.25rem;  object-position: center;
+
+  background: var(--bs-light);  transition: transform 0.3s ease;
+
+}  padding: 12px;
+
+  max-width: 100%;
+
+.products-container {  max-height: 100%;
+
+  max-width: 1200px;}
+
+  margin: 0 auto;
+
+}.product-card {
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+/* Contenedor de imagen mejorado */  border: none;
+
+.product-image-container {}
+
   width: 100%;
-  overflow: hidden;
-  aspect-ratio: 1;
-  min-height: 200px;
-  max-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f9fa;
+
+  overflow: hidden;.product-card:hover {
+
+  height: 240px;  transform: translateY(-5px);
+
+  border-radius: 8px 8px 0 0;  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+
+  background: #f8f9fa;}
+
   position: relative;
-}
+
+}.product-card:hover .product-image {
+
+  transform: scale(1.05);
+
+/* Estilos de imagen optimizados */}
 
 .product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  transition: transform 0.3s ease;
-  padding: 12px;
-  max-width: 100%;
-  max-height: 100%;
-}
 
-.product-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-}
+  width: 100%;/* Badge styling for product category */
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
+  height: 100%;.product-image-container .badge {
 
-.product-card:hover .product-image {
-  transform: scale(1.05);
-}
+  object-fit: cover;  z-index: 20;
 
-/* Badge styling for product category */
-.product-image-container .badge {
-  z-index: 20;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: block;  font-weight: 600;
+
+  background-color: #f8f9fa;  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.3s ease;}
+
 }
 
 .btn.active {
-  background-color: var(--bs-primary);
-  color: white;
+
+/* Estilos de tarjeta y efectos hover */  background-color: var(--bs-primary);
+
+.product-card {  color: white;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;}
+
+  border: none;
+
+  background: var(--bs-white);/* Responsive adjustments */
+
+}@media (max-width: 768px) {
+
+  .product-image-container {
+
+.product-card:hover {    aspect-ratio: 1;
+
+  transform: translateY(-5px);    min-height: 150px;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12) !important;    max-height: 250px;
+
+}  }
+
+
+
+.product-card:hover .product-image {  .product-image {
+
+  transform: scale(1.04);    padding: 10px;
+
+}  }
+
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .product-image-container {
+/* Estilos de texto y títulos */
+
+.products-page .section-title {@media (min-width: 769px) and (max-width: 1024px) {
+
+  color: #0f172a;  .product-image-container {
+
+  margin-bottom: 1rem;    aspect-ratio: 1;
+
+  font-weight: 600;    min-height: 180px;
+
+}    max-height: 280px;
+
+  }
+
+.products-page .filters-row {
+
+  margin-bottom: 1rem;  .product-image {
+
+}    padding: 10px;
+
+  }
+
+.btn.active {}
+
+  background-color: #4caf50;
+
+  color: white;@media (min-width: 1025px) {
+
+}  .product-image-container {
+
     aspect-ratio: 1;
-    min-height: 150px;
-    max-height: 250px;
-  }
 
-  .product-image {
-    padding: 10px;
-  }
-}
+/* Reglas responsivas por breakpoint */    min-height: 220px;
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .product-image-container {
-    aspect-ratio: 1;
-    min-height: 180px;
-    max-height: 280px;
-  }
+@media (max-width: 576px) {    max-height: 320px;
 
-  .product-image {
-    padding: 10px;
-  }
-}
+  .product-image-container {  }
 
-@media (min-width: 1025px) {
-  .product-image-container {
-    aspect-ratio: 1;
-    min-height: 220px;
-    max-height: 320px;
-  }
+    height: 140px;
 
-  .product-image {
+  }  .product-image {
+
     padding: 12px;
+
+  .products-page {  }
+
+    padding: 0.5rem;}
+  }
+
+  .products-container {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .product-image-container {
+    height: 180px;
+  }
+}
+
+@media (min-width: 992px) {
+  .product-image-container {
+    height: 240px;
   }
 }

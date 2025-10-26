@@ -1,12 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { useProducts } from '../../hooks/useProducts';
-import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import { ProductCard } from '../../components/products/ProductCard';
 
 const Offers = () => {
-  useScrollToTop();
-
   const { products, loading, error } = useProducts();
   
   if (loading) {
@@ -27,8 +24,8 @@ const Offers = () => {
     );
   }
   
-  // Filtrar productos que tienen descuento
-  const offerProducts = products.filter(product => product.price < 2000);
+  // Filtrar productos que están en oferta
+  const offerProducts = products.filter(product => product.onSale);
 
   return (
     <Container className="py-5">

@@ -1,4 +1,3 @@
-import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Root from './pages/Root';
@@ -13,7 +12,7 @@ const Home = lazy(() => import('./pages/home/Home'));
 
 // Lazy loading de componentes - Products
 const Products = lazy(() => import('./pages/products/Products'));
-const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
+const ProductDetail = lazy(() => import('./pages/products/productDetail'));
 const Offers = lazy(() => import('./pages/products/Offers'));
 
 // Lazy loading de componentes - Cart
@@ -73,14 +72,7 @@ export const router = createBrowserRouter([
         ),
         loader: productLoader
       },
-      {
-        path: 'ofertas',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Offers />
-          </Suspense>
-        )
-      },
+
       {
         path: 'blog',
         element: (
@@ -152,6 +144,15 @@ export const router = createBrowserRouter([
             <PagoError />
           </Suspense>
         )
+      },
+      {
+        path: 'ofertas',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Offers />
+          </Suspense>
+        ),
+        loader: productsLoader
       }
     ]
   }

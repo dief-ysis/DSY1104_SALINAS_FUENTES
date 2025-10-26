@@ -2,11 +2,9 @@ import React from 'react';
 import { useLoaderData, useNavigation } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useCart } from '../../context/CartContext';
-import { useScrollToTop } from '../../hooks/useScrollToTop.js';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const ProductDetail = () => {
-  useScrollToTop();
 
   const { product } = useLoaderData();
   const navigation = useNavigation();

@@ -25,7 +25,12 @@
   padding: var(--spacing-2xl) 0;
 }
 
-/* Bootstrap Row/Col handles grid layout for about sections */
+.about-section-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
 
 /* Team Section */
 .about-section-team {
@@ -33,6 +38,19 @@
   padding: var(--spacing-2xl) 0;
 }
 
-/* Bootstrap Row/Col handles team grid layout */
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
 
-/* Responsive - handled by Bootstrap grid breakpoints */
+/* Responsive */
+@media (max-width: 768px) {
+  .about-section-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-hero-title {
+    font-size: var(--text-3xl);
+  }
+}

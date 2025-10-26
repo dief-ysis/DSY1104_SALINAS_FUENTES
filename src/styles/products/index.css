@@ -2,6 +2,7 @@
    PRODUCTS - Estilos de Productos
    =================================== */
 
+@import './product-card.css';
 @import './products.css';
 @import './product-filters.css';
 /* DEPRECATED: Pagination now uses Bootstrap .pagination and .page-link */
