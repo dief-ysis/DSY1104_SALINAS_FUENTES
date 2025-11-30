@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="aboutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F5E9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F7F7F7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#aboutGrad)"/>
+  
+  <!-- Farm illustration -->
+  <rect x="30" y="180" width="340" height="80" fill="#8B4513" opacity="0.3"/>
+  
+  <!-- Barn -->
+  <rect x="50" y="100" width="100" height="80" fill="#D2691E"/>
+  <polygon points="50,100 100,50 150,100" fill="#A0522D"/>
+  <rect x="70" y="120" width="20" height="30" fill="#654321"/>
+  <rect x="100" y="120" width="20" height="30" fill="#654321"/>
+  
+  <!-- Soil and plants -->
+  <ellipse cx="200" cy="180" rx="80" ry="20" fill="#8B4513" opacity="0.5"/>
+  
+  <!-- Corn stalks -->
+  <line x1="180" y1="180" x2="180" y2="100" stroke="#2E8B57" stroke-width="3"/>
+  <path d="M 175 140 L 160 135" stroke="#7CFC00" stroke-width="2"/>
+  <path d="M 185 140 L 200 135" stroke="#7CFC00" stroke-width="2"/>
+  
+  <line x1="220" y1="180" x2="220" y2="110" stroke="#2E8B57" stroke-width="3"/>
+  <path d="M 215 145 L 200 140" stroke="#7CFC00" stroke-width="2"/>
+  <path d="M 225 145 L 240 140" stroke="#7CFC00" stroke-width="2"/>
+  
+  <!-- Sun -->
+  <circle cx="320" cy="50" r="30" fill="#FFD700"/>
+  
+  <!-- Title -->
+  <text x="200" y="240" font-family="Montserrat, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#2E8B57">NUESTRA HISTORIA</text>
+  <text x="200" y="260" font-family="Montserrat, sans-serif" font-size="12" text-anchor="middle" fill="#666">Cultivando desde 2010</text>
+</svg>

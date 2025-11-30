@@ -1,0 +1,12 @@
+/* ===================================
+   PAGES - Estilos de Páginas
+   =================================== */
+
+@import './home-page.css';
+@import './products-page.css';
+@import './about.css';
+@import './blog.css';
+@import './cart.css';
+@import './checkout.css';
+@import './contact.css';
+@import './login.css';

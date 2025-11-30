@@ -1,0 +1,27 @@
+/* Featured Categories Styles - Bootstrap Migration Phase 5B */
+
+.category-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+  z-index: 5;
+}
+
+.category-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.category-card:hover .category-overlay {
+  background: rgba(0, 0, 0, 0.25);
+}

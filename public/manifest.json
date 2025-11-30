@@ -1,0 +1,10 @@
+{
+  "name": "Huerto Hogar",
+  "short_name": "Huerto",
+  "description": "Tienda online de productos orgánicos frescos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": []
+}

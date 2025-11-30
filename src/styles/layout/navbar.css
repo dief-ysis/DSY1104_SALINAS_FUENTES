@@ -1,0 +1,67 @@
+/* Navbar Custom Styling - Bootstrap handles most layout */
+
+.navbar-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1030;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Navbar visible state - shows when scrolling up */
+.navbar-custom.navbar-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Navbar hidden state - hides when scrolling down */
+.navbar-custom.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+
+.navbar-logo:hover {
+  opacity: 0.8;
+}
+
+.navbar-logo img {
+  height: 40px;
+  width: auto;
+}
+
+/* Active link indicator */
+.nav-link.active {
+  color: var(--color-primary) !important;
+  font-weight: 600;
+  position: relative;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.nav-link {
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+}
+
+/* Badge customization */
+.badge {
+  font-size: 0.65rem;
+  padding: 0.35rem 0.5rem;
+}
