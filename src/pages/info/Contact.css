@@ -1,0 +1,26 @@
+.contact-page {
+  padding: 3rem 0;
+  min-height: 80vh;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.contact-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d5016;
+  margin-bottom: 1rem;
+}
+
+.contact-info-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+}
+
+.contact-form-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+}

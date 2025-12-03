@@ -1,16 +1,21 @@
-import React from 'react'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/index.css';
-import { router } from './routes'
-import { CartProvider } from './context/CartContext'
+/**
+ * MAIN - PUNTO DE ENTRADA
+ */
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
-  </StrictMode>
-)
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import router from './routes';
+
+// Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Global styles
+import './index.css';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);

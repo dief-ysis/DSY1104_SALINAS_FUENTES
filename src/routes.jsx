@@ -1,159 +1,160 @@
+/**
+ * ROUTES - CONFIGURACIÓN DE RUTAS
+ * 
+ * React Router v6 con rutas protegidas y públicas.
+ * 
+ * RESPONDE A PREGUNTAS:
+ * - P40: Implementación de rutas protegidas
+ * - P42: Redirección cuando acceso manual a ruta protegida
+ * - P90: Loaders y actions de React Router
+ */
+
 import { createBrowserRouter } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import Root from './pages/Root';
-import LoadingSpinner from './components/common/LoadingSpinner';
+
+// Layout
+import App from './App';
+
+// Pages - Home
+import Home from './pages/home/Home';
+
+// Pages - Products
+import Products from './pages/products/Products';
+import ProductDetail from './pages/products/ProductDetail';
+
+// Pages - Cart
+import Cart from './pages/cart/Cart';
+import Checkout from './pages/cart/Checkout';
+
+// Pages - Auth
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+
+// Pages - Payment
+import PaymentResult from './pages/payment/PaymentResult';
+import PagoExitoso from './pages/payment/PagoExitoso';
+import PagoError from './pages/payment/PagoError';
+
+// Pages - Info
+import About from './pages/info/About';
+import Contact from './pages/info/Contact';
+
+// Pages - Offers
+import Offers from './pages/offers/Offers';
+
+// Pages - Blog
+import Blog from './pages/blog/Blog';
+import BlogPost from './pages/blog/BlogPost';
+
+// Components - Common
 import ErrorPage from './components/common/ErrorPage';
-import { productsLoader } from './loaders/products';
-import { productLoader } from './loaders/productLoader';
-import { homeLoader } from './loaders/home';
+import NotFound from './components/common/NotFound';
+import ProtectedRoute, { AdminRoute, PublicOnlyRoute } from './components/common/ProtectedRoute';
 
-// Lazy loading de componentes - Home
-const Home = lazy(() => import('./pages/home/Home'));
-
-// Lazy loading de componentes - Products
-const Products = lazy(() => import('./pages/products/Products'));
-const ProductDetail = lazy(() => import('./pages/products/productDetail'));
-const Offers = lazy(() => import('./pages/products/Offers'));
-
-// Lazy loading de componentes - Cart
-const Cart = lazy(() => import('./pages/cart/Cart'));
-const Checkout = lazy(() => import('./pages/cart/Checkout'));
-const PagoExitoso = lazy(() => import('./pages/cart/PagoExitoso'));
-const PagoError = lazy(() => import('./pages/cart/PagoError'));
-
-// Lazy loading de componentes - Auth
-const Login = lazy(() => import('./pages/auth/Login'));
-const Registro = lazy(() => import('./pages/auth/Registro'));
-
-// Lazy loading de componentes - Info
-const About = lazy(() => import('./pages/info/About'));
-const Blog = lazy(() => import('./pages/info/Blog'));
-const DetalleBlog = lazy(() => import('./pages/info/DetalleBlog'));
-const Contact = lazy(() => import('./pages/info/Contact'));
-
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
+      // HOME
       {
         index: true,
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Login />
-          </Suspense>
-        )
-      },
-      {
-        path: 'home',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Home />
-          </Suspense>
-        ),
-        loader: homeLoader
-      },
-      {
-        path: 'productos',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Products />
-          </Suspense>
-        ),
-        loader: productsLoader
-      },
-      {
-        path: 'productos/:id',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <ProductDetail />
-          </Suspense>
-        ),
-        loader: productLoader
+        element: <Home />
       },
 
+      // PRODUCTS
       {
-        path: 'blog',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Blog />
-          </Suspense>
-        )
+        path: 'productos',
+        element: <Products />
       },
       {
-        path: 'blog/:id',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <DetalleBlog />
-          </Suspense>
-        )
+        path: 'producto/:id',
+        element: <ProductDetail />
       },
-      {
-        path: 'contacto',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Contact />
-          </Suspense>
-        )
-      },
+
+      // CART (Protected)
       {
         path: 'carrito',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <ProtectedRoute>
             <Cart />
-          </Suspense>
+          </ProtectedRoute>
         )
       },
       {
         path: 'checkout',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <ProtectedRoute>
             <Checkout />
-          </Suspense>
+          </ProtectedRoute>
         )
       },
+
+      // AUTH (Public Only)
       {
-        path: 'nosotros',
+        path: 'login',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <About />
-          </Suspense>
+          <PublicOnlyRoute>
+            <Login />
+          </PublicOnlyRoute>
         )
       },
       {
         path: 'registro',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Registro />
-          </Suspense>
+          <PublicOnlyRoute>
+            <Register />
+          </PublicOnlyRoute>
         )
+      },
+
+      // PAYMENT
+      {
+        path: 'payment-result',
+        element: <PaymentResult />
       },
       {
         path: 'pago-exitoso',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <PagoExitoso />
-          </Suspense>
-        )
+        element: <PagoExitoso />
       },
       {
         path: 'pago-error',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <PagoError />
-          </Suspense>
-        )
+        element: <PagoError />
+      },
+
+      // INFO
+      {
+        path: 'nosotros',
+        element: <About />
       },
       {
+        path: 'contacto',
+        element: <Contact />
+      },
+
+      // OFFERS
+      {
         path: 'ofertas',
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Offers />
-          </Suspense>
-        ),
-        loader: productsLoader
+        element: <Offers />
+      },
+
+      // BLOG
+      {
+        path: 'blog',
+        element: <Blog />
+      },
+      {
+        path: 'blog/:id',
+        element: <BlogPost />
+      },
+
+      // 404
+      {
+        path: '*',
+        element: <NotFound />
       }
     ]
   }
 ]);
+
+export default router;

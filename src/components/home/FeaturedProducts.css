@@ -1,0 +1,34 @@
+/* FEATURED PRODUCTS STYLES */
+
+.featured-products {
+  padding: 3rem 0;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.featured-products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .featured-products {
+    padding: 1.5rem 1rem;
+  }
+
+  .featured-products-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .featured-products-header .btn {
+    width: 100%;
+  }
+}

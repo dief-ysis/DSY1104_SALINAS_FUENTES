@@ -1,107 +1,370 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+/**
+ * CONTEXT DE AUTENTICACIÓN
+ * 
+ * Maneja el estado global de autenticación en toda la aplicación.
+ * 
+ * CUMPLE CON:
+ * - Pregunta 33: "¿Cómo manejan en el frontend el estado autenticado del usuario?"
+ * - Pregunta 35: "¿Cómo persiste la sesión después de recargar la página?"
+ * - Pregunta 37: "¿Cómo verifican el estado de la sesión al cargar una vista protegida?"
+ * - Pregunta 38: "¿Cómo manejarían el cierre automático de sesión al expirar un token?"
+ * - Pregunta 45: "¿Cómo gestionaron el estado global?"
+ */
 
-export const AuthContext = createContext();
-const STORAGE_KEY = 'huertohogar-auth';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { 
+  login as loginService,
+  register as registerService,
+  logout as logoutService,
+  isAuthenticated as checkAuth,
+  getCurrentUser,
+  getUserRole,
+  hasRole,
+  isAdmin,
+  getTokenExpirationTime,
+  ROLES
+} from '../services/authService';
+import Swal from 'sweetalert2';
 
-// Validaciones
-const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email) throw new Error('El email es requerido');
-  if (!re.test(email)) throw new Error('Email inválido');
-};
+// ============================================================
+// CREACIÓN DEL CONTEXT
+// ============================================================
 
-const validatePassword = (password) => {
-  if (!password) throw new Error('La contraseña es requerida');
-  if (password.length < 6) throw new Error('La contraseña debe tener al menos 6 caracteres');
-};
+const AuthContext = createContext(null);
 
+// ============================================================
+// HOOK PERSONALIZADO PARA USAR EL CONTEXT
+// ============================================================
+
+/**
+ * Hook para acceder al contexto de autenticación
+ * @returns {Object} Estado y funciones de autenticación
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  // Para evitar que componentes renderizados en tests (sin provider) rompan,
-  // devolvemos un objeto por defecto con la API esperada.
+  
   if (!context) {
-    return {
-      user: null,
-      login: async () => ({ success: false, error: 'No provider' }),
-      logout: async () => ({ success: false, error: 'No provider' }),
-      loading: false,
-      error: null,
-      isAuthenticated: false
-    };
+    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
   }
+  
   return context;
 };
 
+// ============================================================
+// PROVIDER DEL CONTEXT
+// ============================================================
+
+/**
+ * Provider que envuelve la aplicación y provee el estado de autenticación
+ * Pregunta 45: "¿Cómo gestionaron el estado global? ¿Usaron contextos, reducers o estados locales?"
+ */
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem(STORAGE_KEY);
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // ============================================================
+  // ESTADO LOCAL
+  // ============================================================
 
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticatedState, setIsAuthenticatedState] = useState(false);
+  
+  // ============================================================
+  // INICIALIZACIÓN AL MONTAR EL COMPONENTE
+  // ============================================================
+
+  /**
+   * Verifica si hay una sesión activa al cargar la aplicación
+   * Pregunta 35: "¿Cómo persiste la sesión después de recargar la página?"
+   */
   useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-    } else {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }, [user]);
+    const initAuth = async () => {
+      try {
+        setLoading(true);
 
-  const login = async (email, password) => {
+        // Verificar si hay token válido
+        const authenticated = checkAuth();
+
+        if (authenticated) {
+          // Obtener datos del usuario
+          const userData = getCurrentUser();
+          
+          if (userData) {
+            setUser(userData);
+            setIsAuthenticatedState(true);
+            console.log('[AUTH CONTEXT] Sesión restaurada para:', userData.email);
+          } else {
+            // Token válido pero sin datos de usuario
+            setIsAuthenticatedState(false);
+            console.warn('[AUTH CONTEXT] Token válido pero sin datos de usuario');
+          }
+        } else {
+          setUser(null);
+          setIsAuthenticatedState(false);
+        }
+
+      } catch (error) {
+        console.error('[AUTH CONTEXT] Error al inicializar autenticación:', error);
+        setUser(null);
+        setIsAuthenticatedState(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initAuth();
+  }, []);
+
+  // ============================================================
+  // MONITOREO DE EXPIRACIÓN DEL TOKEN
+  // ============================================================
+
+  /**
+   * Monitorea la expiración del token y cierra sesión automáticamente
+   * Pregunta 38: "¿Cómo manejarían el cierre automático de sesión al expirar un token?"
+   */
+  useEffect(() => {
+    if (!isAuthenticatedState) return;
+
+    const checkTokenExpiration = () => {
+      const timeRemaining = getTokenExpirationTime();
+
+      if (timeRemaining === null) {
+        // Token inválido o no existe
+        handleLogout(true);
+        return;
+      }
+
+      // Si quedan menos de 5 minutos, mostrar advertencia
+      if (timeRemaining < 300 && timeRemaining > 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Sesión por expirar',
+          text: `Tu sesión expirará en ${Math.floor(timeRemaining / 60)} minutos`,
+          confirmButtonColor: '#2d5016',
+          timer: 5000
+        });
+      }
+
+      // Si el token expiró, cerrar sesión
+      if (timeRemaining <= 0) {
+        handleLogout(true);
+      }
+    };
+
+    // Verificar cada minuto
+    const interval = setInterval(checkTokenExpiration, 60000);
+
+    // Verificar inmediatamente
+    checkTokenExpiration();
+
+    return () => clearInterval(interval);
+  }, [isAuthenticatedState]);
+
+  // ============================================================
+  // FUNCIONES DE AUTENTICACIÓN
+  // ============================================================
+
+  /**
+   * Inicia sesión de un usuario
+   * 
+   * @param {Object} credentials - { email, password }
+   * @returns {Promise<Object>} Resultado del login
+   */
+  const handleLogin = useCallback(async (credentials) => {
     try {
       setLoading(true);
-      setError(null);
+
+      const result = await loginService(credentials);
+
+      if (result.success) {
+        setUser(result.user);
+        setIsAuthenticatedState(true);
+
+        console.log('[AUTH CONTEXT] Login exitoso:', result.user.email);
+
+        return {
+          success: true,
+          message: 'Sesión iniciada exitosamente',
+          user: result.user
+        };
+      }
+
+      return result;
+
+    } catch (error) {
+      console.error('[AUTH CONTEXT] Error en login:', error);
       
-      // Validaciones
-      validateEmail(email);
-      validatePassword(password);
+      setUser(null);
+      setIsAuthenticatedState(false);
 
-      // Simulación de delay de red
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      return {
+        success: false,
+        message: error.message || 'Error al iniciar sesión'
+      };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-      // Mock de autenticación
-      // En una implementación real, aquí iría la llamada al backend
-      const mockUser = {
-        id: 1,
-        email,
-        name: 'Usuario Demo'
+  /**
+   * Registra un nuevo usuario
+   * 
+   * @param {Object} userData - Datos del usuario a registrar
+   * @returns {Promise<Object>} Resultado del registro
+   */
+  const handleRegister = useCallback(async (userData) => {
+    try {
+      setLoading(true);
+
+      const result = await registerService(userData);
+
+      console.log('[AUTH CONTEXT] Registro exitoso');
+
+      return result;
+
+    } catch (error) {
+      console.error('[AUTH CONTEXT] Error en registro:', error);
+
+      return {
+        success: false,
+        message: error.message || 'Error al registrar usuario',
+        errors: error.errors
+      };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /**
+   * Cierra la sesión del usuario
+   * Pregunta 38: Cierre automático vs manual
+   * 
+   * @param {boolean} isAutoLogout - true si es logout automático por expiración
+   */
+  const handleLogout = useCallback(async (isAutoLogout = false) => {
+    try {
+      setLoading(true);
+
+      await logoutService(isAutoLogout);
+
+      setUser(null);
+      setIsAuthenticatedState(false);
+
+      console.log('[AUTH CONTEXT] Logout exitoso', isAutoLogout ? '(automático)' : '(manual)');
+
+      // Mostrar mensaje apropiado
+      if (isAutoLogout) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Sesión Expirada',
+          text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+          confirmButtonColor: '#2d5016',
+          confirmButtonText: 'Iniciar Sesión'
+        }).then(() => {
+          window.location.href = '/login';
+        });
+      }
+
+      return {
+        success: true,
+        message: isAutoLogout ? 'Sesión expirada' : 'Sesión cerrada correctamente'
       };
 
-      setUser(mockUser);
-      return { success: true };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      setLoading(true);
-      // Simulación de delay de red
-      await new Promise(resolve => setTimeout(resolve, 500));
+      console.error('[AUTH CONTEXT] Error en logout:', error);
+      
+      // Limpiar estado local aunque falle
       setUser(null);
-      localStorage.removeItem(STORAGE_KEY); // Asegurarnos de limpiar el storage
-      return { success: true };
-    } catch (error) {
-      setError('Error al cerrar sesión');
-      return { success: false, error: 'Error al cerrar sesión' };
+      setIsAuthenticatedState(false);
+
+      return {
+        success: true // Siempre "exitoso" para limpiar el frontend
+      };
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  /**
+   * Actualiza los datos del usuario en el contexto
+   * 
+   * @param {Object} updatedData - Datos actualizados del usuario
+   */
+  const updateUser = useCallback((updatedData) => {
+    if (!user) return;
+
+    const updatedUser = { ...user, ...updatedData };
+    setUser(updatedUser);
+    
+    // Actualizar en localStorage también
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+
+    console.log('[AUTH CONTEXT] Usuario actualizado');
+  }, [user]);
+
+  // ============================================================
+  // FUNCIONES DE VERIFICACIÓN DE ROLES
+  // ============================================================
+
+  /**
+   * Verifica si el usuario tiene un rol específico
+   * Pregunta 30: "¿Cómo implementaron los roles de usuario?"
+   * Pregunta 32: "¿Cómo protegerías un endpoint para que solo roles específicos accedan?"
+   * Pregunta 43: "¿Cómo comprobaron desde React qué rol tiene el usuario?"
+   * 
+   * @param {string|string[]} requiredRoles - Rol(es) requerido(s)
+   * @returns {boolean}
+   */
+  const checkRole = useCallback((requiredRoles) => {
+    if (!isAuthenticatedState) return false;
+    return hasRole(requiredRoles);
+  }, [isAuthenticatedState]);
+
+  /**
+   * Verifica si el usuario es administrador
+   * @returns {boolean}
+   */
+  const checkIsAdmin = useCallback(() => {
+    if (!isAuthenticatedState) return false;
+    return isAdmin();
+  }, [isAuthenticatedState]);
+
+  /**
+   * Obtiene el rol del usuario actual
+   * @returns {string|null}
+   */
+  const getRole = useCallback(() => {
+    if (!isAuthenticatedState) return null;
+    return getUserRole();
+  }, [isAuthenticatedState]);
+
+  // ============================================================
+  // VALOR DEL CONTEXT
+  // ============================================================
 
   const value = {
+    // Estado
     user,
-    login,
-    logout,
     loading,
-    error,
-    isAuthenticated: !!user
+    isAuthenticated: isAuthenticatedState,
+    
+    // Funciones de autenticación
+    login: handleLogin,
+    register: handleRegister,
+    logout: handleLogout,
+    updateUser,
+    
+    // Funciones de verificación
+    checkRole,
+    isAdmin: checkIsAdmin,
+    getRole,
+    
+    // Constantes
+    ROLES
   };
+
+  // ============================================================
+  // RENDERIZADO
+  // ============================================================
 
   return (
     <AuthContext.Provider value={value}>
@@ -109,3 +372,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;

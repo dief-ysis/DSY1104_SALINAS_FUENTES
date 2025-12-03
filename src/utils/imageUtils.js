@@ -1,26 +1,34 @@
 /**
- * imageUtils.js
- * Utilidad para resolver imágenes de producto y proporcionar un fallback
+ * IMAGE UTILS - UTILIDADES PARA IMÁGENES
+ * 
+ * Funciones para manejar imágenes de productos con fallbacks.
  */
 
-// Los productos pueden referenciar muchas imágenes. No filtramos por una lista
-// rígida: si el campo `imagePath` está presente, lo devolvemos directamente.
-// Si no existe o está vacío, devolvemos una imagen por defecto según la categoría.
 const defaultImages = {
-  'Frutas Frescas': '/assets/products/manzana.jpg',
-  'Verduras Orgánicas': '/assets/products/espinaca.jpg',
-  'Productos Orgánicos': '/assets/products/miel.png',
-  default: '/assets/products/manzana.jpg'
+  'FRUTAS': '/assets/products/manzana.jpg',
+  'VERDURAS': '/assets/products/zanahoria.jpg',
+  'HIERBAS': '/assets/products/espinaca.jpg',
+  'ORGANICOS': '/assets/products/miel.png',
+  'GRANOS': '/assets/products/manzana.jpg',
+  'LACTEOS': '/assets/products/miel.png',
+  'default': '/assets/products/manzana.jpg'
 };
 
-export function getProductImage(imagePath, category) {
-  // Si hay una ruta de imagen válida, la devolvemos
-  if (typeof imagePath === 'string' && imagePath.trim() !== '') {
+/**
+ * Obtiene la URL de imagen de un producto con fallback por categoría
+ * @param {string} imagePath - Ruta de la imagen del producto
+ * @param {string} category - Categoría del producto
+ * @returns {string} URL de la imagen
+ */
+export const getProductImage = (imagePath, category) => {
+  // Si hay ruta de imagen válida, usarla
+  if (imagePath && typeof imagePath === 'string' && imagePath.trim() !== '') {
     return imagePath;
   }
 
-  // Buscar imagen por categoría, con fallback al default
-  return defaultImages[category] || defaultImages.default;
-}
+  // Buscar imagen por categoría
+  const categoryKey = category?.toUpperCase() || '';
+  return defaultImages[categoryKey] || defaultImages.default;
+};
 
-export default getProductImage;
+export default { getProductImage };

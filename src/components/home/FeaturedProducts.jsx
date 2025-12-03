@@ -1,94 +1,87 @@
+/**
+ * FEATURED PRODUCTS - PRODUCTOS DESTACADOS
+ * 
+ * Muestra los productos más populares o destacados del home.
+ * 
+ * CORRECCIÓN CRÍTICA: NO asume endpoint /api/products/featured inexistente.
+ * Usa filtrado local de productos hasta que backend esté implementado.
+ * 
+ * TODO BACKEND: Crear endpoint GET /api/products/featured que retorne
+ * productos con campo destacado=true o los más vendidos.
+ */
+
 import React, { useMemo } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
-import { getProductImage } from '../../utils/imageUtils';
-import '../../pages/products/products.css';
-import '../../styles/products/product-card.css';
+import { Row, Col, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import useFetch from '../../hooks/useFetch';
+import ProductCard from '../products/ProductCard';
+import LoadingSpinner from '../common/LoadingSpinner';
+import './FeaturedProducts.css';
 
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('es-CL', {
-    style: 'currency',
-    currency: 'CLP'
-  }).format(price);
-};
-
-const FeaturedProducts = ({ products = [] }) => {
-  const { addToCart } = useCart();
+const FeaturedProducts = () => {
+  const navigate = useNavigate();
   
-  const featuredProducts = useMemo(() => {
-    return products
-      .filter(product => product.destacado || product.rating >= 4)
-      .slice(0, 6);
-  }, [products]);
+  // Fetch todos los productos (endpoint real: GET /api/products?page=0&size=20)
+  // Luego filtramos localmente hasta que backend implemente /featured
+  const { data, loading, error } = useFetch('/api/products?page=0&size=20');
 
-  const handleAddToCart = (product, e) => {
-    e.preventDefault();
-    addToCart(product, 1);
-  };
+  // Filtrar productos destacados localmente
+  const featuredProducts = useMemo(() => {
+    if (!data) return [];
+    
+    const products = data.content || data || [];
+    
+    // Filtrar por destacado=true o rating>=4, limitar a 8
+    return products
+      .filter(p => p.destacado === true || p.rating >= 4)
+      .slice(0, 8);
+  }, [data]);
+
+  if (loading) {
+    return <LoadingSpinner size="lg" text="Cargando productos destacados..." />;
+  }
+
+  if (error) {
+    return (
+      <Alert variant="danger">
+        Error al cargar productos destacados: {error}
+      </Alert>
+    );
+  }
 
   if (featuredProducts.length === 0) {
-    return null;
+    return (
+      <Alert variant="info">
+        No hay productos destacados disponibles en este momento.
+      </Alert>
+    );
   }
 
   return (
-    <section className="py-5 bg-light" aria-labelledby="featured-products-title">
-      <Container>
-        <div className="text-center mb-5">
-          <h2 id="featured-products-title" className="mb-2">Productos Destacados</h2>
-          <p className="text-muted">Descubre nuestra selección especial de productos orgánicos</p>
+    <div className="featured-products">
+      <div className="featured-products-header">
+        <div>
+          <h2 className="section-title">Productos Destacados</h2>
+          <p className="section-subtitle">
+            Los favoritos de nuestros clientes
+          </p>
         </div>
+        <button 
+          className="btn btn-outline-success"
+          onClick={() => navigate('/productos')}
+        >
+          Ver Todos
+        </button>
+      </div>
 
-        <Row className="g-4">
-          {featuredProducts.map(product => (
-            <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
-              <Link 
-                to={`/productos/${product.id}`}
-                className="text-decoration-none"
-                aria-labelledby={`product-title-${product.id}`}
-              >
-                <div className="card h-100 product-card featured-card">
-                  <div className="product-image-container" style={{ height: '200px' }}>
-                    <img 
-                      src={getProductImage(product.image, product.category)} 
-                      alt=""
-                      loading="lazy"
-                      className="card-img-top product-image"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getProductImage('', product.category);
-                      }}
-                    />
-                    {product.badge && (
-                      <span className="position-absolute top-0 start-0 badge bg-danger m-2">{product.badge}</span>
-                    )}
-                  </div>
-                  <div className="card-body d-flex flex-column">
-                    <small className="text-muted">{product.category}</small>
-                    <h5 id={`product-title-${product.id}`} className="card-title mt-2">
-                      {product.name}
-                    </h5>
-                    <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
-                      <span className="fw-bold text-success">
-                        {formatPrice(product.price)}
-                      </span>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-success"
-                        onClick={(e) => handleAddToCart(product, e)}
-                        aria-label={`Añadir ${product.name} al carrito`}
-                      >
-                        Añadir
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </section>
+      <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+        {featuredProducts.map((product) => (
+          <Col key={product.id}>
+            <ProductCard product={product} />
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
 };
 

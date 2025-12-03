@@ -1,91 +1,94 @@
 /**
- * FeaturedCategories.jsx
- * Cambios realizados:
- * 1. Corregida la ruta de navegación:
- *    - Cambiado '/products' por '/productos' para coincidir con routes.jsx
- *    - Asegura que los links de "Explorar" funcionen correctamente
+ * FEATURED CATEGORIES - CATEGORÍAS DESTACADAS
  * 
- * 2. Mantenida la estructura responsiva con Bootstrap:
- *    - xs={12}: una columna en móvil
- *    - md={6}: dos columnas en tablet
- *    - lg={4}: tres columnas en desktop
+ * Muestra las categorías principales de productos.
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
-import '../../styles/sections/featured-categories.css';
+import { Row, Col, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import './FeaturedCategories.css';
 
-// HH-012: Categorías destacadas con navegación
-const FEATURED_CATEGORIES = [
-  {
-    id: 'frutas',
-    name: 'Frutas Frescas',
-    description: 'Selección de frutas orgánicas de temporada',
-    image: '/assets/images/categories/frutas-frescas.jpg',
-    icon: '🍎',
-  },
-  {
-    id: 'verduras',
-    name: 'Vegetales Verdes',
-    description: 'Verduras cultivadas sin pesticidas',
-    image: '/assets/images/categories/vegetales-verdes.png',
-    icon: '🥬',
-  },
-  {
-    id: 'organicos',
-    name: 'Productos Orgánicos',
-    description: 'Productos naturales certificados',
-    image: '/assets/images/categories/organicos.webp',
-    icon: '🌱',
-  },
-];
+const FeaturedCategories = () => {
+  const navigate = useNavigate();
 
-export function FeaturedCategories({ categories = FEATURED_CATEGORIES }) {
-  // Validar que categories sea un array
-  const categoryList = Array.isArray(categories) ? categories : FEATURED_CATEGORIES;
+  const categories = [
+    {
+      id: 'FRUTAS',
+      name: 'Frutas Frescas',
+      icon: '🍎',
+      description: 'Las frutas más frescas y dulces',
+      color: '#ff6b6b'
+    },
+    {
+      id: 'VERDURAS',
+      name: 'Verduras Orgánicas',
+      icon: '🥬',
+      description: 'Verduras cultivadas sin químicos',
+      color: '#51cf66'
+    },
+    {
+      id: 'HIERBAS',
+      name: 'Hierbas Aromáticas',
+      icon: '🌿',
+      description: 'Hierbas frescas para tu cocina',
+      color: '#69db7c'
+    },
+    {
+      id: 'ORGANICOS',
+      name: 'Productos Orgánicos',
+      icon: '🌱',
+      description: '100% naturales y certificados',
+      color: '#94d82d'
+    },
+    {
+      id: 'GRANOS',
+      name: 'Granos y Cereales',
+      icon: '🌾',
+      description: 'Granos integrales y saludables',
+      color: '#fab005'
+    },
+    {
+      id: 'LACTEOS',
+      name: 'Lácteos Artesanales',
+      icon: '🧀',
+      description: 'Productos lácteos de calidad',
+      color: '#ffd43b'
+    }
+  ];
+
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/productos?categoria=${categoryId}`);
+  };
 
   return (
-    <section className="py-5 bg-light" aria-labelledby="featured-categories-title">
-      <Container>
-        <div className="text-center mb-5">
-          <h2 id="featured-categories-title" className="mb-2">Categorías Destacadas</h2>
-          <p className="text-muted">Encuentra los mejores productos organizados para ti</p>
-        </div>
-        
-        <Row className="g-4">
-          {categoryList.map(category => (
-            <Col key={category.id} xs={12} md={6} lg={4}>
-              <Link
-                to={`/productos?category=${encodeURIComponent(category.name)}`}
-                className="text-decoration-none"
-                aria-labelledby={`category-title-${category.id}`}
-              >
-                <div className="card h-100 category-card overflow-hidden">
-                  <div className="position-relative" style={{ height: '200px' }}>
-                    <img
-                      src={category.image}
-                      alt=""
-                      loading="lazy"
-                      className="card-img-top h-100 w-100"
-                      style={{ objectFit: 'cover' }}
-                    />
-                    <div className="category-overlay"></div>
-                  </div>
-                  <div className="card-body text-center">
-                    <div className="fs-3 mb-2">{category.icon}</div>
-                    <h3 id={`category-title-${category.id}`} className="card-title">{category.name}</h3>
-                    <p className="card-text text-muted small">{category.description}</p>
-                    <span className="text-primary">Explorar →</span>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </section>
+    <div className="featured-categories">
+      <div className="text-center mb-4">
+        <h2 className="section-title">Explora por Categorías</h2>
+        <p className="section-subtitle">
+          Encuentra exactamente lo que necesitas
+        </p>
+      </div>
+
+      <Row xs={2} md={3} lg={6} className="g-3">
+        {categories.map((category) => (
+          <Col key={category.id}>
+            <Card 
+              className="category-card"
+              onClick={() => handleCategoryClick(category.id)}
+              style={{ '--category-color': category.color }}
+            >
+              <Card.Body className="text-center">
+                <div className="category-icon">{category.icon}</div>
+                <h5 className="category-name">{category.name}</h5>
+                <p className="category-description">{category.description}</p>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
-}
+};
 
 export default FeaturedCategories;

@@ -1,0 +1,175 @@
+/* OFFERS PAGE STYLES */
+
+.offers-page {
+  padding: 3rem 0;
+  min-height: 80vh;
+}
+
+.offers-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.offers-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d5016;
+  margin-bottom: 1rem;
+}
+
+.offers-header .lead {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* OFFER CARD */
+.offer-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-card:hover {
+  border-color: #dc3545;
+  box-shadow: 0 8px 24px rgba(220, 53, 69, 0.2);
+  transform: translateY(-5px);
+}
+
+.offer-badge-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
+.offer-badge {
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.offer-image-container {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f8f9fa;
+  position: relative;
+}
+
+.offer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.offer-card:hover .offer-image {
+  transform: scale(1.1);
+}
+
+.offer-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  min-height: 50px;
+}
+
+.offer-title:hover {
+  color: #2d5016;
+}
+
+/* PRICING */
+.offer-pricing {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #fff3cd;
+  border-radius: 8px;
+  border: 1px solid #ffc107;
+}
+
+.offer-original-price {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.offer-original-price del {
+  color: #999;
+}
+
+.offer-discounted-price {
+  font-size: 1.5rem;
+  color: #dc3545;
+  margin-bottom: 0.25rem;
+}
+
+.offer-discounted-price strong {
+  font-weight: 700;
+}
+
+.offer-savings {
+  font-size: 0.9rem;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.offer-actions {
+  margin-top: 1rem;
+}
+
+/* CTA */
+.offers-cta {
+  padding: 3rem 0;
+  margin-top: 2rem;
+  border-top: 2px solid #e0e0e0;
+}
+
+.offers-cta h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.offers-cta p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .offers-page {
+    padding: 2rem 0;
+  }
+
+  .offers-header h1 {
+    font-size: 2rem;
+  }
+
+  .offer-badge {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .offer-discounted-price {
+    font-size: 1.3rem;
+  }
+}

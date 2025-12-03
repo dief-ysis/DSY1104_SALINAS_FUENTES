@@ -1,175 +1,264 @@
-import React from 'react';
-import { useLoaderData, useNavigation } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+/**
+ * PRODUCT DETAIL PAGE - DETALLE DE PRODUCTO
+ * 
+ * Muestra información completa de un producto individual.
+ * Usa React Router params para obtener el ID del producto.
+ */
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Button, Badge, Alert } from 'react-bootstrap';
 import { useCart } from '../../context/CartContext';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import productService from '../../services/productService';
+import { formatearPrecio } from '../../utils/formatters';
 import { getProductImage } from '../../utils/imageUtils';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import './ProductDetail.css';
 
 const ProductDetail = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addItem } = useCart();
 
-  const { product } = useLoaderData();
-  const navigation = useNavigation();
-  const { addToCart } = useCart();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [adding, setAdding] = useState(false);
 
-  if (navigation.state === 'loading') {
+  // Cargar producto
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const data = await productService.getProductById(id);
+        setProduct(data);
+      } catch (err) {
+        console.error('Error al cargar producto:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  const handleAddToCart = async () => {
+    if (!product || quantity <= 0) return;
+
+    setAdding(true);
+    try {
+      await addItem(product, quantity);
+      setQuantity(1);
+    } catch (err) {
+      console.error('Error al agregar al carrito:', err);
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const handleQuantityChange = (delta) => {
+    const newQuantity = quantity + delta;
+    const maxStock = product?.stock || 0;
+
+    if (newQuantity >= 1 && newQuantity <= maxStock) {
+      setQuantity(newQuantity);
+    }
+  };
+
+  // Loading state
+  if (loading) {
+    return <LoadingSpinner fullScreen text="Cargando producto..." />;
+  }
+
+  // Error state
+  if (error) {
     return (
-      <Container className="text-center mt-5">
-        <LoadingSpinner />
+      <Container className="mt-5">
+        <Alert variant="danger">
+          <Alert.Heading>Error al cargar el producto</Alert.Heading>
+          <p>{error}</p>
+          <Button variant="outline-danger" onClick={() => navigate('/productos')}>
+            Volver a Productos
+          </Button>
+        </Alert>
       </Container>
     );
   }
 
+  // Not found
   if (!product) {
-    return <p className="text-center">Producto no encontrado</p>;
+    return (
+      <Container className="mt-5">
+        <Alert variant="warning">
+          <Alert.Heading>Producto no encontrado</Alert.Heading>
+          <p>El producto que buscas no existe o ha sido eliminado.</p>
+          <Button variant="outline-warning" onClick={() => navigate('/productos')}>
+            Volver a Productos
+          </Button>
+        </Alert>
+      </Container>
+    );
   }
 
+  const isOutOfStock = product.stock <= 0;
+  const isLowStock = product.stock > 0 && product.stock <= 5;
+
   return (
-    <Container className="mt-4 mb-5">
-      <Row className="g-4 mb-5">
-        <Col xs={12} md={6}>
-          <img
-            src={getProductImage(product.image, product.category)}
-            alt={product.name}
-            className="img-fluid w-100"
-            style={{ borderRadius: '8px', objectFit: 'cover', maxHeight: '500px' }}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = getProductImage('', product.category);
-            }}
-          />
-        </Col>
-        <Col xs={12} md={6}>
-          <h1 className="h2 mb-3">{product.name}</h1>
-          <h2 className="h4 text-primary mb-3">${product.price} CLP</h2>
-          
-          {/* Stock disponible */}
-          <div className="mb-3">
-            <p className="mb-1">
-              <strong>Stock:</strong> {product.stock > 0 ? `${product.stock} disponibles` : 'Agotado'}
-            </p>
-            <div 
-              style={{
-                backgroundColor: '#e9ecef',
-                height: '8px',
-                borderRadius: '4px',
-                overflow: 'hidden'
-              }}
-            >
-              <div 
-                style={{
-                  backgroundColor: product.stock > 20 ? '#28a745' : product.stock > 5 ? '#ffc107' : '#dc3545',
-                  height: '100%',
-                  width: `${Math.min((product.stock / 100) * 100, 100)}%`,
-                  transition: 'width 0.3s ease'
-                }}
-              ></div>
-            </div>
+    <Container className="product-detail-page">
+      {/* BREADCRUMB */}
+      <nav className="breadcrumb-nav">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
+            <a onClick={() => navigate('/')}>Inicio</a>
+          </li>
+          <li className="breadcrumb-item">
+            <a onClick={() => navigate('/productos')}>Productos</a>
+          </li>
+          <li className="breadcrumb-item active">
+            {product.nombre || product.name}
+          </li>
+        </ol>
+      </nav>
+
+      <Row className="product-detail-content">
+        {/* IMAGEN */}
+        <Col lg={6}>
+          <div className="product-image-container">
+            {isOutOfStock && (
+              <Badge bg="danger" className="product-badge">
+                Agotado
+              </Badge>
+            )}
+            {!isOutOfStock && isLowStock && (
+              <Badge bg="warning" className="product-badge">
+                Últimas unidades
+              </Badge>
+            )}
+            <img
+              src={getProductImage(product.imagen || product.image, product.categoria || product.category)}
+              alt={product.nombre || product.name}
+              className="product-image"
+            />
           </div>
-
-          <p className="mb-4">{product.description}</p>
-          
-          {/* Origen */}
-          {product.origin && (
-            <div className="mb-3 p-3" style={{ backgroundColor: '#f0f8f0', borderRadius: '6px', borderLeft: '4px solid #2E8B57' }}>
-              <h5 style={{ color: '#2E8B57', marginBottom: '8px' }}>📍 Origen</h5>
-              <p style={{ margin: 0 }}>{product.origin}</p>
-            </div>
-          )}
-
-          {/* Prácticas de cultivo */}
-          {product.practices && (
-            <div className="mb-3 p-3" style={{ backgroundColor: '#f5fff5', borderRadius: '6px', borderLeft: '4px solid #28a745' }}>
-              <h5 style={{ color: '#28a745', marginBottom: '8px' }}>🌱 Prácticas de Cultivo</h5>
-              <p style={{ margin: 0 }}>{product.practices}</p>
-            </div>
-          )}
-
-          <Button 
-            variant="success"
-            size="lg"
-            onClick={() => addToCart(product)}
-            className="mt-3"
-          >
-            ✓ Agregar al carrito
-          </Button>
         </Col>
-      </Row>
 
-      {/* Recetas */}
-      {product.recipes && product.recipes.length > 0 && (
-        <Row className="mb-5">
-          <Col xs={12}>
-            <h3 style={{ color: '#2E8B57', marginBottom: '20px', borderBottom: '2px solid #FFD700', paddingBottom: '10px' }}>
-              🍳 Recetas con {product.name}
-            </h3>
-            <Row className="g-3">
-              {product.recipes.map((recipe, idx) => (
-                <Col xs={12} sm={6} md={6} lg={3} key={idx}>
-                  <div 
-                    className="p-3"
-                    style={{
-                      backgroundColor: '#f9f9f9',
-                      borderRadius: '8px',
-                      border: '1px solid #e0e0e0',
-                      minHeight: '120px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      transition: 'transform 0.2s, box-shadow 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-4px)';
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
+        {/* INFO */}
+        <Col lg={6}>
+          <div className="product-info">
+            {/* CATEGORÍA */}
+            {(product.categoria || product.category) && (
+              <Badge bg="success" className="category-badge mb-3">
+                {product.categoria || product.category}
+              </Badge>
+            )}
+
+            {/* NOMBRE */}
+            <h1 className="product-name">
+              {product.nombre || product.name}
+            </h1>
+
+            {/* PRECIO */}
+            <div className="product-price-section">
+              <span className="product-price">
+                {formatearPrecio(product.precio || product.price)}
+              </span>
+              {product.unidad && (
+                <span className="product-unit">
+                  / {product.unidad}
+                </span>
+              )}
+            </div>
+
+            {/* DESCRIPCIÓN */}
+            {(product.descripcion || product.description) && (
+              <div className="product-description">
+                <h5>Descripción</h5>
+                <p>{product.descripcion || product.description}</p>
+              </div>
+            )}
+
+            {/* ORIGEN */}
+            {product.origen && (
+              <div className="product-detail-item">
+                <strong>Origen:</strong> {product.origen}
+              </div>
+            )}
+
+            {/* STOCK */}
+            <div className="product-stock-section">
+              {isOutOfStock ? (
+                <Alert variant="danger" className="mb-3">
+                  <strong>Sin stock disponible</strong>
+                </Alert>
+              ) : isLowStock ? (
+                <Alert variant="warning" className="mb-3">
+                  <strong>¡Solo quedan {product.stock} unidades!</strong>
+                </Alert>
+              ) : (
+                <div className="stock-available">
+                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <strong>{product.stock} unidades disponibles</strong>
+                </div>
+              )}
+            </div>
+
+            {/* CANTIDAD Y AGREGAR */}
+            <div className="product-actions">
+              <div className="quantity-selector">
+                <label>Cantidad:</label>
+                <div className="quantity-controls">
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={() => handleQuantityChange(-1)}
+                    disabled={quantity <= 1}
                   >
-                    <div>
-                      <h6 style={{ color: '#2E8B57', marginBottom: '8px' }}>
-                        Receta {idx + 1}
-                      </h6>
-                      <p style={{ fontSize: '0.9rem', margin: 0 }}>{recipe}</p>
-                    </div>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </Col>
-        </Row>
-      )}
+                    -
+                  </button>
+                  <span className="quantity-value">{quantity}</span>
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={() => handleQuantityChange(1)}
+                    disabled={quantity >= product.stock}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
 
-      {/* Información adicional */}
-      <Row>
-        <Col xs={12}>
-          <div className="p-4" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <Row>
-              <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-                <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <strong>Categoría:</strong><br />
-                  {product.category}
-                </p>
-              </Col>
-              <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-                <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <strong>Unidad:</strong><br />
-                  {product.unit}
-                </p>
-              </Col>
-              <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-                <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <strong>Código:</strong><br />
-                  {product.id}
-                </p>
-              </Col>
-              <Col xs={12} sm={6} md={3}>
-                <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <strong>Stock:</strong><br />
-                  {product.stock} unidades
-                </p>
-              </Col>
-            </Row>
+              <Button
+                variant={isOutOfStock ? 'secondary' : 'success'}
+                size="lg"
+                className="btn-add-to-cart"
+                onClick={handleAddToCart}
+                disabled={isOutOfStock || adding}
+              >
+                {adding ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" />
+                    Agregando...
+                  </>
+                ) : isOutOfStock ? (
+                  'Sin Stock'
+                ) : (
+                  <>
+                    <i className="bi bi-cart-plus me-2"></i>
+                    Agregar al Carrito
+                  </>
+                )}
+              </Button>
+            </div>
+
+            {/* BOTÓN VOLVER */}
+            <Button
+              variant="outline-secondary"
+              className="mt-3"
+              onClick={() => navigate('/productos')}
+            >
+              <i className="bi bi-arrow-left me-2"></i>
+              Volver a Productos
+            </Button>
           </div>
         </Col>
       </Row>

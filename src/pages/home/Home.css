@@ -1,0 +1,27 @@
+/* HOME PAGE STYLES */
+
+.home-page {
+  margin: 0;
+  padding: 0;
+}
+
+.featured-section {
+  padding: 4rem 0;
+}
+
+.featured-section.bg-light {
+  background-color: #f8f9fa;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .featured-section {
+    padding: 2rem 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured-section {
+    padding: 1.5rem 0;
+  }
+}

@@ -1,9 +1,0 @@
-/* Blog custom styling */
-
-.blog-card:hover {
-  transform: translateY(-5px);
-}
-
-h1 {
-  color: var(--color-primary);
-}

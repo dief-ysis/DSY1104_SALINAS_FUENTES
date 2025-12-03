@@ -1,134 +1,149 @@
 import React from 'react';
-import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
-import { useFormik } from 'formik';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import '../../styles/pages/info-pages.css';
+import Swal from 'sweetalert2';
+import './Contact.css';
+
+const contactSchema = Yup.object().shape({
+  nombre: Yup.string().min(3, 'Mínimo 3 caracteres').required('Nombre requerido'),
+  email: Yup.string().email('Email inválido').required('Email requerido'),
+  asunto: Yup.string().required('Asunto requerido'),
+  mensaje: Yup.string().min(10, 'Mínimo 10 caracteres').required('Mensaje requerido')
+});
 
 const Contact = () => {
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      message: '',
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .required('Nombre es requerido'),
-      email: Yup.string()
-        .email('Email inválido')
-        .required('Email es requerido'),
-      message: Yup.string()
-        .required('Mensaje es requerido')
-        .min(10, 'El mensaje debe tener al menos 10 caracteres'),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-      alert('Mensaje enviado correctamente');
-      formik.resetForm();
-    },
-  });
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      // TODO: Implementar envío real
+      console.log('Formulario enviado:', values);
+      
+      await Swal.fire({
+        icon: 'success',
+        title: 'Mensaje Enviado',
+        text: 'Te responderemos a la brevedad',
+        confirmButtonColor: '#2d5016'
+      });
+      
+      resetForm();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo enviar el mensaje',
+        confirmButtonColor: '#2d5016'
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <Container className="py-5">
-      <Row className="mb-4">
-        <Col xs={12} className="text-center">
-          <h1 className="mb-3">Contáctanos</h1>
-          <p className="text-muted">
-            ¿Tienes alguna pregunta o sugerencia? Nos encantaría escucharte.
-          </p>
-        </Col>
-      </Row>
+    <Container className="contact-page">
+      <div className="contact-header">
+        <h1>Contáctanos</h1>
+        <p className="lead">Estamos aquí para ayudarte</p>
+      </div>
 
-      <Row className="g-4">
-        <Col xs={12} md={6}>
-          <Card className="h-100 shadow-sm">
-            <Card.Body className="p-4">
-              <img 
-                src="/assets/images/contact-info.svg" 
-                alt="Información de contacto" 
-                className="w-100 mb-3"
-                style={{ maxHeight: '250px', objectFit: 'contain' }}
-              />
-              <h5 className="mb-3">Información de Contacto</h5>
-              <div className="mb-3">
-                <p className="mb-2">
-                  <strong>📧 Email:</strong> contacto@huertohogar.cl
-                </p>
-                <p className="mb-2">
-                  <strong>📞 Teléfono:</strong> +56 9 1234 5678
-                </p>
-                <p className="mb-0">
-                  <strong>📍 Dirección:</strong> Santiago, Chile
-                </p>
-              </div>
+      <Row>
+        <Col lg={4}>
+          <Card className="contact-info-card mb-4">
+            <Card.Body>
+              <h5><i className="bi bi-geo-alt me-2"></i>Dirección</h5>
+              <p>Av. Principal 123, Santiago, Chile</p>
+            </Card.Body>
+          </Card>
+          
+          <Card className="contact-info-card mb-4">
+            <Card.Body>
+              <h5><i className="bi bi-telephone me-2"></i>Teléfono</h5>
+              <p>+56 9 1234 5678</p>
+            </Card.Body>
+          </Card>
+          
+          <Card className="contact-info-card mb-4">
+            <Card.Body>
+              <h5><i className="bi bi-envelope me-2"></i>Email</h5>
+              <p>contacto@huertohogar.cl</p>
             </Card.Body>
           </Card>
         </Col>
 
-        <Col xs={12} md={6}>
-          <Card className="shadow-sm">
-            <Card.Body className="p-4">
-              <h5 className="mb-4">Envíanos tu Mensaje</h5>
-              <Form onSubmit={formik.handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Nombre</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Tu nombre"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.name && Boolean(formik.errors.name)}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.name}
-                  </Form.Control.Feedback>
-                </Form.Group>
+        <Col lg={8}>
+          <Card className="contact-form-card">
+            <Card.Body>
+              <h4 className="mb-4">Envíanos un Mensaje</h4>
+              <Formik
+                initialValues={{ nombre: '', email: '', asunto: '', mensaje: '' }}
+                validationSchema={contactSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                  <Form onSubmit={handleSubmit}>
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Nombre</Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="nombre"
+                            value={values.nombre}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.nombre && errors.nombre}
+                          />
+                          <Form.Control.Feedback type="invalid">{errors.nombre}</Form.Control.Feedback>
+                        </Form.Group>
+                      </Col>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.email && errors.email}
+                          />
+                          <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                        </Form.Group>
+                      </Col>
+                    </Row>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    placeholder="tu@email.com"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.email && Boolean(formik.errors.email)}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.email}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Asunto</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="asunto"
+                        value={values.asunto}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        isInvalid={touched.asunto && errors.asunto}
+                      />
+                      <Form.Control.Feedback type="invalid">{errors.asunto}</Form.Control.Feedback>
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Mensaje</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={4}
-                    name="message"
-                    placeholder="Cuéntanos tu consulta..."
-                    value={formik.values.message}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.message && Boolean(formik.errors.message)}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Mensaje</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={5}
+                        name="mensaje"
+                        value={values.mensaje}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        isInvalid={touched.mensaje && errors.mensaje}
+                      />
+                      <Form.Control.Feedback type="invalid">{errors.mensaje}</Form.Control.Feedback>
+                    </Form.Group>
 
-                <Button 
-                  variant="success" 
-                  type="submit" 
-                  className="w-100"
-                  disabled={formik.isSubmitting}
-                >
-                  Enviar Mensaje
-                </Button>
-              </Form>
+                    <Button variant="success" type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
             </Card.Body>
           </Card>
         </Col>

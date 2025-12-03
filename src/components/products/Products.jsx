@@ -1,45 +1,61 @@
+/**
+ * PRODUCTS COMPONENT - COMPONENTE DE PRODUCTOS (Reutilizable)
+ * 
+ * Versión simplificada del componente de productos para usar en diferentes contextos.
+ * La versión de PAGES (Products.jsx) es la página completa con URL params.
+ * Esta versión de COMPONENTS es para usar dentro de otras páginas/secciones.
+ * 
+ * Diferencias clave:
+ * - PAGES: Maneja URL params, filtros completos, paginación con router
+ * - COMPONENTS: Recibe props, más flexible, para embeber en otras vistas
+ */
+
 import React from 'react';
-import { useLoaderData, useNavigation } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
-import { useCart } from '../../context/CartContext';
+import { Row, Col, Alert } from 'react-bootstrap';
+import ProductCard from './ProductCard';
 import LoadingSpinner from '../common/LoadingSpinner';
-import { ProductCard } from './ProductCard';
-import '../../styles/products/products.css';
 
-export default function Products() {
-  const { products } = useLoaderData() || { products: [] };
-  const navigation = useNavigation();
-  
-  const isLoading = navigation.state === 'loading';
-
-  if (isLoading) {
-    return <LoadingSpinner data-testid="loading-spinner" />;
+const Products = ({ 
+  products = [], 
+  loading = false, 
+  error = null,
+  columns = { xs: 1, sm: 2, md: 3, lg: 4 },
+  emptyMessage = 'No hay productos disponibles'
+}) => {
+  // Loading state
+  if (loading) {
+    return <LoadingSpinner size="lg" text="Cargando productos..." />;
   }
 
-  if (!products || products.length === 0) {
+  // Error state
+  if (error) {
     return (
-      <Container className="py-5 text-center">
-        <h2>No hay productos disponibles</h2>
-        <p className="text-muted">Por favor, intenta más tarde</p>
-      </Container>
+      <Alert variant="danger">
+        <Alert.Heading>Error al cargar productos</Alert.Heading>
+        <p>{error}</p>
+      </Alert>
     );
   }
 
-  return (
-    <Container className="py-5">
-      <header className="products-header mb-5">
-        <h1 className="products-title">Nuestros Productos</h1>
-        <p className="products-subtitle">Descubre nuestra selección de productos orgánicos frescos</p>
-      </header>
+  // Empty state
+  if (!products || products.length === 0) {
+    return (
+      <Alert variant="info">
+        {emptyMessage}
+      </Alert>
+    );
+  }
 
-      {/* Products Grid */}
-      <Row className="g-4">
-        {products.map(product => (
-          <Col key={product.id} xs={12} sm={6} md={4} lg={3}>
-            <ProductCard product={product} />
-          </Col>
-        ))}
-      </Row>
-    </Container>
+  // Products grid
+  return (
+    <Row {...columns} className="g-4">
+      {products.map((product) => (
+        <Col key={product.id}>
+          <ProductCard product={product} />
+        </Col>
+      ))}
+    </Row>
   );
-}
+};
+
+export default Products;

@@ -1,0 +1,36 @@
+/* PRODUCTS COMPONENT STYLES */
+
+/* 
+  Este CSS es para el componente Products.jsx de components/
+  (versión reutilizable, no la página completa)
+*/
+
+.products-grid {
+  margin: 2rem 0;
+}
+
+.products-grid .row {
+  margin: 0 -0.5rem;
+}
+
+.products-grid .col {
+  padding: 0 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ESTADOS */
+.products-loading,
+.products-error,
+.products-empty {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .products-grid {
+    margin: 1rem 0;
+  }
+}

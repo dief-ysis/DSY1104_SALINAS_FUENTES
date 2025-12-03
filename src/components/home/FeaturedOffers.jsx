@@ -1,56 +1,85 @@
+/**
+ * FEATURED OFFERS - OFERTAS DESTACADAS
+ * 
+ * Banner de ofertas y promociones especiales.
+ */
+
 import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { ProductCard } from '../products/ProductCard';
-import '../../styles/sections/featured-offers.css';
+import { Row, Col, Card, Badge } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import './FeaturedOffers.css';
 
-export default function FeaturedOffers({ offers }) {
-  if (!offers || offers.length === 0) {
-    return null;
-  }
+const FeaturedOffers = () => {
+  const navigate = useNavigate();
 
-  // Mostrar solo los primeros 4 productos en oferta
-  const displayOffers = offers.slice(0, 4);
+  const offers = [
+    {
+      id: 1,
+      title: 'Envío Gratis',
+      subtitle: 'En compras sobre $20.000',
+      icon: '🚚',
+      color: '#51cf66',
+      action: () => navigate('/productos')
+    },
+    {
+      id: 2,
+      title: '20% Descuento',
+      subtitle: 'En frutas de temporada',
+      icon: '🍓',
+      color: '#ff6b6b',
+      badge: 'HOY',
+      action: () => navigate('/productos?categoria=FRUTAS')
+    },
+    {
+      id: 3,
+      title: 'Pack Saludable',
+      subtitle: '5 verduras por $15.000',
+      icon: '🥗',
+      color: '#94d82d',
+      badge: 'NUEVO',
+      action: () => navigate('/productos?categoria=VERDURAS')
+    }
+  ];
 
   return (
-    <section className="py-5">
-      <Container>
-        <div className="text-center mb-5">
-          <h2 className="mb-2">🎉 Ofertas Especiales</h2>
-          <p className="text-muted">
-            Aprovecha nuestras mejores ofertas en productos frescos de HuertoHogar
-          </p>
-        </div>
+    <div className="featured-offers">
+      <div className="text-center mb-4">
+        <h2 className="section-title">Ofertas Especiales</h2>
+        <p className="section-subtitle">
+          Aprovecha nuestras promociones limitadas
+        </p>
+      </div>
 
-        <Row className="g-4 mb-5">
-          {displayOffers.map((offer) => (
-            <Col key={offer.id} xs={12} sm={6} md={4} lg={3}>
-              <div className="position-relative offer-card-wrapper">
-                {/* Badge de descuento */}
-                {offer.discount && (
-                  <div className="position-absolute top-0 start-0 badge bg-danger rounded-circle discount-badge">
-                    -{offer.discount}%
-                  </div>
-                )}
-                <ProductCard product={offer} />
-              </div>
-            </Col>
-          ))}
-        </Row>
-
-        <Row>
-          <Col xs={12} className="text-center">
-            <Button 
-              as={Link}
-              to="/ofertas"
-              variant="success"
-              size="lg"
+      <Row xs={1} md={3} className="g-4">
+        {offers.map((offer) => (
+          <Col key={offer.id}>
+            <Card 
+              className="offer-card"
+              onClick={offer.action}
+              style={{ '--offer-color': offer.color }}
             >
-              Ver Todas las Ofertas →
-            </Button>
+              <Card.Body className="text-center">
+                {offer.badge && (
+                  <Badge 
+                    bg="danger" 
+                    className="offer-badge"
+                  >
+                    {offer.badge}
+                  </Badge>
+                )}
+                <div className="offer-icon">{offer.icon}</div>
+                <h4 className="offer-title">{offer.title}</h4>
+                <p className="offer-subtitle">{offer.subtitle}</p>
+                <button className="btn-offer">
+                  Ver Más →
+                </button>
+              </Card.Body>
+            </Card>
           </Col>
-        </Row>
-      </Container>
-    </section>
+        ))}
+      </Row>
+    </div>
   );
-}
+};
+
+export default FeaturedOffers;

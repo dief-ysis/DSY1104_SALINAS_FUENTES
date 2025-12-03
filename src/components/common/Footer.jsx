@@ -1,227 +1,125 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+/**
+ * FOOTER - PIE DE PÁGINA
+ * 
+ * Footer completo con:
+ * - Información de la empresa
+ * - Links de navegación
+ * - Redes sociales
+ * - Newsletter
+ * - Información legal
+ */
+
+import React from 'react';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import '../../styles/layout/footer.css';
+import './Footer.css';
 
 const Footer = () => {
-  const [email, setEmail] = useState('');
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-      return;
-    }
-    setShowSuccess(true);
-    setEmail('');
-    setTimeout(() => setShowSuccess(false), 3000);
+    // TODO: Integrar con backend
+    alert('¡Gracias por suscribirte!');
   };
 
   return (
-    <footer className="footer bg-success text-white mt-5">
-      <Container className="py-5">
-        <Row className="mb-5">
-          {/* Columna 1: Información de la empresa */}
-          <Col xs={12} md={4} className="mb-4 mb-md-0">
-            <div className="mb-3">
-              <h5 className="footer-title">🌱 HuertoHogar</h5>
-              <p className="footer-text">
-                Fresco, local y responsable. Llevamos productos orgánicos de calidad directamente desde el campo a tu mesa.
-              </p>
-            </div>
-            
-            {/* Redes Sociales */}
-            <div>
-              <h6 className="footer-subtitle">Síguenos</h6>
-              <div className="footer-social">
-                <a 
-                  href="https://instagram.com" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="footer-social-link"
-                >
-                  📷
-                </a>
-                <a 
-                  href="https://facebook.com" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="footer-social-link"
-                >
-                  👍
-                </a>
-                <a 
-                  href="https://twitter.com" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="footer-social-link"
-                >
-                  🐦
-                </a>
-              </div>
-            </div>
-          </Col>
-
-          {/* Columna 2: Contacto e Información */}
-          <Col xs={12} md={4} className="mb-4 mb-md-0">
-            <h5 className="footer-title">📞 Contáctanos</h5>
-            <div className="footer-contact">
-              <p>
-                <strong>📍 Dirección:</strong><br/>
-                Av. Vicuña Mackenna 4917, San Joaquín
-              </p>
-              <p>
-                <strong>☎️ Teléfono:</strong><br/>
-                +56 9 1234 5678
-              </p>
-              <p>
-                <strong>📧 Email:</strong><br/>
-                contacto@huertohogar.cl
-              </p>
-              <p>
-                <strong>🕒 Horario:</strong><br/>
-                Lunes-Viernes: 9:00-18:00 hrs<br/>
-                Sábado: 9:00-14:00 hrs
-              </p>
-            </div>
-          </Col>
-
-          {/* Columna 3: Newsletter */}
-          <Col xs={12} md={4}>
-            <h5 className="footer-title">📧 Newsletter</h5>
-            <p className="footer-text small mb-3">
-              Suscríbete para recibir ofertas especiales y consejos de agricultura orgánica
+    <footer className="footer">
+      <Container>
+        <Row className="py-5">
+          {/* COLUMNA 1: SOBRE NOSOTROS */}
+          <Col md={6} lg={3} className="mb-4">
+            <h5 className="footer-title">
+              <span className="footer-icon">🌱</span>
+              HuertoHogar
+            </h5>
+            <p className="footer-description">
+              Productos frescos y orgánicos, directo del campo a tu hogar.
+              Apoyamos a agricultores locales y promovemos una alimentación saludable.
             </p>
-            
-            {showSuccess && (
-              <Alert variant="success" className="footer-alert">
-                ✓ Suscripción exitosa
-              </Alert>
-            )}
-            {showError && (
-              <Alert variant="danger" className="footer-alert">
-                ✗ Email inválido
-              </Alert>
-            )}
-            
-            <Form onSubmit={handleNewsletterSubmit}>
-              <Form.Group className="mb-2">
+            <div className="social-links">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                📘
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                📸
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                🐦
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                🎥
+              </a>
+            </div>
+          </Col>
+
+          {/* COLUMNA 2: LINKS RÁPIDOS */}
+          <Col md={6} lg={2} className="mb-4">
+            <h6 className="footer-subtitle">Enlaces Rápidos</h6>
+            <ul className="footer-links">
+              <li><Link to="/">Inicio</Link></li>
+              <li><Link to="/productos">Productos</Link></li>
+              <li><Link to="/ofertas">Ofertas</Link></li>
+              <li><Link to="/nosotros">Nosotros</Link></li>
+              <li><Link to="/blog">Blog</Link></li>
+              <li><Link to="/contacto">Contacto</Link></li>
+            </ul>
+          </Col>
+
+          {/* COLUMNA 3: CATEGORÍAS */}
+          <Col md={6} lg={2} className="mb-4">
+            <h6 className="footer-subtitle">Categorías</h6>
+            <ul className="footer-links">
+              <li><Link to="/productos?categoria=FRUTAS">Frutas</Link></li>
+              <li><Link to="/productos?categoria=VERDURAS">Verduras</Link></li>
+              <li><Link to="/productos?categoria=HIERBAS">Hierbas</Link></li>
+              <li><Link to="/productos?categoria=ORGANICOS">Orgánicos</Link></li>
+              <li><Link to="/productos?categoria=GRANOS">Granos</Link></li>
+              <li><Link to="/productos?categoria=LACTEOS">Lácteos</Link></li>
+            </ul>
+          </Col>
+
+          {/* COLUMNA 4: NEWSLETTER */}
+          <Col md={6} lg={5} className="mb-4">
+            <h6 className="footer-subtitle">Newsletter</h6>
+            <p className="footer-newsletter-text">
+              Suscríbete para recibir ofertas exclusivas y novedades.
+            </p>
+            <Form onSubmit={handleNewsletterSubmit} className="newsletter-form">
+              <Form.Group className="d-flex gap-2">
                 <Form.Control
                   type="email"
-                  placeholder="Tu correo"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="footer-input"
+                  placeholder="tu@email.com"
+                  required
+                  className="newsletter-input"
                 />
+                <Button type="submit" variant="success" className="newsletter-button">
+                  Suscribir
+                </Button>
               </Form.Group>
-              <Button
-                type="submit"
-                className="footer-btn-subscribe w-100"
-              >
-                Suscribirse
-              </Button>
             </Form>
-          </Col>
-        </Row>
 
-        {/* Separador */}
-        <Row>
-          <Col xs={12}>
-            <hr className="footer-divider" />
-          </Col>
-        </Row>
-
-        {/* Links útiles */}
-        <Row className="mb-4">
-          <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-            <h6 className="footer-subtitle">Compra</h6>
-            <div className="footer-links">
-              <p className="m-0">
-                <Link to="/" className="footer-link">
-                  Inicio
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="/productos" className="footer-link">
-                  Productos
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="/ofertas" className="footer-link">
-                  Ofertas
-                </Link>
-              </p>
-            </div>
-          </Col>
-
-          <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-            <h6 className="footer-subtitle">Información</h6>
-            <div className="footer-links">
-              <p className="m-0">
-                <Link to="/blog" className="footer-link">
-                  Blog
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="/contacto" className="footer-link">
-                  Contacto
-                </Link>
-              </p>
-            </div>
-          </Col>
-
-          <Col xs={12} sm={6} md={3} className="mb-3 mb-md-0">
-            <h6 className="footer-subtitle">Mi Cuenta</h6>
-            <div className="footer-links">
-              <p className="m-0">
-                <Link to="/" className="footer-link">
-                  Iniciar Sesión
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="/registro" className="footer-link">
-                  Registrarse
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="/carrito" className="footer-link">
-                  Mi Carrito
-                </Link>
-              </p>
-            </div>
-          </Col>
-
-          <Col xs={12} sm={6} md={3}>
-            <h6 className="footer-subtitle">Legal</h6>
-            <div className="footer-links">
-              <p className="m-0">
-                <Link to="#" className="footer-link">
-                  Privacidad
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="#" className="footer-link">
-                  Términos
-                </Link>
-              </p>
-              <p className="m-0">
-                <Link to="#" className="footer-link">
-                  Devoluciones
-                </Link>
-              </p>
+            {/* CONTACTO */}
+            <div className="footer-contact mt-4">
+              <h6 className="footer-subtitle">Contacto</h6>
+              <p className="mb-1">📧 contacto@huertohogar.cl</p>
+              <p className="mb-1">📞 +56 9 1234 5678</p>
+              <p className="mb-0">📍 Santiago, Chile</p>
             </div>
           </Col>
         </Row>
 
-        {/* Copyright */}
-        <Row>
-          <Col xs={12} className="text-center footer-copyright">
-            <p className="mb-0">
-              © 2025 HuertoHogar. Todos los derechos reservados. 🌱
+        {/* BOTTOM BAR */}
+        <Row className="footer-bottom py-3">
+          <Col md={6} className="text-center text-md-start mb-2 mb-md-0">
+            <p className="mb-0 footer-copyright">
+              © {new Date().getFullYear()} HuertoHogar. Todos los derechos reservados.
             </p>
+          </Col>
+          <Col md={6} className="text-center text-md-end">
+            <div className="footer-legal-links">
+              <Link to="/terminos">Términos y Condiciones</Link>
+              <span className="separator">|</span>
+              <Link to="/privacidad">Política de Privacidad</Link>
+            </div>
           </Col>
         </Row>
       </Container>
