@@ -1,8 +1,5 @@
 /**
  * PRODUCT DETAIL PAGE - DETALLE DE PRODUCTO
- * 
- * Muestra información completa de un producto individual.
- * Usa React Router params para obtener el ID del producto.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -111,10 +108,10 @@ const ProductDetail = () => {
       <nav className="breadcrumb-nav">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a onClick={() => navigate('/')}>Inicio</a>
+            <a onClick={() => navigate('/')} style={{cursor: 'pointer'}}>Inicio</a>
           </li>
           <li className="breadcrumb-item">
-            <a onClick={() => navigate('/productos')}>Productos</a>
+            <a onClick={() => navigate('/productos')} style={{cursor: 'pointer'}}>Productos</a>
           </li>
           <li className="breadcrumb-item active">
             {product.nombre || product.name}
