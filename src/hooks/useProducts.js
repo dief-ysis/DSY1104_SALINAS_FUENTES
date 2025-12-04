@@ -1,18 +1,8 @@
 /**
- * USEPRODUCTS HOOK - GESTIÓN DE PRODUCTOS CON FILTROS
- * 
- * Custom hook para manejar el estado de productos con:
- * - Filtrado por categoría y búsqueda
- * - Ordenamiento (nombre, precio)
- * - Paginación
- * 
- * PRINCIPIOS APLICADOS:
- * - useMemo para optimizar cálculos costosos
- * - Separación de lógica de negocio
- * 
- * RESPONDE A PREGUNTAS:
- * - P94: Ventajas de custom hooks (reutilización, encapsulación)
- * - P67: Minimizar llamadas con optimizaciones
+ * USEPRODUCTS HOOK - GESTIÓN DE PRODUCTOS CON FILTROS (CLIENT SIDE)
+ * * Estrategia: Carga todos los productos y filtra en el cliente.
+ * Esto garantiza que combinen todos los filtros (Precio + Categoria + Busqueda)
+ * sin necesitar lógica compleja de JPA Specifications en el Backend.
  */
 
 import { useState, useMemo, useEffect } from 'react';
@@ -20,28 +10,24 @@ import productService from '../services/productService';
 
 const ITEMS_PER_PAGE = 12;
 
-/**
- * Hook para gestionar productos con filtros y paginación
- * 
- * @returns {Object} Estado y funciones de productos
- */
 export function useProducts() {
   // ============================================================
   // ESTADO
   // ============================================================
   
-  const [products, setProducts] = useState([]);
+  const [allProductsRaw, setAllProductsRaw] = useState([]); // Todos los productos sin filtrar
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
   // Estados de filtros
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState(''); // Búsqueda texto
   const [category, setCategory] = useState('');
-  const [sortBy, setSortBy] = useState('nombre');
-  const [sortOrder, setSortOrder] = useState('asc');
-
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  
   // ============================================================
   // CARGA INICIAL DE DATOS
   // ============================================================
@@ -51,42 +37,17 @@ export function useProducts() {
       try {
         setLoading(true);
         
-        // TODO: Cuando backend esté listo, usar productService real
-        // Por ahora, cargar desde mock/localStorage si existe
+        // 1. Cargar Categorías
+        const cats = await productService.getCategories();
+        setCategories(cats);
+
+        // 2. Cargar TODOS los productos (Pedimos una página grande)
+        // Backend: Pageable (page 0, size 1000)
+        const response = await productService.getProducts({ page: 0, size: 1000 });
         
-        // OPCIÓN 1: Si backend está listo
-        // const response = await productService.getProducts({
-        //   page: 0,
-        //   size: 100 // Cargar todos para filtrar localmente
-        // });
-        // setProducts(response.content || response);
-        
-        // OPCIÓN 2: Mock temporal (eliminar cuando backend esté listo)
-        const mockProducts = [
-          {
-            id: 1,
-            nombre: 'Manzanas Fuji',
-            precio: 1200,
-            categoria: 'FRUTAS',
-            stock: 150,
-            imagen: '/assets/products/manzana.jpg'
-          },
-          {
-            id: 2,
-            nombre: 'Zanahorias Orgánicas',
-            precio: 900,
-            categoria: 'VERDURAS',
-            stock: 100,
-            imagen: '/assets/products/zanahoria.jpg'
-          }
-          // Agregar más productos mock según necesites
-        ];
-        
-        setProducts(mockProducts);
-        
-        // Cargar categorías
-        const categoriesData = await productService.getCategories();
-        setCategories(categoriesData);
+        // Manejar si devuelve objeto paginado (content) o array directo
+        const productsList = response.content || response || [];
+        setAllProductsRaw(productsList);
         
       } catch (err) {
         console.error('[useProducts] Error al cargar datos:', err);
@@ -100,162 +61,137 @@ export function useProducts() {
   }, []);
 
   // ============================================================
-  // FILTRADO Y ORDENAMIENTO CON useMemo
+  // LÓGICA DE FILTRADO (EL CEREBRO)
   // ============================================================
 
-  /**
-   * Productos filtrados y ordenados
-   * OPTIMIZACIÓN: useMemo evita recalcular en cada render
-   */
-  const filteredProducts = useMemo(() => {
-    let result = [...products];
+  const filteredAndSortedProducts = useMemo(() => {
+    let result = [...allProductsRaw];
 
-    // Filtro por búsqueda
+    // 1. Filtro por Búsqueda (Nombre o Descripción)
     if (filter) {
       const searchLower = filter.toLowerCase();
-      result = result.filter(product => {
-        const nombre = product.nombre || product.name || '';
-        const descripcion = product.descripcion || product.description || '';
-        
-        return nombre.toLowerCase().includes(searchLower) ||
-               descripcion.toLowerCase().includes(searchLower);
-      });
+      result = result.filter(p => 
+        (p.nombre || p.name || '').toLowerCase().includes(searchLower) ||
+        (p.descripcion || p.description || '').toLowerCase().includes(searchLower)
+      );
     }
 
-    // Filtro por categoría
+    // 2. Filtro por Categoría
     if (category) {
-      result = result.filter(product => {
-        const productCategory = product.categoria || product.category || '';
-        return productCategory.toLowerCase() === category.toLowerCase();
+      result = result.filter(p => {
+        const cat = p.categoria || p.category || '';
+        return cat.toUpperCase() === category.toUpperCase();
       });
     }
 
-    // Ordenamiento
-    result.sort((a, b) => {
-      let aValue, bValue;
+    // 3. Filtro por Precio Mínimo
+    if (minPrice !== '' && minPrice !== undefined) {
+      result = result.filter(p => (p.precio || p.price) >= Number(minPrice));
+    }
 
-      if (sortBy === 'nombre' || sortBy === 'name') {
-        aValue = (a.nombre || a.name || '').toLowerCase();
-        bValue = (b.nombre || b.name || '').toLowerCase();
-      } else if (sortBy === 'precio' || sortBy === 'price') {
-        aValue = a.precio || a.price || 0;
-        bValue = b.precio || b.price || 0;
-      } else {
+    // 4. Filtro por Precio Máximo
+    if (maxPrice !== '' && maxPrice !== undefined) {
+      result = result.filter(p => (p.precio || p.price) <= Number(maxPrice));
+    }
+
+    // 5. Ordenamiento
+    if (sortBy) {
+      const [field, order] = sortBy.split(','); // ej: "precio,asc"
+      
+      result.sort((a, b) => {
+        let valA, valB;
+
+        // Obtener valores según el campo
+        if (field === 'precio' || field === 'price') {
+          valA = a.precio || a.price || 0;
+          valB = b.precio || b.price || 0;
+        } else if (field === 'stock') {
+          valA = a.stock || 0;
+          valB = b.stock || 0;
+        } else {
+          // Por defecto nombre
+          valA = (a.nombre || a.name || '').toLowerCase();
+          valB = (b.nombre || b.name || '').toLowerCase();
+        }
+
+        // Comparar
+        if (valA < valB) return order === 'asc' ? -1 : 1;
+        if (valA > valB) return order === 'asc' ? 1 : -1;
         return 0;
-      }
-
-      if (sortOrder === 'asc') {
-        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-      } else {
-        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-      }
-    });
+      });
+    }
 
     return result;
-  }, [products, filter, category, sortBy, sortOrder]); // ✅ DEPENDENCIAS
+  }, [allProductsRaw, filter, category, minPrice, maxPrice, sortBy]);
 
   // ============================================================
-  // PAGINACIÓN CON useMemo
+  // PAGINACIÓN LOCAL
   // ============================================================
 
-  /**
-   * Productos de la página actual
-   * OPTIMIZACIÓN: useMemo
-   */
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / ITEMS_PER_PAGE);
+  
   const paginatedProducts = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
+    // Asegurar que la página actual sea válida tras filtrar
+    const validPage = Math.min(Math.max(1, currentPage), Math.max(1, totalPages));
+    if (validPage !== currentPage) setCurrentPage(validPage);
+
+    const startIndex = (validPage - 1) * ITEMS_PER_PAGE;
+    return filteredAndSortedProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredAndSortedProducts, currentPage, totalPages]);
+
+  // ============================================================
+  // EXPOSE FUNCIONES
+  // ============================================================
+
+  const handleFilterChange = (newFilters) => {
+    // Mapear los filtros que vienen del componente ProductFilters
+    if (newFilters.search !== undefined) setFilter(newFilters.search);
+    if (newFilters.categoria !== undefined) setCategory(newFilters.categoria);
+    if (newFilters.minPrecio !== undefined) setMinPrice(newFilters.minPrecio);
+    if (newFilters.maxPrecio !== undefined) setMaxPrice(newFilters.maxPrecio);
+    if (newFilters.sort !== undefined) setSortBy(newFilters.sort);
     
-    return filteredProducts.slice(startIndex, endIndex);
-  }, [filteredProducts, currentPage]);
-
-  /**
-   * Total de páginas
-   * OPTIMIZACIÓN: useMemo
-   */
-  const totalPages = useMemo(() => {
-    return Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-  }, [filteredProducts]);
-
-  // ============================================================
-  // FUNCIONES DE CONTROL
-  // ============================================================
-
-  /**
-   * Actualiza el filtro de búsqueda
-   */
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
-    setCurrentPage(1); // Reset página al filtrar
-  };
-
-  /**
-   * Actualiza el filtro de categoría
-   */
-  const handleCategoryChange = (newCategory) => {
-    setCategory(newCategory);
-    setCurrentPage(1); // Reset página al filtrar
-  };
-
-  /**
-   * Actualiza el ordenamiento
-   */
-  const handleSortChange = (newSortBy, newSortOrder = 'asc') => {
-    setSortBy(newSortBy);
-    setSortOrder(newSortOrder);
-  };
-
-  /**
-   * Cambia de página
-   */
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Resetear a página 1 si cambian filtros (excepto si solo cambia page)
+    if (newFilters.page === undefined || newFilters.page === 0) {
+        setCurrentPage(1);
+    } else {
+        setCurrentPage(newFilters.page);
     }
   };
 
-  /**
-   * Reinicia todos los filtros
-   */
   const resetFilters = () => {
     setFilter('');
     setCategory('');
-    setSortBy('nombre');
-    setSortOrder('asc');
+    setMinPrice('');
+    setMaxPrice('');
+    setSortBy('');
     setCurrentPage(1);
   };
 
-  // ============================================================
-  // RETORNO
-  // ============================================================
-
   return {
-    // Datos
-    products: paginatedProducts,
-    allProducts: filteredProducts,
-    categories,
-    
-    // Estados
+    products: paginatedProducts, // Productos de la página actual
     loading,
     error,
-    
-    // Paginación
-    currentPage,
     totalPages,
-    itemsPerPage: ITEMS_PER_PAGE,
+    totalElements: filteredAndSortedProducts.length,
+    currentPage,
     
-    // Filtros actuales
-    filter,
-    category,
-    sortBy,
-    sortOrder,
+    // Estado actual de filtros (para UI)
+    filters: {
+        search: filter,
+        categoria: category,
+        minPrecio: minPrice,
+        maxPrecio: maxPrice,
+        sort: sortBy
+    },
+
+    setFilter: (val) => handleFilterChange({ search: val }),
+    setCategory: (val) => handleFilterChange({ categoria: val }),
+    setSort: (val) => handleFilterChange({ sort: val }),
+    setPage: setCurrentPage,
     
-    // Funciones
-    setFilter: handleFilterChange,
-    setCategory: handleCategoryChange,
-    setSort: handleSortChange,
-    setPage: handlePageChange,
+    // Función genérica que usa ProductFilters.jsx
+    onFilterChange: handleFilterChange,
     resetFilters
   };
 }

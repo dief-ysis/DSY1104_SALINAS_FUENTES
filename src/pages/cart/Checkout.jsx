@@ -20,53 +20,42 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatearPrecio } from '../../utils/formatters';
 import webpayService from '../../services/webpayService';
+import orderService from '../../services/orderService';
 import Swal from 'sweetalert2';
 import './Checkout.css';
 
 // Esquema de validación con Yup
 const checkoutSchema = Yup.object().shape({
-  nombre: Yup.string()
-    .min(3, 'El nombre debe tener al menos 3 caracteres')
-    .required('El nombre es requerido'),
-  email: Yup.string()
-    .email('Email inválido')
-    .required('El email es requerido'),
-  telefono: Yup.string()
-    .matches(/^[0-9]{9}$/, 'El teléfono debe tener 9 dígitos')
-    .required('El teléfono es requerido'),
-  direccion: Yup.string()
-    .min(10, 'La dirección debe tener al menos 10 caracteres')
-    .required('La dirección es requerida'),
-  comuna: Yup.string()
-    .required('La comuna es requerida'),
-  region: Yup.string()
-    .required('La región es requerida'),
+  nombre: Yup.string().required('El nombre es requerido'),
+  email: Yup.string().email('Email inválido').required('El email es requerido'),
+  telefono: Yup.string().required('El teléfono es requerido'),
+  direccion: Yup.string().required('La dirección es requerida'),
+  comuna: Yup.string().required('La comuna es requerida'),
+  region: Yup.string().required('La región es requerida'),
   notas: Yup.string()
 });
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, isEmpty, total, clearItems } = useCart();
-  const { user, isAuthenticated } = useAuth();
+  const { items, isEmpty, total } = useCart();
+  const { user } = useAuth();
   const [processing, setProcessing] = useState(false);
 
-  // Redirigir si el carrito está vacío
   if (isEmpty) {
     navigate('/carrito');
     return null;
   }
 
   const shippingCost = total >= 20000 ? 0 : 2500;
-  const finalTotal = total + shippingCost;
+  const finalTotal = total + shippingCost; // Referencial para visualización
 
-  // Valores iniciales del formulario
   const initialValues = {
     nombre: user?.nombre || '',
     email: user?.email || '',
     telefono: user?.telefono || '',
-    direccion: '',
-    comuna: '',
-    region: '',
+    direccion: user?.direccion || '',
+    comuna: user?.comuna || '',
+    region: user?.region || '',
     notas: ''
   };
 
@@ -74,55 +63,52 @@ const Checkout = () => {
     try {
       setProcessing(true);
 
-      // Validar stock antes de proceder
-      // TODO: Implementar validación de stock con backend
-
-      // Preparar datos del pedido
-      const orderData = {
-        items: items.map(item => ({
-          productoId: item.id || item.productoId,
-          cantidad: item.cantidad || item.quantity,
-          precio: item.precio || item.price
-        })),
-        total: finalTotal,
-        envio: {
-          ...values,
-          costoEnvio: shippingCost
-        }
+      // PASO 1: Crear el pedido en el Backend (Persistencia)
+      // Enviamos solo datos de envío, el backend toma los items del carrito DB
+      const orderPayload = {
+        direccionEnvio: values.direccion,
+        comunaEnvio: values.comuna,
+        regionEnvio: values.region,
+        notasEnvio: values.notas,
+        costoEnvio: shippingCost
       };
 
-      // Generar buyOrder único (timestamp + random)
-      const buyOrder = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const orderResponse = await orderService.createOrder(orderPayload);
+      
+      if (!orderResponse.success) {
+        throw new Error("No se pudo crear el pedido en el sistema");
+      }
 
-      // Iniciar transacción con Webpay Plus
+      const pedidoCreado = orderResponse.data;
+      console.log("Pedido creado:", pedidoCreado);
+
+      let buyOrderToUse = pedidoCreado.numeroPedido;
+
+      // Fallback de seguridad: Si el backend devolvió un ID muy largo o nulo
+      if (!buyOrderToUse || buyOrderToUse.length > 26) {
+          buyOrderToUse = `ORD-${Date.now().toString().slice(-8)}-${Math.floor(Math.random() * 1000)}`;
+      }
+
+      // PASO 2: Iniciar Webpay
       const webpayResponse = await webpayService.initTransaction({
-        buyOrder,
-        sessionId: user?.id || `session-${Date.now()}`,
-        amount: finalTotal,
+        buyOrder: buyOrderToUse,
+        sessionId: user?.id?.toString() || `guest-${Date.now()}`,
+        amount: pedidoCreado.total,
         returnUrl: `${window.location.origin}/payment-result`
       });
 
       if (webpayResponse.success) {
-        // Guardar datos del pedido en localStorage para recuperar después
-        localStorage.setItem('pendingOrder', JSON.stringify({
-          buyOrder,
-          orderData,
-          timestamp: Date.now()
-        }));
-
-        // Redirigir a Webpay
-        window.location.href = webpayResponse.url;
+        window.location.href = webpayResponse.url + '?token_ws=' + webpayResponse.token;
       } else {
-        throw new Error(webpayResponse.message || 'Error al iniciar pago');
+        throw new Error(webpayResponse.message || 'Error al iniciar pago con Webpay');
       }
 
     } catch (error) {
-      console.error('[CHECKOUT] Error al procesar pago:', error);
-      
+      console.error('[CHECKOUT] Error:', error);
       Swal.fire({
         icon: 'error',
-        title: 'Error al Procesar Pago',
-        text: error.message || 'No se pudo iniciar el proceso de pago',
+        title: 'Error',
+        text: error.message || 'Hubo un problema al procesar tu solicitud',
         confirmButtonColor: '#2d5016'
       });
     } finally {
@@ -289,16 +275,21 @@ const Checkout = () => {
                   </Card.Header>
                   <Card.Body>
                     <div className="order-items">
-                      {items.map(item => (
-                        <div key={item.id || item.productoId} className="order-item">
-                          <span className="item-name">
-                            {item.nombre || item.name} × {item.cantidad || item.quantity}
-                          </span>
-                          <span className="item-price">
+                      {items.map((item, index) => {
+                      // Usamos cartItemId si existe, sino productId + index para garantizar unicidad
+                      const uniqueKey = item.cartItemId 
+                          ? `cart-${item.cartItemId}` 
+                          : `prod-${item.productId || 'unknown'}-${index}`;
+
+                      return (
+                        <div key={uniqueKey} className="d-flex justify-content-between mb-2 small">
+                          <span>{item.cantidad || item.quantity} x {item.nombre || item.name}</span>
+                          <span>
                             {formatearPrecio((item.precio || item.price) * (item.cantidad || item.quantity))}
                           </span>
                         </div>
-                      ))}
+                      );
+                    })}
                     </div>
 
                     <hr />

@@ -17,10 +17,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 // URL base del backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
 
 // Crear instancia de Axios
-const api = axios.create({
+export const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 15000,
   headers: {
@@ -63,6 +63,12 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // Error de red
+    if (error.code === 'ERR_CANCELED' || axios.isCancel(error)) {
+      return Promise.reject(error); // Rechaza silenciosamente sin mostrar alerta
+    }
+    // ---------------------------
+
+    // Error de red REAL (Servidor caído o sin internet)
     if (!error.response) {
       Swal.fire({
         icon: 'error',

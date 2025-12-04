@@ -18,7 +18,7 @@ const BLOG_POSTS = [
     categoria: 'Salud',
     autor: 'María González',
     fecha: '2024-11-15',
-    imagen: '/assets/blog/organicos.jpg',
+    imagen: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=60',
     lecturaMinutos: 5
   },
   {
@@ -28,7 +28,7 @@ const BLOG_POSTS = [
     categoria: 'Recetas',
     autor: 'Chef Carlos',
     fecha: '2024-11-10',
-    imagen: '/assets/blog/recetas.jpg',
+    imagen: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=60',
     lecturaMinutos: 8
   },
   {
@@ -38,7 +38,7 @@ const BLOG_POSTS = [
     categoria: 'Jardinería',
     autor: 'Laura Martínez',
     fecha: '2024-11-05',
-    imagen: '/assets/blog/huerto.jpg',
+    imagen: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=60',
     lecturaMinutos: 10
   },
   {
@@ -48,7 +48,7 @@ const BLOG_POSTS = [
     categoria: 'Sustentabilidad',
     autor: 'Pedro Ramírez',
     fecha: '2024-10-28',
-    imagen: '/assets/blog/comercio-justo.jpg',
+    imagen: 'https://www.esic.edu/sites/default/files/styles/full/public/2025-06/comercio%20justo.jpg?itok=0hQCpDuX', 
     lecturaMinutos: 6
   },
   {
@@ -58,7 +58,7 @@ const BLOG_POSTS = [
     categoria: 'Salud',
     autor: 'Ana Torres',
     fecha: '2024-10-20',
-    imagen: '/assets/blog/frutas-temporada.jpg',
+    imagen: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=800&q=60',
     lecturaMinutos: 7
   },
   {
@@ -68,7 +68,7 @@ const BLOG_POSTS = [
     categoria: 'Sustentabilidad',
     autor: 'Juan Pérez',
     fecha: '2024-10-15',
-    imagen: '/assets/blog/desperdicio.jpg',
+    imagen: 'https://images.unsplash.com/photo-1532634922-8fe0b757fb13?auto=format&fit=crop&w=800&q=60', 
     lecturaMinutos: 5
   }
 ];

@@ -163,7 +163,7 @@ class ProductService {
    */
   async getCategories() {
     try {
-      const response = await api.get('/products/categories');
+      const response = await api.get('/products/categorias');
       return response.data;
     } catch (error) {
       console.error('Error al obtener categorías:', error);

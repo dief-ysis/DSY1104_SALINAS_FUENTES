@@ -1,12 +1,5 @@
-/**
- * CART PAGE - PÁGINA DEL CARRITO
- * 
- * Muestra el carrito completo con opciones de modificar cantidades,
- * eliminar productos y proceder al checkout.
- */
-
 import React from 'react';
-import { Container, Row, Col, Card, Button, Alert, Table } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { formatearPrecio } from '../../utils/formatters';
@@ -24,27 +17,39 @@ const Cart = () => {
     removeItem,
     clearItems,
     subtotal,
-    descuentos,
     total
   } = useCart();
 
-  const handleQuantityChange = async (productId, newQuantity) => {
-    await updateQuantity(productId, newQuantity);
+  // --- HELPER PARA NORMALIZAR ---
+  // Esto soluciona los errores de lectura (undefined) y precios $0
+  const getItemData = (item) => {
+    // Si viene del backend, el producto está anidado en 'item.producto'
+    // Si es local, las propiedades están en la raíz 'item'
+    const product = item.producto || item; 
+    
+    return {
+      // ID para funciones del carrito (priorizamos ID de la línea del carrito)
+      identifier: item.id || item.cartItemId || product.id || item.productoId,
+      // ID del producto (para keys y navegación)
+      productId: product.id || item.productoId,
+      name: product.nombre || item.nombre || item.name || 'Producto',
+      price: product.precio || item.precio || item.price || 0,
+      image: product.imagen || item.imagen || item.image,
+      category: product.categoria || item.categoria || item.category,
+      quantity: item.cantidad || item.quantity || 1,
+      stock: product.stock || item.stock || 0
+    };
   };
 
-  const handleRemoveItem = async (productId) => {
-    await removeItem(productId);
+  const handleQuantityChange = async (itemData, newQuantity) => {
+    await updateQuantity(itemData.identifier, newQuantity);
   };
 
-  const handleClearCart = async () => {
-    await clearItems();
+  const handleRemoveItem = async (itemData) => {
+    await removeItem(itemData.identifier);
   };
 
-  const handleCheckout = () => {
-    navigate('/checkout');
-  };
-
-  if (loading) {
+  if (loading && isEmpty) {
     return <LoadingSpinner fullScreen text="Cargando carrito..." />;
   }
 
@@ -53,7 +58,7 @@ const Cart = () => {
       <div className="cart-header">
         <h1>Mi Carrito</h1>
         <p className="text-muted">
-          {isEmpty ? 'Tu carrito está vacío' : `${items.length} ${items.length === 1 ? 'producto' : 'productos'}`}
+          {isEmpty ? 'Tu carrito está vacío' : `${items.length} productos`}
         </p>
       </div>
 
@@ -67,78 +72,79 @@ const Cart = () => {
         </Alert>
       ) : (
         <Row>
-          {/* LISTA DE PRODUCTOS */}
           <Col lg={8}>
             <Card className="cart-items-card">
-              <Card.Header className="cart-items-header">
-                <h5>Productos</h5>
-                <Button variant="outline-danger" size="sm" onClick={handleClearCart}>
+              <Card.Header className="cart-items-header d-flex justify-content-between align-items-center">
+                <h5 className="mb-0">Productos</h5>
+                <Button variant="outline-danger" size="sm" onClick={clearItems}>
                   Vaciar Carrito
                 </Button>
               </Card.Header>
               <Card.Body>
                 <div className="cart-items-list">
-                  {items.map((item) => {
-                    const productId = item.id || item.productoId;
-                    const productName = item.nombre || item.name || 'Producto';
-                    const productPrice = item.precio || item.price || 0;
-                    const productImage = item.imagen || item.image;
-                    const productCategory = item.categoria || item.category;
-                    const quantity = item.cantidad || item.quantity || 1;
-                    const stock = item.stock || 99;
-
+                  {items.map((rawItem) => {
+                    const item = getItemData(rawItem);
+                    
                     return (
-                      <div key={productId} className="cart-item">
-                        <div className="cart-item-image">
+                      <div key={item.productId || Math.random()} className="cart-item d-flex gap-3 mb-3 border-bottom pb-3">
+                        {/* IMAGEN */}
+                        <div className="cart-item-image" style={{ width: '100px', minWidth: '100px' }}>
                           <img
-                            src={getProductImage(productImage, productCategory)}
-                            alt={productName}
+                            src={getProductImage(item.image, item.category)}
+                            alt={item.name}
+                            className="img-fluid rounded"
+                            style={{ objectFit: 'cover', height: '100px', width: '100%' }}
                           />
                         </div>
 
-                        <div className="cart-item-info">
-                          <h6 className="cart-item-name">{productName}</h6>
-                          {productCategory && (
-                            <span className="cart-item-category">{productCategory}</span>
+                        {/* INFO */}
+                        <div className="cart-item-info flex-grow-1">
+                          <h6 className="cart-item-name mb-1">{item.name}</h6>
+                          {item.category && (
+                            <span className="text-muted small d-block mb-1">{item.category}</span>
                           )}
-                          <p className="cart-item-price">
-                            {formatearPrecio(productPrice)}
+                          <p className="cart-item-price fw-bold text-success mb-0">
+                            {formatearPrecio(item.price)}
                           </p>
                         </div>
 
-                        <div className="cart-item-quantity">
-                          <button
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={() => handleQuantityChange(productId, quantity - 1)}
-                            disabled={quantity <= 1}
-                          >
-                            -
-                          </button>
-                          <span className="quantity-value">{quantity}</span>
-                          <button
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={() => handleQuantityChange(productId, quantity + 1)}
-                            disabled={quantity >= stock}
-                          >
-                            +
-                          </button>
-                        </div>
+                        {/* CONTROLES */}
+                        <div className="cart-item-controls d-flex flex-column align-items-end justify-content-between">
+                          <div className="quantity-controls d-flex align-items-center gap-2">
+                            <Button 
+                              variant="outline-secondary" 
+                              size="sm"
+                              onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                              disabled={item.quantity <= 1 || loading}
+                              style={{ width: '30px', padding: '0' }}
+                            >-</Button>
+                            
+                            <span className="fw-bold" style={{ minWidth: '20px', textAlign: 'center' }}>
+                              {item.quantity}
+                            </span>
+                            
+                            <Button 
+                              variant="outline-secondary" 
+                              size="sm"
+                              onClick={() => handleQuantityChange(item, item.quantity + 1)}
+                              disabled={item.quantity >= item.stock || loading}
+                              style={{ width: '30px', padding: '0' }}
+                            >+</Button>
+                          </div>
 
-                        <div className="cart-item-subtotal">
-                          <p className="subtotal-label">Subtotal</p>
-                          <p className="subtotal-value">
-                            {formatearPrecio(productPrice * quantity)}
-                          </p>
-                        </div>
-
-                        <div className="cart-item-remove">
-                          <button
-                            className="btn btn-sm btn-outline-danger"
-                            onClick={() => handleRemoveItem(productId)}
-                            title="Eliminar"
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
+                          <div className="text-end mt-2">
+                            <span className="d-block fw-bold mb-1">
+                                {formatearPrecio(item.price * item.quantity)}
+                            </span>
+                            <Button 
+                                variant="link" 
+                                className="text-danger p-0 text-decoration-none small"
+                                onClick={() => handleRemoveItem(item)}
+                                disabled={loading}
+                            >
+                                Eliminar
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     );
@@ -148,65 +154,42 @@ const Cart = () => {
             </Card>
           </Col>
 
-          {/* RESUMEN */}
+          {/* RESUMEN DE PAGO */}
           <Col lg={4}>
             <Card className="cart-summary-card sticky-top">
               <Card.Header>
-                <h5>Resumen del Pedido</h5>
+                <h5 className="mb-0">Resumen</h5>
               </Card.Header>
               <Card.Body>
-                <div className="summary-row">
+                <div className="d-flex justify-content-between mb-2">
                   <span>Subtotal:</span>
                   <span>{formatearPrecio(subtotal)}</span>
                 </div>
-
-                {descuentos > 0 && (
-                  <div className="summary-row text-success">
-                    <span>Descuentos:</span>
-                    <span>-{formatearPrecio(descuentos)}</span>
-                  </div>
-                )}
-
-                <div className="summary-row summary-shipping">
+                <div className="d-flex justify-content-between mb-3">
                   <span>Envío:</span>
-                  <span className="text-success">
-                    {total >= 20000 ? 'GRATIS' : formatearPrecio(2500)}
+                  <span className={total >= 20000 ? 'text-success' : ''}>
+                    {total >= 20000 ? 'GRATIS' : '$2.500'}
                   </span>
                 </div>
-
-                {total < 20000 && (
-                  <Alert variant="info" className="shipping-alert">
-                    <small>
-                      ¡Agrega {formatearPrecio(20000 - total)} más para envío gratis!
-                    </small>
-                  </Alert>
-                )}
-
                 <hr />
-
-                <div className="summary-row summary-total">
-                  <strong>Total:</strong>
-                  <strong>
-                    {formatearPrecio(total >= 20000 ? total : total + 2500)}
-                  </strong>
+                <div className="d-flex justify-content-between mb-4 fs-5 fw-bold">
+                  <span>Total:</span>
+                  <span>{formatearPrecio(total >= 20000 ? total : total + 2500)}</span>
                 </div>
-
                 <Button
                   variant="success"
                   size="lg"
-                  className="btn-checkout"
-                  onClick={handleCheckout}
+                  className="w-100"
+                  onClick={() => navigate('/checkout')}
+                  disabled={loading}
                 >
-                  Proceder al Pago
+                  {loading ? 'Procesando...' : 'Proceder al Pago'}
                 </Button>
-
-                <Button
-                  variant="outline-secondary"
-                  className="mt-2"
-                  onClick={() => navigate('/productos')}
-                >
-                  Seguir Comprando
-                </Button>
+                {total < 20000 && (
+                    <Alert variant="info" className="mt-3 py-2 text-center small mb-0">
+                        Faltan {formatearPrecio(20000 - total)} para envío gratis
+                    </Alert>
+                )}
               </Card.Body>
             </Card>
           </Col>

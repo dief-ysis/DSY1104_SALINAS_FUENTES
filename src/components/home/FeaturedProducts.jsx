@@ -23,7 +23,7 @@ const FeaturedProducts = () => {
   
   // Fetch todos los productos (endpoint real: GET /api/products?page=0&size=20)
   // Luego filtramos localmente hasta que backend implemente /featured
-  const { data, loading, error } = useFetch('/api/products?page=0&size=20');
+  const { data, loading, error } = useFetch('/products?page=0&size=20');
 
   // Filtrar productos destacados localmente
   const featuredProducts = useMemo(() => {
@@ -31,10 +31,14 @@ const FeaturedProducts = () => {
     
     const products = data.content || data || [];
     
-    // Filtrar por destacado=true o rating>=4, limitar a 8
-    return products
-      .filter(p => p.destacado === true || p.rating >= 4)
-      .slice(0, 8);
+    const destacados = products.filter(p => p.destacado === true || p.rating >= 4);
+    
+    if (destacados.length > 0) {
+        return destacados.slice(0, 8);
+    }
+
+    return products.slice(0, 8);
+
   }, [data]);
 
   if (loading) {

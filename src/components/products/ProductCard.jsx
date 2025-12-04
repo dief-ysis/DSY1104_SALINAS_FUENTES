@@ -18,7 +18,7 @@ import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
   const [adding, setAdding] = useState(false);
 
   // Validar que el producto tenga datos
@@ -45,7 +45,7 @@ const ProductCard = ({ product }) => {
 
     setAdding(true);
     try {
-      await addToCart(product, 1);
+      await addItem(product, 1);
     } catch (error) {
       console.error('Error al agregar al carrito:', error);
     } finally {

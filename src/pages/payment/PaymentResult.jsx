@@ -1,13 +1,4 @@
-/**
- * PAYMENT RESULT - CALLBACK DE WEBPAY
- * 
- * Página que recibe el callback de Webpay Plus después del pago.
- * Procesa el resultado y redirige a página de éxito o error.
- * 
- * RESPONDE A PREGUNTAS P102-138 sobre Webpay Plus
- */
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import webpayService from '../../services/webpayService';
@@ -18,74 +9,65 @@ const PaymentResult = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { clearItems } = useCart();
-  const [processing, setProcessing] = useState(true);
+  
+  // REF DE BLOQUEO: Evita el "Double Submit" en React StrictMode
+  const processedRef = useRef(false);
 
   useEffect(() => {
     const procesarPago = async () => {
+      // SI YA PROCESAMOS, DETENER INMEDIATAMENTE
+      if (processedRef.current) return;
+      processedRef.current = true; // MARCAR COMO PROCESADO
+
       try {
-        // Obtener token de Webpay de los query params
         const token_ws = searchParams.get('token_ws');
-        
-        if (!token_ws) {
-          console.error('[PAYMENT] Token no encontrado');
-          navigate('/pago-error', { 
-            state: { error: 'Token de pago no válido' }
-          });
-          return;
+        const tbk_token = searchParams.get('TBK_TOKEN');
+
+        // Caso: Anulación por el usuario
+        if (tbk_token && !token_ws) {
+             throw new Error("El pago fue anulado por el usuario.");
         }
 
-        // Confirmar transacción con Webpay
+        if (!token_ws) {
+          throw new Error('Token de pago no válido');
+        }
+
+        // Confirmar con Backend (Una sola vez)
         const result = await webpayService.commitTransaction(token_ws);
 
-        if (result.success && result.data.status === 'AUTHORIZED') {
-          // PAGO EXITOSO
+        if (result.success && result.data.status === 'AUTORIZADA') {
+          // Éxito: Limpiamos carrito visual
+          await clearItems(); 
           
-          // Recuperar datos del pedido desde localStorage
-          const pendingOrderData = localStorage.getItem('pendingOrder');
-          const orderData = pendingOrderData ? JSON.parse(pendingOrderData) : null;
-
-          // Limpiar carrito
-          await clearItems();
-
-          // Limpiar datos temporales
-          localStorage.removeItem('pendingOrder');
-
-          // Redirigir a página de éxito con datos
           navigate('/pago-exitoso', {
-            state: {
-              transaction: result.data,
-              order: orderData
-            }
+            state: { transaction: result.data }
           });
-
         } else {
-          // PAGO RECHAZADO
+          // Rechazado
           navigate('/pago-error', {
-            state: {
-              error: result.message || 'Pago rechazado',
-              responseCode: result.data?.responseCode
+            state: { 
+              error: 'El banco rechazó la transacción',
+              responseCode: result.data?.responseCode 
             }
           });
         }
 
       } catch (error) {
-        console.error('[PAYMENT] Error al procesar resultado:', error);
+        console.error("Error en pago:", error);
         navigate('/pago-error', {
-          state: { error: error.message || 'Error al procesar pago' }
+          state: { error: error.message || "Error desconocido al procesar el pago" }
         });
-      } finally {
-        setProcessing(false);
       }
     };
 
     procesarPago();
-  }, [searchParams, navigate, clearItems]);
+  }, []); // Dependencias vacías
 
   return (
-    <Container className="text-center" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+    <Container className="text-center" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <LoadingSpinner 
-        fullScreen 
-        text="Procesando resultado del pago..." 
+        size="lg"
+        text="Verificando pago con el banco..." 
       />
     </Container>
   );

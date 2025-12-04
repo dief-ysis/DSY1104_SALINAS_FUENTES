@@ -1,31 +1,14 @@
-/**
- * SIDE CART - CARRITO LATERAL
- * 
- * Componente drawer que muestra el carrito de compras.
- * Se abre desde el ícono en el Navbar.
- * 
- * CARACTERÍSTICAS:
- * - Integración completa con CartContext
- * - Animaciones smooth con CSS transitions
- * - Actualización en tiempo real
- * - Cálculos automáticos de totales
- * - Navegación directa a checkout
- */
-
 import React from 'react';
-import { Offcanvas, Button, ListGroup, Badge, Alert } from 'react-bootstrap';
+import { Offcanvas, Button, ListGroup, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import { formatPrice } from '../../utils/formatters';
+import { formatearPrecio } from '../../utils/formatters';
 import { getProductImage } from '../../utils/imageUtils';
 import './SideCart.css';
 
 const SideCart = ({ show, onHide }) => {
-  // ============================================================
-  // HOOKS
-  // ============================================================
-  
   const navigate = useNavigate();
+  
   const { 
     items, 
     loading, 
@@ -36,247 +19,97 @@ const SideCart = ({ show, onHide }) => {
     itemCount 
   } = useCart();
 
-  // ============================================================
-  // HANDLERS
-  // ============================================================
-
-  /**
-   * Navega al checkout y cierra el drawer
-   */
   const handleCheckout = () => {
     onHide();
     navigate('/checkout');
   };
 
-  /**
-   * Navega al carrito completo
-   */
   const handleViewCart = () => {
     onHide();
     navigate('/carrito');
   };
 
-  /**
-   * Incrementa cantidad de un producto
-   */
+  // Usamos los identificadores normalizados del contexto
   const handleIncrement = async (item) => {
     if (item.cantidad < item.stock) {
-      await updateQuantity(item.id, item.cantidad + 1);
+      await updateQuantity(item.cartItemId, item.cantidad + 1);
     }
   };
 
-  /**
-   * Decrementa cantidad de un producto
-   */
   const handleDecrement = async (item) => {
     if (item.cantidad > 1) {
-      await updateQuantity(item.id, item.cantidad - 1);
+      await updateQuantity(item.cartItemId, item.cantidad - 1);
     }
   };
 
-  /**
-   * Elimina un producto
-   */
-  const handleRemove = async (itemId) => {
-    await removeItem(itemId);
+  const handleRemove = async (item) => {
+    await removeItem(item.cartItemId);
   };
 
-  // ============================================================
-  // RENDERIZADO
-  // ============================================================
-
   return (
-    <Offcanvas 
-      show={show} 
-      onHide={onHide} 
-      placement="end"
-      className="side-cart"
-    >
-      {/* HEADER */}
+    <Offcanvas show={show} onHide={onHide} placement="end" className="side-cart">
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
-          🛒 Carrito de Compras
-          {itemCount > 0 && (
-            <Badge bg="success" className="ms-2">
-              {itemCount}
-            </Badge>
-          )}
+          🛒 Carrito {itemCount > 0 && <Badge bg="success" className="ms-2">{itemCount}</Badge>}
         </Offcanvas.Title>
       </Offcanvas.Header>
 
-      {/* BODY */}
-      <Offcanvas.Body>
-        {/* LOADING */}
-        {loading && (
+      <Offcanvas.Body className="d-flex flex-column">
+        {loading && items.length === 0 && (
           <div className="text-center py-4">
-            <div className="spinner-border text-success" role="status">
-              <span className="visually-hidden">Cargando...</span>
-            </div>
+            <div className="spinner-border text-success" role="status"></div>
           </div>
         )}
 
-        {/* CARRITO VACÍO */}
         {!loading && isEmpty && (
-          <div className="empty-cart text-center py-5">
-            <div className="empty-cart-icon mb-3">🛒</div>
+          <div className="text-center py-5">
             <h5>Tu carrito está vacío</h5>
-            <p className="text-muted">
-              Agrega productos para comenzar tu compra
-            </p>
-            <Button 
-              variant="success"
-              onClick={() => {
-                onHide();
-                navigate('/productos');
-              }}
-            >
+            <Button variant="success" className="mt-3" onClick={() => { onHide(); navigate('/productos'); }}>
               Ver Productos
             </Button>
           </div>
         )}
 
-        {/* ITEMS DEL CARRITO */}
-        {!loading && !isEmpty && (
+        {!isEmpty && (
           <>
-            <ListGroup variant="flush" className="cart-items">
-              {items.map((item) => {
-                const precioFinal = item.precioOferta || item.precio;
-                const subtotal = precioFinal * item.cantidad;
-
-                return (
-                  <ListGroup.Item 
-                    key={item.id || item.productoId}
-                    className="cart-item"
-                  >
-                    <div className="d-flex gap-3">
-                      {/* IMAGEN */}
-                      <div className="cart-item-image">
-                        <img
-                          src={getProductImage(item.imagen, item.categoria)}
-                          alt={item.nombre}
-                          className="img-fluid rounded"
-                        />
-                      </div>
-
-                      {/* INFO */}
-                      <div className="flex-grow-1">
-                        {/* NOMBRE */}
-                        <h6 className="mb-1 cart-item-name">
-                          {item.nombre}
-                        </h6>
-
-                        {/* PRECIO */}
-                        <div className="cart-item-price mb-2">
-                          {item.precioOferta && item.precioOferta < item.precio ? (
-                            <>
-                              <span className="text-decoration-line-through text-muted me-2">
-                                {formatPrice(item.precio)}
-                              </span>
-                              <span className="text-success fw-bold">
-                                {formatPrice(item.precioOferta)}
-                              </span>
-                            </>
-                          ) : (
-                            <span className="fw-bold">
-                              {formatPrice(item.precio)}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* CONTROLES DE CANTIDAD */}
-                        <div className="d-flex align-items-center justify-content-between">
-                          <div className="quantity-controls">
-                            <button
-                              className="quantity-btn"
-                              onClick={() => handleDecrement(item)}
-                              disabled={item.cantidad <= 1 || loading}
-                            >
-                              −
-                            </button>
-                            <span className="quantity-value">
-                              {item.cantidad}
-                            </span>
-                            <button
-                              className="quantity-btn"
-                              onClick={() => handleIncrement(item)}
-                              disabled={item.cantidad >= item.stock || loading}
-                            >
-                              +
-                            </button>
-                          </div>
-
-                          {/* SUBTOTAL */}
-                          <div className="cart-item-subtotal">
-                            {formatPrice(subtotal)}
-                          </div>
-                        </div>
-
-                        {/* STOCK WARNING */}
-                        {item.stock < 5 && (
-                          <small className="text-warning d-block mt-1">
-                            ⚠️ Solo quedan {item.stock} unidades
-                          </small>
-                        )}
-                      </div>
-
-                      {/* BOTÓN ELIMINAR */}
-                      <div>
-                        <button
-                          className="btn-remove"
-                          onClick={() => handleRemove(item.id || item.productoId)}
-                          disabled={loading}
-                          title="Eliminar producto"
-                        >
-                          ×
-                        </button>
-                      </div>
+            <ListGroup variant="flush" className="cart-items flex-grow-1 overflow-auto">
+              {items.map((item) => (
+                <ListGroup.Item key={item.cartItemId || item.productId} className="cart-item">
+                  <div className="d-flex gap-3 align-items-center">
+                    <img 
+                      src={getProductImage(item.imagen, item.categoria)} 
+                      alt={item.nombre} 
+                      style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px' }}
+                    />
+                    <div className="flex-grow-1">
+                      <h6 className="mb-0 text-truncate" style={{ maxWidth: '150px' }}>{item.nombre}</h6>
+                      <small className="text-muted">{formatearPrecio(item.precio)} x {item.cantidad}</small>
+                      <div className="text-success fw-bold">{formatearPrecio(item.precio * item.cantidad)}</div>
                     </div>
-                  </ListGroup.Item>
-                );
-              })}
+                    <div className="d-flex flex-column gap-1">
+                        <div className="btn-group btn-group-sm">
+                            <Button variant="outline-secondary" size="sm" onClick={() => handleDecrement(item)} disabled={item.cantidad <= 1}>-</Button>
+                            <Button variant="outline-secondary" size="sm" disabled>{item.cantidad}</Button>
+                            <Button variant="outline-secondary" size="sm" onClick={() => handleIncrement(item)} disabled={item.cantidad >= item.stock}>+</Button>
+                        </div>
+                        <Button variant="link" className="text-danger p-0 text-decoration-none" size="sm" onClick={() => handleRemove(item)}>
+                            Eliminar
+                        </Button>
+                    </div>
+                  </div>
+                </ListGroup.Item>
+              ))}
             </ListGroup>
 
-            {/* RESUMEN */}
-            <div className="cart-summary mt-auto">
-              <div className="cart-total">
-                <span className="cart-total-label">Total:</span>
-                <span className="cart-total-value">
-                  {formatPrice(total)}
-                </span>
+            <div className="border-top pt-3 mt-3">
+              <div className="d-flex justify-content-between mb-3 fs-5 fw-bold">
+                <span>Total:</span>
+                <span>{formatearPrecio(total)}</span>
               </div>
-
-              {/* BOTONES */}
-              <div className="cart-actions">
-                <Button
-                  variant="success"
-                  size="lg"
-                  className="w-100 mb-2"
-                  onClick={handleCheckout}
-                  disabled={loading || isEmpty}
-                >
-                  Proceder al Pago
-                </Button>
-                <Button
-                  variant="outline-success"
-                  size="lg"
-                  className="w-100"
-                  onClick={handleViewCart}
-                  disabled={loading}
-                >
-                  Ver Carrito Completo
-                </Button>
+              <div className="d-grid gap-2">
+                <Button variant="success" onClick={handleCheckout}>Proceder al Pago</Button>
+                <Button variant="outline-success" onClick={handleViewCart}>Ver Carrito Completo</Button>
               </div>
-
-              {/* ENVÍO GRATIS */}
-              {total >= 20000 ? (
-                <Alert variant="success" className="mt-3 mb-0 text-center">
-                  🚚 ¡Envío gratis!
-                </Alert>
-              ) : (
-                <Alert variant="info" className="mt-3 mb-0 text-center">
-                  Faltan {formatPrice(20000 - total)} para envío gratis
-                </Alert>
-              )}
             </div>
           </>
         )}

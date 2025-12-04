@@ -1,20 +1,3 @@
-/**
- * CARTCONTEXT - GESTIÓN DE CARRITO DE COMPRAS
- * 
- * PRINCIPIOS REACT APLICADOS:
- * 1. ✅ Estado inmutable con functional updates
- * 2. ✅ useCallback para optimización
- * 3. ✅ useMemo para cálculos costosos
- * 4. ✅ useEffect con cleanup (localStorage)
- * 5. ✅ Separación de lógica de negocio
- * 
- * CUMPLE CON EVALUACIÓN:
- * - Pregunta 24: Sincronización de interfaz con datos
- * - Pregunta 45: Gestión de estado global
- * - Pregunta 81: Actualizaciones sin recargar
- * - Pregunta 86: Validación de consistencia
- */
-
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { 
   getCart,
@@ -22,549 +5,200 @@ import {
   updateCartItem as updateCartItemAPI,
   removeFromCart as removeFromCartAPI,
   clearCart as clearCartAPI,
-  syncCart as syncCartAPI,
-  calculateTotal,
-  calculateSubtotal,
-  calculateDiscounts,
-  getCartItemCount
+  syncCart as syncCartAPI
 } from '../services/cartService';
 import { useAuth } from './AuthContext';
 import Swal from 'sweetalert2';
 
-// ============================================================
-// CREACIÓN DEL CONTEXT
-// ============================================================
-
 const CartContext = createContext(null);
 
-// ============================================================
-// HOOK PERSONALIZADO
-// ============================================================
-
-/**
- * Hook para acceder al contexto del carrito
- * @returns {Object} Estado y funciones del carrito
- */
 export const useCart = () => {
   const context = useContext(CartContext);
-  
-  if (!context) {
-    throw new Error('useCart debe ser usado dentro de un CartProvider');
-  }
-  
+  if (!context) throw new Error('useCart debe ser usado dentro de un CartProvider');
   return context;
 };
 
-// ============================================================
-// PROVIDER DEL CONTEXT
-// ============================================================
-
 export const CartProvider = ({ children }) => {
-  // ============================================================
-  // ESTADO LOCAL
-  // ============================================================
-  
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  
   const { isAuthenticated } = useAuth();
 
-  // ============================================================
-  // PRINCIPIO 1: ESTADO INMUTABLE
-  // Usar functional updates para evitar stale closures
-  // ============================================================
+  // --- TRADUCTOR UNIVERSAL (Corrige precios $0 y IDs) ---
+  // Convierte cualquier estructura (Backend anidado o LocalStorage viejo) a un formato estándar
+  const normalizeItems = (rawItems) => {
+    if (!Array.isArray(rawItems)) return [];
+    
+    return rawItems.map(item => {
+      // Detectar dónde está la info del producto (anidado o plano)
+      const product = item.producto || item.product || item;
+      
+      return {
+        // ID ÚNICO: Preferimos el ID del item del carrito, sino el del producto + timestamp
+        cartItemId: item.id || item.cartItemId || `temp-${Date.now()}-${Math.random()}`,
+        productId: product.id || item.productoId || item.productId,
+        nombre: product.nombre || item.nombre || 'Producto sin nombre',
+        precio: product.precio || item.precio || 0, // Arregla el $0
+        imagen: product.imagen || item.imagen,
+        categoria: product.categoria || item.categoria,
+        stock: product.stock || item.stock || 99,
+        cantidad: item.cantidad || item.quantity || 1
+      };
+    });
+  };
 
-  /**
-   * Agrega un producto al carrito
-   * PRINCIPIO: Inmutabilidad - Nunca mutar el array directamente
-   * OPTIMIZACIÓN: useCallback evita recrear la función
-   */
-  const addItem = useCallback(async (product, quantity = 1) => {
+  // Cargar carrito
+  const loadCart = useCallback(async () => {
     try {
       setLoading(true);
-      setError(null);
-
-      // Si el usuario está autenticado, usar API
       if (isAuthenticated) {
-        const result = await addToCartAPI({
-          productoId: product.id,
-          cantidad: quantity
-        });
-
+        const result = await getCart();
         if (result.success) {
-          // Actualizar estado con datos del servidor
-          setItems(result.data.items);
-          
-          Swal.fire({
-            icon: 'success',
-            title: 'Producto agregado',
-            text: `${product.nombre || product.name} agregado al carrito`,
-            timer: 2000,
-            showConfirmButton: false,
-            toast: true,
-            position: 'top-end'
-          });
+          // NORMALIZAMOS LOS DATOS APENAS LLEGAN
+          setItems(normalizeItems(result.data.items));
         }
       } else {
-        // Usuario no autenticado: usar estado local
-        // ✅ PRINCIPIO: Functional update para evitar stale state
-        setItems(prevItems => {
-          const existingItem = prevItems.find(item => item.id === product.id);
-          
-          if (existingItem) {
-            // ✅ INMUTABILIDAD: Crear nuevo array con spread
-            return prevItems.map(item =>
-              item.id === product.id
-                ? { ...item, cantidad: item.cantidad + quantity } // ✅ Crear nuevo objeto
-                : item
-            );
-          }
-          
-          // ✅ INMUTABILIDAD: Nuevo array con spread
-          return [...prevItems, { ...product, cantidad: quantity }];
-        });
-        
-        Swal.fire({
-          icon: 'success',
-          title: 'Producto agregado',
-          text: `${product.nombre || product.name} agregado al carrito`,
-          timer: 2000,
-          showConfirmButton: false,
-          toast: true,
-          position: 'top-end'
-        });
+        const saved = localStorage.getItem('cart');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                setItems(normalizeItems(parsed));
+            } catch (e) {
+                console.error("Error leyendo localStorage", e);
+                localStorage.removeItem('cart');
+            }
+        }
       }
     } catch (err) {
-      console.error('[CART] Error al agregar producto:', err);
-      setError(err.message);
-      
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: err.message || 'No se pudo agregar el producto',
-        confirmButtonColor: '#2d5016'
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, [isAuthenticated]); // ✅ DEPENDENCIAS: Solo isAuthenticated
-
-  /**
-   * Actualiza la cantidad de un producto
-   * PRINCIPIO: Inmutabilidad con functional updates
-   * CORRECCIÓN: No depender de removeItem para evitar dependencia circular
-   */
-  const updateQuantity = useCallback(async (productId, newQuantity) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Validación
-      if (newQuantity < 0) {
-        throw new Error('La cantidad no puede ser negativa');
-      }
-
-      // Si cantidad es 0, eliminar el producto directamente
-      if (newQuantity === 0) {
-        if (isAuthenticated) {
-          // ✅ Encontrar y eliminar con API
-          let cartItemToRemove = null;
-          
-          setItems(prevItems => {
-            cartItemToRemove = prevItems.find(item => 
-              item.productoId === productId || item.id === productId
-            );
-            return prevItems;
-          });
-          
-          if (cartItemToRemove) {
-            await removeFromCartAPI(cartItemToRemove.cartItemId || cartItemToRemove.id);
-            
-            setItems(prevItems =>
-              prevItems.filter(item =>
-                item.id !== productId && item.productoId !== productId
-              )
-            );
-          }
-        } else {
-          // ✅ Eliminar de estado local
-          setItems(prevItems =>
-            prevItems.filter(item =>
-              item.id !== productId && item.productoId !== productId
-            )
-          );
-        }
-        
-        setLoading(false);
-        return;
-      }
-
-      if (isAuthenticated) {
-        // ✅ CORRECCIÓN: Encontrar item usando functional update
-        let cartItemToUpdate = null;
-        
-        setItems(prevItems => {
-          cartItemToUpdate = prevItems.find(item => 
-            item.productoId === productId || item.id === productId
-          );
-          return prevItems; // No modificar aún
-        });
-        
-        if (!cartItemToUpdate) {
-          throw new Error('Producto no encontrado en el carrito');
-        }
-
-        const result = await updateCartItemAPI(
-          cartItemToUpdate.cartItemId || cartItemToUpdate.id, 
-          newQuantity
-        );
-
-        if (result.success) {
-          setItems(result.data.items);
-        }
-      } else {
-        // ✅ PRINCIPIO: Functional update
-        setItems(prevItems =>
-          prevItems.map(item =>
-            (item.id === productId || item.productoId === productId)
-              ? { ...item, cantidad: newQuantity } // ✅ Nuevo objeto
-              : item
-          )
-        );
-      }
-    } catch (err) {
-      console.error('[CART] Error al actualizar cantidad:', err);
-      setError(err.message);
-      
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: err.message || 'No se pudo actualizar la cantidad',
-        confirmButtonColor: '#2d5016'
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, [isAuthenticated]); // ✅ CORRECCIÓN: Solo isAuthenticated
-
-  /**
-   * Elimina un producto del carrito
-   * PRINCIPIO: Inmutabilidad con filter
-   * CORRECCIÓN: Usar functional update para evitar dependencia circular
-   */
-  const removeItem = useCallback(async (productId) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      if (isAuthenticated) {
-        // ✅ CORRECCIÓN: Usar functional update para acceder a items
-        // sin tenerlo como dependencia
-        let cartItemToRemove = null;
-        
-        setItems(prevItems => {
-          cartItemToRemove = prevItems.find(item => 
-            item.productoId === productId || item.id === productId
-          );
-          return prevItems; // No modificar aún
-        });
-        
-        if (!cartItemToRemove) {
-          throw new Error('Producto no encontrado');
-        }
-
-        const result = await removeFromCartAPI(cartItemToRemove.cartItemId || cartItemToRemove.id);
-
-        if (result.success) {
-          // ✅ PRINCIPIO: Filter crea nuevo array
-          setItems(prevItems =>
-            prevItems.filter(item =>
-              item.id !== productId && item.productoId !== productId
-            )
-          );
-        }
-      } else {
-        // ✅ INMUTABILIDAD: Filter para eliminar
-        setItems(prevItems =>
-          prevItems.filter(item =>
-            item.id !== productId && item.productoId !== productId
-          )
-        );
-      }
-
-      Swal.fire({
-        icon: 'info',
-        title: 'Producto eliminado',
-        text: 'El producto ha sido eliminado del carrito',
-        timer: 2000,
-        showConfirmButton: false,
-        toast: true,
-        position: 'top-end'
-      });
-    } catch (err) {
-      console.error('[CART] Error al eliminar producto:', err);
-      setError(err.message);
-      
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo eliminar el producto',
-        confirmButtonColor: '#2d5016'
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, [isAuthenticated]); // ✅ CORRECCIÓN: Solo isAuthenticated
-
-  /**
-   * Limpia completamente el carrito
-   */
-  const clearItems = useCallback(async () => {
-    try {
-      const result = await Swal.fire({
-        icon: 'warning',
-        title: '¿Vaciar carrito?',
-        text: 'Se eliminarán todos los productos del carrito',
-        showCancelButton: true,
-        confirmButtonColor: '#2d5016',
-        cancelButtonColor: '#dc3545',
-        confirmButtonText: 'Sí, vaciar',
-        cancelButtonText: 'Cancelar'
-      });
-
-      if (result.isConfirmed) {
-        setLoading(true);
-
-        if (isAuthenticated) {
-          await clearCartAPI();
-        }
-
-        // ✅ INMUTABILIDAD: Nuevo array vacío
-        setItems([]);
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Carrito vaciado',
-          timer: 2000,
-          showConfirmButton: false,
-          toast: true,
-          position: 'top-end'
-        });
-      }
-    } catch (err) {
-      console.error('[CART] Error al vaciar carrito:', err);
-      setError(err.message);
+      console.error("Error cargando carrito", err);
     } finally {
       setLoading(false);
     }
   }, [isAuthenticated]);
 
-  // ============================================================
-  // PRINCIPIO 2: CÁLCULOS COSTOSOS CON useMemo
-  // Evita recalcular en cada render
-  // ============================================================
-
-  /**
-   * Calcula el subtotal del carrito
-   * OPTIMIZACIÓN: useMemo cachea el resultado hasta que items cambie
-   */
-  const subtotal = useMemo(() => {
-    return calculateSubtotal(items);
-  }, [items]); // ✅ DEPENDENCIA: Solo recalcula cuando items cambia
-
-  /**
-   * Calcula los descuentos aplicados
-   * OPTIMIZACIÓN: useMemo
-   */
-  const descuentos = useMemo(() => {
-    return calculateDiscounts(items);
-  }, [items]);
-
-  /**
-   * Calcula el total con descuentos
-   * OPTIMIZACIÓN: useMemo
-   */
-  const total = useMemo(() => {
-    return calculateTotal(items);
-  }, [items]);
-
-  /**
-   * Cuenta el total de items en el carrito
-   * OPTIMIZACIÓN: useMemo
-   */
-  const itemCount = useMemo(() => {
-    return getCartItemCount(items);
-  }, [items]);
-
-  /**
-   * Verifica si el carrito está vacío
-   * OPTIMIZACIÓN: useMemo
-   */
-  const isEmpty = useMemo(() => {
-    return items.length === 0;
-  }, [items]);
-
-  // ============================================================
-  // PRINCIPIO 3: EFECTOS CON CLEANUP
-  // useEffect para sincronización con localStorage y API
-  // ============================================================
-
-  /**
-   * EFECTO 1: Cargar carrito al montar el componente
-   * PRINCIPIO: Ciclo de vida - Montaje
-   */
   useEffect(() => {
-    const loadCart = async () => {
-      try {
-        setLoading(true);
-
-        if (isAuthenticated) {
-          // Usuario autenticado: obtener del servidor
-          const result = await getCart();
-          
-          if (result.success) {
-            setItems(result.data.items || []);
-          }
-        } else {
-          // Usuario no autenticado: cargar de localStorage
-          const savedCart = localStorage.getItem('cart');
-          
-          if (savedCart) {
-            try {
-              const parsedCart = JSON.parse(savedCart);
-              
-              // ✅ VALIDACIÓN: Verificar estructura
-              if (Array.isArray(parsedCart)) {
-                setItems(parsedCart);
-              }
-            } catch (err) {
-              console.error('[CART] Error al parsear carrito guardado:', err);
-              localStorage.removeItem('cart');
-            }
-          }
-        }
-      } catch (err) {
-        console.error('[CART] Error al cargar carrito:', err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadCart();
-  }, [isAuthenticated]); // ✅ DEPENDENCIA: Recargar cuando cambia autenticación
+  }, [loadCart]);
 
-  /**
-   * EFECTO 2: Persistir carrito en localStorage (solo si NO está autenticado)
-   * PRINCIPIO: Side effect con sincronización
-   */
+  // Guardar en localStorage si no está logueado
   useEffect(() => {
-    if (!isAuthenticated && items.length > 0) {
-      try {
-        localStorage.setItem('cart', JSON.stringify(items));
-        console.log('[CART] Carrito guardado en localStorage');
-      } catch (err) {
-        console.error('[CART] Error al guardar carrito:', err);
-        
-        // Manejar error de quota exceeded
-        if (err.name === 'QuotaExceededError') {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Almacenamiento lleno',
-            text: 'No se pudo guardar el carrito. Por favor, limpia el almacenamiento del navegador.',
-            confirmButtonColor: '#2d5016'
-          });
-        }
-      }
+    if (!isAuthenticated) {
+      localStorage.setItem('cart', JSON.stringify(items));
     }
-  }, [items, isAuthenticated]); // ✅ DEPENDENCIAS: items, isAuthenticated
+  }, [items, isAuthenticated]);
 
-  /**
-   * EFECTO 3: Sincronizar carrito local con servidor al hacer login
-   * PRINCIPIO: Sincronización de estados
-   */
-  useEffect(() => {
-    const syncLocalCartWithServer = async () => {
-      if (isAuthenticated && items.length > 0) {
-        try {
-          // Verificar si son items locales (no tienen cartItemId del servidor)
-          const hasLocalItems = items.some(item => !item.cartItemId);
-          
-          if (hasLocalItems) {
-            console.log('[CART] Sincronizando carrito local con servidor...');
-            
-            const result = await syncCartAPI(items);
-            
-            if (result.success) {
-              setItems(result.data.items);
-              
-              // Limpiar localStorage después de sincronizar
-              localStorage.removeItem('cart');
-              
-              Swal.fire({
-                icon: 'success',
-                title: 'Carrito sincronizado',
-                text: 'Tu carrito ha sido sincronizado con el servidor',
-                timer: 3000,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top-end'
-              });
-            }
+  // --- FUNCIONES DEL CARRITO ---
+
+  const addItem = useCallback(async (product, quantity = 1) => {
+    try {
+      setLoading(true);
+      if (isAuthenticated) {
+        const result = await addToCartAPI({ productoId: product.id, cantidad: quantity });
+        if (result.success) setItems(normalizeItems(result.data.items));
+      } else {
+        setItems(prev => {
+          const existingIndex = prev.findIndex(i => i.productId === product.id);
+          if (existingIndex >= 0) {
+            const newItems = [...prev];
+            newItems[existingIndex].cantidad += quantity;
+            return newItems;
           }
-        } catch (err) {
-          console.error('[CART] Error al sincronizar carrito:', err);
-        }
+          // Crear nuevo item formato normalizado
+          return [...prev, {
+            cartItemId: `local-${Date.now()}`,
+            productId: product.id,
+            nombre: product.nombre,
+            precio: product.precio,
+            imagen: product.imagen,
+            categoria: product.categoria,
+            stock: product.stock,
+            cantidad: quantity
+          }];
+        });
       }
-    };
+      Swal.fire({
+        icon: 'success',
+        title: 'Agregado',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire('Error', 'No se pudo agregar', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated]);
 
-    syncLocalCartWithServer();
-  }, [isAuthenticated]); // ✅ Solo ejecutar cuando cambia autenticación
-
-  // ============================================================
-  // VALOR DEL CONTEXT
-  // ============================================================
-
-  const value = useMemo(() => ({
-    // Estado
-    items,
-    loading,
-    error,
-    isEmpty,
+  const updateQuantity = useCallback(async (id, newQuantity) => {
+    if (newQuantity < 1) return;
     
-    // Funciones (ya optimizadas con useCallback)
-    addItem,
-    removeItem,
-    updateQuantity,
-    clearItems,
-    
-    // Cálculos (optimizados con useMemo)
-    subtotal,
-    descuentos,
-    total,
-    itemCount
-  }), [
-    items,
-    loading,
-    error,
-    isEmpty,
-    addItem,
-    removeItem,
-    updateQuantity,
-    clearItems,
-    subtotal,
-    descuentos,
-    total,
-    itemCount
-  ]); // ✅ OPTIMIZACIÓN: useMemo para el objeto value
+    // Buscamos por cartItemId (prioridad) o productId
+    const targetItem = items.find(i => i.cartItemId === id || i.productId === id);
+    if (!targetItem) {
+        console.error("Item no encontrado para actualizar:", id);
+        return; // Salir silenciosamente para no romper la UI
+    }
 
-  // ============================================================
-  // RENDERIZADO
-  // ============================================================
+    try {
+      setLoading(true);
+      if (isAuthenticated) {
+        // Usamos el ID real de la base de datos (cartItemId)
+        const result = await updateCartItemAPI(targetItem.cartItemId, newQuantity);
+        if (result.success) setItems(normalizeItems(result.data.items));
+      } else {
+        setItems(prev => prev.map(i => 
+            (i.cartItemId === id || i.productId === id) ? { ...i, cantidad: newQuantity } : i
+        ));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated, items]);
+
+  const removeItem = useCallback(async (id) => {
+    const targetItem = items.find(i => i.cartItemId === id || i.productId === id);
+    if (!targetItem) return;
+
+    try {
+      setLoading(true);
+      if (isAuthenticated) {
+        const result = await removeFromCartAPI(targetItem.cartItemId);
+        if (result.success && result.data && result.data.items) {
+            setItems(normalizeItems(result.data.items));
+        } else {
+            // Fallback si el backend no devuelve la lista
+            setItems(prev => prev.filter(i => i.cartItemId !== targetItem.cartItemId));
+            loadCart(); // Recargar para asegurar sincronía
+        }
+      } else {
+        setItems(prev => prev.filter(i => i.cartItemId !== id && i.productId !== id));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated, items, loadCart]);
+
+  const clearItems = useCallback(async () => {
+    if (isAuthenticated) await clearCartAPI();
+    setItems([]);
+  }, [isAuthenticated]);
+
+  // Cálculos
+  const subtotal = items.reduce((sum, i) => sum + (i.precio * i.cantidad), 0);
+  const total = subtotal;
+  const itemCount = items.reduce((sum, i) => sum + i.cantidad, 0);
 
   return (
-    <CartContext.Provider value={value}>
+    <CartContext.Provider value={{
+      items, loading, addItem, updateQuantity, removeItem, clearItems,
+      subtotal, total, itemCount, isEmpty: items.length === 0
+    }}>
       {children}
     </CartContext.Provider>
   );

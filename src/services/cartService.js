@@ -59,6 +59,9 @@ export const syncCart = async (localItems) => {
 };
 
 export const calculateSubtotal = (items) => {
+  // BLINDAJE: Si items es null o undefined, retorna 0
+  if (!items || !Array.isArray(items)) return 0;
+
   return items.reduce((sum, item) => {
     const price = item.precio || item.price || 0;
     const quantity = item.cantidad || item.quantity || 1;
@@ -67,6 +70,8 @@ export const calculateSubtotal = (items) => {
 };
 
 export const calculateDiscounts = (items) => {
+  if (!items || !Array.isArray(items)) return 0;
+
   return items.reduce((sum, item) => {
     const discount = item.descuento || item.discount || 0;
     return sum + discount;
@@ -74,10 +79,14 @@ export const calculateDiscounts = (items) => {
 };
 
 export const calculateTotal = (items) => {
+  // calculateSubtotal ya maneja el null check, pero por seguridad:
+  if (!items || !Array.isArray(items)) return 0;
   return calculateSubtotal(items) - calculateDiscounts(items);
 };
 
 export const getCartItemCount = (items) => {
+  if (!items || !Array.isArray(items)) return 0;
+  
   return items.reduce((sum, item) => sum + (item.cantidad || item.quantity || 1), 0);
 };
 

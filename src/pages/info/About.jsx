@@ -26,8 +26,14 @@ const About = () => {
           </p>
         </Col>
         <Col lg={6}>
-          <div className="about-image-placeholder">
-            <i className="bi bi-image" style={{ fontSize: '5rem', color: '#ccc' }}></i>
+          <div className="about-image-container">
+            {/* IMAGEN AGREGADA AQUÍ */}
+            <img 
+              src="https://thumbs.dreamstime.com/b/feliz-agricultor-africano-trabajando-en-el-campo-sosteniendo-una-caja-de-madera-con-verduras-frescas-215052594.jpg" 
+              alt="Agricultor sosteniendo vegetales"
+              className="img-fluid rounded shadow-lg"
+              style={{ width: '100%', height: '400px', objectFit: 'cover' }}
+            />
           </div>
         </Col>
       </Row>
